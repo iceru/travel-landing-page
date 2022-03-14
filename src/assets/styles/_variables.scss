@@ -1,3 +1,5 @@
+$primary: #f2f504;
+
 /* BREAKPOINTS */
 @mixin breakpoint($point) {
   @if $point == desktop {

@@ -1,0 +1,63 @@
+@import "../../assets/styles/variables";
+
+.container {
+  padding: 5vh 0;
+
+  .product {
+    border: 8px solid $primary;
+    border-radius: 0 0 1.25rem 1.25rem;
+
+    .productWrapper {
+      padding: 2rem;
+      padding-top: 0;
+
+      .serviceType {
+        margin-left: -2rem;
+        padding: 0.5rem 2rem;
+        margin-bottom: 1.5rem;
+        border-bottom-right-radius: 1.25rem;
+        background-color: $primary;
+        font-weight: bold;
+        display: inline-block;
+      }
+
+      .title {
+        text-align: center;
+      }
+
+      .carousel {
+        text-align: center;
+      }
+
+      .checkPrice {
+        padding: 1rem;
+        border: 2px solid lightgray;
+        h4 {
+          margin-bottom: 1rem;
+        }
+      }
+
+      .sectionTitle {
+        border-bottom: 3px solid $primary;
+        margin-bottom: 0.5rem;
+
+        span {
+          background-color: $primary;
+          padding: 0.5rem 3rem;
+          padding-left: 1rem;
+          display: inline-block;
+          font-weight: bold;
+          border-top-right-radius: 1.25rem;
+        }
+      }
+
+      tr {
+        border-bottom: 1px solid grey;
+
+        td {
+          padding: 1rem 0.5rem;
+        }
+      }
+    }
+  }
+}

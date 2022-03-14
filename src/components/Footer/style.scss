@@ -1,0 +1,108 @@
+@import "../../assets/styles/variables";
+
+.footer {
+  padding: 0 1.5rem;
+  padding-top: 12vh;
+
+  > .row {
+    justify-content: center;
+    align-items: center;
+
+    .socialShare {
+      margin-top: 3rem;
+
+      @include breakpoint(desktop) {
+        margin-top: 5rem;
+      }
+    }
+
+    .socialIcon {
+      margin: 0 0.5rem;
+      font-size: 24px;
+      color: rgba($color: #000000, $alpha: 0.7);
+    }
+
+    .bottomFooter {
+      padding-top: 10vh;
+    }
+
+    @include breakpoint(desktop) {
+      .footerLogo {
+        img {
+          width: 280px;
+        }
+      }
+
+      .bottomFooter {
+        padding-top: 0;
+      }
+    }
+
+    .topRight {
+      top: 0;
+      right: 0;
+      text-align: end;
+      padding: 12px;
+      border-bottom-left-radius: 10px;
+      background-color: rgba($color: #fff, $alpha: 0.5);
+      font-size: 13px;
+      border-left: 0.8rem solid white;
+      border-bottom: 0.8rem solid white;
+      font-weight: bold;
+      position: relative;
+
+      span,
+      p {
+        z-index: 3;
+        position: relative;
+      }
+
+      &:hover,
+      &:focus {
+        color: black;
+        &:before {
+          transform: scaleX(1);
+          transform-origin: bottom left;
+        }
+      }
+
+      &:before {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        inset: -0.1rem 0 0.2em 0;
+        background: rgba(242, 245, 4, 0.9);
+        z-index: 0;
+        transition: transform 0.3s ease;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+
+    .footerImage {
+      img {
+        width: 100%;
+        border-radius: 1rem;
+      }
+      @include breakpoint(desktop) {
+        img {
+          width: 400px;
+        }
+      }
+    }
+  }
+
+  .copyright {
+    text-align: center;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+    font-size: 8px;
+    font-weight: bold;
+  }
+}

@@ -5,20 +5,20 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import Products from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
+import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path="products" element={<Products />}>
-            <Route path=":productId" element={<ProductDetail />} />
-          </Route>
+          <Route path="products" element={<Products />} />
+          <Route exact path="product" element={<ProductDetail />} />
         </Route>
       </Routes>
-    </BrowserRouter>,
+    </BrowserRouter>
+    ,
   </React.StrictMode>,
   document.getElementById("root")
 );

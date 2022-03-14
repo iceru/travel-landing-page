@@ -9,3 +9,16 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.translate {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 !important;
+  .content {
+    background-color: #d2e7f1;
+    padding: 0.5rem 2rem;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 0 0 1.25rem 1.25rem;
+  }
+}

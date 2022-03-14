@@ -1,31 +1,72 @@
+@import "../../assets/styles/variables";
+
 .navigation {
   ul {
     list-style-type: none;
   }
   font-size: 12px;
 
+  @include breakpoint(desktop) {
+    font-size: 1rem;
+  }
+
   .container-fluid {
     padding-bottom: 10vh;
     padding-top: 10vh;
     background: rgb(242, 245, 4);
 
+    @include breakpoint(desktop) {
+      padding: 12vh 4rem;
+    }
+
     > .row {
       justify-content: center;
 
-      .items {
+      @include breakpoint(desktop) {
         flex-wrap: nowrap;
       }
-      .itemLink {
-        white-space: nowrap;
-        font-weight: bold;
 
-        &.gray {
-          color: rgba(90, 90, 90, 0.5);
+      .navLeft {
+        .items {
+          flex-wrap: nowrap;
+        }
+        .logo {
+          width: 100%;
+        }
+        .itemLink {
+          white-space: nowrap;
+          font-weight: bold;
+
+          &.gray {
+            color: rgba(90, 90, 90, 0.5);
+          }
+        }
+
+        @include breakpoint(desktop) {
+          width: 25rem;
+          padding: 0 4rem;
+          .leftTop {
+            height: 14rem;
+          }
+
+          .itemLink {
+            font-size: 15px;
+          }
         }
       }
 
       .navRight {
         padding-top: 10vh;
+
+        .dashed {
+          border-top: 0.1rem dashed rgba($color: #000000, $alpha: 0.7);
+        }
+
+        @include breakpoint(desktop) {
+          padding-right: 4rem !important;
+          padding-left: 4rem !important;
+          padding-top: 0;
+        }
         .textSkew {
           transform: skew(-10deg, 0deg) rotateZ(-15deg);
           margin-top: -4rem !important;
@@ -33,6 +74,12 @@
           margin-bottom: 3rem !important;
           font-size: 10px;
           line-height: 1.7;
+        }
+
+        .linkRight {
+          @include breakpoint(untilTablet) {
+            justify-content: end;
+          }
         }
 
         .navImages {
@@ -66,6 +113,13 @@
             img {
               border-radius: 1.5rem;
             }
+
+            @include breakpoint(desktop) {
+              img {
+                width: 401px !important;
+                height: 540px !important;
+              }
+            }
           }
         }
 
@@ -73,6 +127,18 @@
           img {
             width: 100%;
             height: auto;
+          }
+
+          @include breakpoint(desktop) {
+            img {
+              width: 120px;
+            }
+          }
+        }
+
+        @include breakpoint(desktop) {
+          .rightLinks {
+            max-width: 200px;
           }
         }
 
@@ -82,6 +148,10 @@
           div {
             margin-top: 0.5rem;
           }
+        }
+
+        .linkIcon {
+          font-size: 20px;
         }
       }
     }
