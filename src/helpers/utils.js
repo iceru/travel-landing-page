@@ -1,37 +1,95 @@
-let pageNumber = 0;
+let pageNumber = 1;
+
+const disablePastDate = () => {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const yyyy = today.getFullYear();
+  return yyyy + "-" + mm + "-" + dd;
+};
 
 const bodyRequest = {
-  ShortName: "TestDistributor",
-  Output: {
-    CommonContent: {
-      All: true,
-    },
+  request: {
     Availability: {
-      StartDate: new Date(),
-      NumberOfDays: 42,
-      MergeMethod: 2,
-      LowestRateOnly: true,
+      MergeMethod: 1,
+      Window: {
+        Size: 42,
+        StartDate: new Date(),
+      },
     },
-    AdvancedContent: true,
+    Campaign: {
+      AdCampaignCode: "",
+      DealCampaignCode: "",
+    },
+    Filter: {
+      Type: "Service",
+      MustBeInAdCampaign: true,
+      MustBeInDealCampaign: false,
+      Bookability: {
+        RateRange: {},
+      },
+      TagCriteria: {},
+    },
+    Output: {
+      CommonContent: {
+        All: true,
+      },
+      Availability: {
+        StartDate: new Date(),
+        LowestRateOnly: true,
+        MergeMethod: 2,
+        NumberOfDays: 7,
+      },
+      AdvancedContent: true,
+      Features: true,
+      Rating: true,
+      Reviews: {
+        IncludeFullDescription: true,
+        IncludeShortReview: true,
+        MaxReturnCount: 10,
+        MaxReturnCountSpecified: true,
+      },
+      Settings: true,
+    },
+    Paging: {
+      PageNumber: pageNumber,
+      PageSize: 12,
+    },
+    ShortName: "TestDistributor",
+    Sorting: [
+      {
+        By: "Name",
+        Direction: "Ascending",
+        PositionOfNull: "PreferenceBottom",
+      },
+    ],
   },
-  Paging: {
-    PageNumber: pageNumber,
-    PageSize: 12,
-    Sorting: [{ By: 0 }],
-  },
-  Filter: {
-    Type: "Service",
-    MustBeInAdCampaign: true,
-    MustBeInDealCampaign: false,
-  },
-  Campaign: {
-    AdCampaignCode: "",
-    DealCampaignCode: "",
-  },
+};
+
+const quoteRequest = {
+  CurrentCurrency: "JPY",
+  AdCampaignCode: "",
+  IncludeCampaigns: false,
+  IncludeExtras: true,
+  IndustryCategoryGroup: 0,
+  CommencementDate: new Date(),
+  Duration: 1,
+  Configurations: [
+    {
+      Id: "",
+      ProductId: "",
+      Pax: {
+        Adults: 2,
+        Children: 0,
+        Seniors: 0,
+      },
+    },
+  ],
+  Shortname: "TestDistributorOA",
 };
 
 const headers = {
   "Content-Type": "application/json",
 };
 
-export { bodyRequest, headers };
+export { bodyRequest, headers, quoteRequest, disablePastDate };

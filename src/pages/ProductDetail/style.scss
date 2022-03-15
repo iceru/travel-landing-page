@@ -3,6 +3,10 @@
 .container {
   padding: 5vh 0;
 
+  .slick-slide img {
+    margin: auto;
+  }
+
   .product {
     border: 8px solid $primary;
     border-radius: 0 0 1.25rem 1.25rem;
@@ -27,6 +31,12 @@
 
       .carousel {
         text-align: center;
+        margin: 2rem 0;
+        margin-bottom: 4rem;
+
+        .slick-dots {
+          bottom: -40px;
+        }
       }
 
       .checkPrice {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Outlet, useSearchParams } from "react-router-dom";
 import { i18n } from "./lang/i18n";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,10 +13,10 @@ function App() {
   const [language, setLanguage] = useState("en");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    searchParams.set("lang", language);
-    setSearchParams(searchParams);
-  }, [window.location.pathname]);
+  // useEffect(() => {
+  //   searchParams.set("lang", language);
+  //   setSearchParams(searchParams);
+  // }, [window.location.pathname]);
 
   const handleOnclick = (e) => {
     e.preventDefault();
@@ -25,6 +25,7 @@ function App() {
     searchParams.set("lang", e.target.value);
     setSearchParams(searchParams);
   };
+
   return (
     <div className="App">
       <Navigation />

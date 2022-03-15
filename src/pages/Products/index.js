@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Form, Row, Col, Button } from "react-bootstrap";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useOutletContext,
+  useSearchParams,
+} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { bodyRequest, headers } from "../../helpers/utils";
@@ -15,19 +20,93 @@ import "./style.scss";
 const Products = () => {
   const [services, setServices] = useState(null);
   const [language] = useOutletContext();
+  const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  bodyRequest.Language = `${language}-JP`;
+  const options = [
+    {
+      value: "Name-Ascending",
+      label: "Name - Ascending",
+    },
+    {
+      value: "Name-Descending",
+      label: "Name - Descending",
+    },
+    {
+      value: "Rate-Ascending",
+      label: "Rate - Ascending",
+    },
+    {
+      value: "Rate-Descending",
+      label: "Rate - Descending",
+    },
+  ];
 
-  useEffect(() => {
+  const [selectedOption, setSelectedOption] = useState(options[0].value);
+
+  bodyRequest.request.Language = `${language}-JP`;
+
+  const getData = () => {
     axios
       .post(endpoints.search, bodyRequest, { headers: headers })
       .then((response) => {
         setServices(response.data);
-        console.log(services.Entities);
       });
-  }, [language]);
+  };
+
+  const filterData = (values) => {
+    if (values.minRange) {
+      bodyRequest.request.Filter.Bookability.RateRange = {
+        Min: values.minRange,
+        Max: values.maxRange,
+      };
+      searchParams.set("min", values.minRange);
+      searchParams.set("max", values.maxRange);
+    }
+
+    if (values.date) {
+      bodyRequest.request.Availability.Window.StartDate = values.date;
+      searchParams.set("date", values.date);
+    }
+    debugger; //eslint-disable-line
+    if (values.category === "all") {
+      delete bodyRequest.request.Filter.TagCriteria;
+    } else {
+      bodyRequest.request.Filter.TagCriteria = {
+        IndustryCategoryGroups: [values.category],
+      };
+      searchParams.set("category", values.category);
+    }
+
+    if (values.keyword) {
+      bodyRequest.request.Filter.Names = [values.keyword];
+      searchParams.set("keyword", values.keyword);
+    } else {
+      delete bodyRequest.request.Filter.Names;
+    }
+
+    setSearchParams(searchParams);
+
+    getData();
+  };
+
+  const onSort = (value) => {
+    setSelectedOption(value);
+    bodyRequest.request.Sorting = [
+      {
+        By: `${value.split("-")[0]}`,
+        Direction: `${value.split("-")[1]}`,
+      },
+    ];
+    getData();
+  };
+
+  useEffect(() => {
+    delete bodyRequest.request.Filter.Ids;
+    getData();
+  }, [language, location]);
 
   const goToDetail = (id) => {
     navigate(`/product?id=${id}`);
@@ -36,20 +115,26 @@ const Products = () => {
   return (
     <div className="container products">
       <div className="titlePage">{t("search")}</div>
-      <Filter lang={language} />
+      <Filter lang={language} filter={filterData} />
       <div className="d-flex justify-content-between productsOption mb-4">
         <div>Rate</div>
         <div className="d-flex sort">
           <div className="text">Sort by:</div>
-          <Form.Select>
-            <option>Name</option>
-            <option>Price</option>
+          <Form.Select
+            value={selectedOption}
+            onChange={(e) => onSort(e.target.value)}
+          >
+            {options.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
           </Form.Select>
         </div>
       </div>
       <div className="productItems">
         <Row>
-          {services && services.Entities ? (
+          {services && services.Entities && services.Entities.length > 0 ? (
             services.Entities.map((service, i) => {
               return (
                 <Col xs={12} lg={4} key={i}>
@@ -61,10 +146,19 @@ const Products = () => {
                             ? service.Images[0].Url
                             : DefaultImg
                         }
-                        alt="title"
+                        alt={service.Name}
                       />
                     </div>
-                    <div className="title">{service.Name}</div>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goToDetail(service.Id);
+                      }}
+                    >
+                      <div className="title">{service.Name}</div>
+                    </a>
+
                     <div className="address">
                       {service.PhysicalAddress.Line1},{" "}
                       {service.PhysicalAddress.City},{" "}
