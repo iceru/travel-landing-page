@@ -25,6 +25,8 @@ const Products = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const productsRequest = bodyRequest;
+
   const options = [
     {
       value: "Name-Ascending",
@@ -46,11 +48,11 @@ const Products = () => {
 
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
-  bodyRequest.request.Language = `${language}-JP`;
+  productsRequest.request.Language = `${language}-JP`;
 
   const getData = () => {
     axios
-      .post(endpoints.search, bodyRequest, { headers: headers })
+      .post(endpoints.search, productsRequest, { headers: headers })
       .then((response) => {
         setServices(response.data);
       });
@@ -58,7 +60,7 @@ const Products = () => {
 
   const filterData = (values) => {
     if (values.minRange) {
-      bodyRequest.request.Filter.Bookability.RateRange = {
+      productsRequest.request.Filter.Bookability.RateRange = {
         Min: values.minRange,
         Max: values.maxRange,
       };
@@ -67,24 +69,24 @@ const Products = () => {
     }
 
     if (values.date) {
-      bodyRequest.request.Availability.Window.StartDate = values.date;
+      productsRequest.request.Availability.Window.StartDate = values.date;
       searchParams.set("date", values.date);
     }
     debugger; //eslint-disable-line
     if (values.category === "all") {
-      delete bodyRequest.request.Filter.TagCriteria;
+      delete productsRequest.request.Filter.TagCriteria;
     } else {
-      bodyRequest.request.Filter.TagCriteria = {
+      productsRequest.request.Filter.TagCriteria = {
         IndustryCategoryGroups: [values.category],
       };
       searchParams.set("category", values.category);
     }
 
     if (values.keyword) {
-      bodyRequest.request.Filter.Names = [values.keyword];
+      productsRequest.request.Filter.Names = [values.keyword];
       searchParams.set("keyword", values.keyword);
     } else {
-      delete bodyRequest.request.Filter.Names;
+      delete productsRequest.request.Filter.Names;
     }
 
     setSearchParams(searchParams);
@@ -94,7 +96,7 @@ const Products = () => {
 
   const onSort = (value) => {
     setSelectedOption(value);
-    bodyRequest.request.Sorting = [
+    productsRequest.request.Sorting = [
       {
         By: `${value.split("-")[0]}`,
         Direction: `${value.split("-")[1]}`,
@@ -104,12 +106,12 @@ const Products = () => {
   };
 
   useEffect(() => {
-    delete bodyRequest.request.Filter.Ids;
+    delete productsRequest.request.Filter.Ids;
     getData();
   }, [language, location]);
 
-  const goToDetail = (id) => {
-    navigate(`/product?id=${id}`);
+  const goToDetail = (id, onReq) => {
+    navigate(`/product?id=${id}&on_req=${onReq}`);
   };
 
   return (
@@ -172,7 +174,9 @@ const Products = () => {
                       <Button
                         className="w-100"
                         variant="primary"
-                        onClick={() => goToDetail(service.Id)}
+                        onClick={() =>
+                          goToDetail(service.Id, service.OnRequestOnly)
+                        }
                       >
                         {t("view_details")}
                       </Button>

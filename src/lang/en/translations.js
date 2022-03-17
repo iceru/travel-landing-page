@@ -25,4 +25,5 @@ export const TRANSLATIONS_EN = {
   rate: "Rate",
   price_range: "Price Range",
   keyword: "Type Keyword",
+  available_products: "Available Products",
 };

@@ -24,4 +24,5 @@ export const TRANSLATIONS_JP = {
   rate: "料金",
   price_range: "価格帯",
   keyword: "キーワード",
+  available_products: "利用可能な製品"
 };

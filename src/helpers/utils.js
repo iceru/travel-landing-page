@@ -67,25 +67,28 @@ const bodyRequest = {
 };
 
 const quoteRequest = {
-  CurrentCurrency: "JPY",
-  AdCampaignCode: "",
-  IncludeCampaigns: false,
-  IncludeExtras: true,
-  IndustryCategoryGroup: 0,
-  CommencementDate: new Date(),
-  Duration: 1,
-  Configurations: [
-    {
-      Id: "",
-      ProductId: "",
-      Pax: {
-        Adults: 2,
-        Children: 0,
-        Seniors: 0,
+  request: {
+    CurrentCurrency: "JPY",
+    AdCampaignCode: "",
+    IncludeCampaigns: false,
+    IncludeExtras: true,
+    IndustryCategoryGroup: null,
+    IndustryCategory: null,
+    CommencementDate: new Date(),
+    Duration: 1,
+    Configurations: [
+      {
+        Id: "",
+        ProductId: "",
+        Pax: {
+          Adults: 2,
+          Children: 0,
+          Seniors: 0,
+        },
       },
-    },
-  ],
-  Shortname: "TestDistributorOA",
+    ],
+    Shortname: "TestDistributor",
+  },
 };
 
 const headers = {

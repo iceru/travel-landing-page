@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CartProvider } from "react-use-cart";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -10,14 +11,17 @@ import ProductDetail from "./pages/ProductDetail";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="products" element={<Products />} />
-          <Route exact path="product" element={<ProductDetail />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path="products" element={<Products />} />
+            <Route exact path="product" element={<ProductDetail />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+      ,
+    </CartProvider>
     ,
   </React.StrictMode>,
   document.getElementById("root")

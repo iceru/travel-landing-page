@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import * as _ from "lodash";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { useOutletContext, useSearchParams } from "react-router-dom";
 import Slider from "react-slick";
@@ -12,6 +13,8 @@ import {
   disablePastDate,
 } from "../../helpers/utils";
 import DefaultImg from "../../assets/images/no_image.png";
+import Guest from "../../assets/images/guest.png";
+import Night from "../../assets/images/night.png";
 import { endpoints } from "../../helpers/endpoints";
 
 import "../../../node_modules/slick-carousel/slick/slick.css";
@@ -29,16 +32,17 @@ const ProductDetail = () => {
   const date = curr.toISOString().substr(0, 10);
 
   const [service, setService] = useState();
-  const [bookingQuotes, setBookingQuotes] = useState();
+  const [bookingQuotes, setBookingQuotes] = useState([]);
 
-  bodyRequest.request.Language = `${language}-JP`;
-  quoteRequest.Language = `${language}`;
-  quoteRequest.Configurations[0].ProductId = `${language}`;
+  const detailRequest = bodyRequest;
 
-  bodyRequest.request.Filter.Ids = [id];
+  detailRequest.request.Language = `${language}-JP`;
+  quoteRequest.request.Language = `${language}`;
+
+  detailRequest.request.Filter.Ids = [id];
 
   useEffect(() => {
-    bodyRequest.request.Output.Children = {
+    detailRequest.request.Output.Children = {
       Output: {
         CommonContent: {
           All: true,
@@ -66,24 +70,29 @@ const ProductDetail = () => {
       },
     };
     axios
-      .post(endpoints.search, bodyRequest, { headers: headers })
+      .post(endpoints.search, detailRequest, { headers: headers })
       .then((response) => {
         setService(response.data.Entities[0]);
       });
   }, [searchParams, location]);
 
+  /* eslint-disable */
   const getQuote = (values) => {
-    quoteRequest.Configurations[0].Pax.Adults = parseInt(values.pax);
-    quoteRequest.CommencementDate = new Date(values.date);
-    quoteRequest.Duration = parseInt(values.duration);
+    quoteRequest.request.Configurations[0].Pax.Adults = parseInt(values.pax);
+    quoteRequest.request.CommencementDate = new Date(values.date);
+    quoteRequest.request.Duration = parseInt(values.duration);
     if (service && service.Children.length > 0) {
-      service.Children.map((children) => {
-        quoteRequest.Configurations[0].ProductId = children.Id;
+      setBookingQuotes([]);
+      service.Children.map((children, i) => {
+        quoteRequest.request.IndustryCategoryGroup =
+          children.IndustryCategoryGroups[0];
+        quoteRequest.request.IndustryCategory = children.IndustryCategory;
+        quoteRequest.request.Configurations[0].ProductId = children.Id;
         axios
           .post(endpoints.bookingQuote, quoteRequest, { headers: headers })
           .then((response) => {
-            setBookingQuotes(response.data);
-            console.log(bookingQuotes);
+            const mergeData = { ...service.Children[i], ...response.data };
+            setBookingQuotes((data) => [...data, mergeData]);
           });
       });
     }
@@ -93,18 +102,18 @@ const ProductDetail = () => {
     e.preventDefault();
     const values = {
       date: e.target[0].value,
-      pax: e.target[1].value,
-      duration: e.target[2].value,
+      duration: e.target[1].value,
+      pax: e.target[2].value,
     };
     getQuote(values);
   };
 
   function getServiceType() {
-    let serviceType = "Accomodation";
-    if (service) {
-      switch (service.Type) {
+    let serviceType = t("accommodation");
+    if (service && service.IndustryCategoryGroups) {
+      switch (service.IndustryCategoryGroups[0]) {
         case 0:
-          serviceType = t("accomodation");
+          serviceType = t("accommodation");
           break;
         case 1:
           serviceType = t("activity");
@@ -116,7 +125,7 @@ const ProductDetail = () => {
           serviceType = t("produce");
           break;
         default:
-          return t("accomodation");
+          return t("accommodation");
       }
     }
 
@@ -140,7 +149,7 @@ const ProductDetail = () => {
                   {service.Images.map((service, i) => {
                     return (
                       <div key={i}>
-                        <img src={service.Url} />
+                        <img className="image" src={service.Url} />
                       </div>
                     );
                   })}
@@ -149,19 +158,53 @@ const ProductDetail = () => {
                 <img src={DefaultImg} />
               )}
             </div>
+            <div
+              className="description mb-3"
+              dangerouslySetInnerHTML={{ __html: service.LongDescription }}
+            ></div>
             <div className="checkPrice mb-4">
               <h4>Check Price & Availability</h4>
               <form onSubmit={handleSubmit}>
                 <div className="d-flex justify-content-between">
                   <div className="d-flex">
-                    <Form.Control
-                      className="me-2"
-                      type="date"
-                      defaultValue={date}
-                      min={disablePastDate()}
-                    />
-                    <Form.Control className="me-2" value="1" type="number" />
-                    <Form.Control className="me-2" value="2" type="number" />
+                    <div className="formDate">
+                      <Form.Control
+                        className="me-2"
+                        type="date"
+                        defaultValue={date}
+                        min={disablePastDate()}
+                      />
+                    </div>
+                    {service &&
+                      service.IndustryCategoryGroups &&
+                      service.IndustryCategoryGroups[0] === 0 && (
+                        <div className="formIcon">
+                          <div className="icon">
+                            <img src={Night} />
+                          </div>
+                          <Form.Control
+                            className="me-2"
+                            defaultValue={1}
+                            type="number"
+                            name="duration"
+                          />
+                        </div>
+                      )}
+                    {service &&
+                      service.IndustryCategoryGroups &&
+                      service.IndustryCategoryGroups[0] !== 3 && (
+                        <div className="formIcon">
+                          <div className="icon">
+                            <img src={Guest} />
+                          </div>
+                          <Form.Control
+                            className="me-2"
+                            defaultValue={2}
+                            type="number"
+                            name="pax"
+                          />
+                        </div>
+                      )}
                   </div>
                   <div>
                     <Button type="submit" variant="secondary">
@@ -170,6 +213,48 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </form>
+            </div>
+            <div className="availableProducts mb-4">
+              <div className="sectionTitle">
+                <span>{t("available_products")}</span>
+              </div>
+              <div className="items">
+                {_.sortBy(bookingQuotes, "Name").map((children, i) => (
+                  <div key={i} className="productItem row align-items-center">
+                    <div className="info col-12 col-lg-10">
+                      <div className="name">
+                        {children.Configurations[0].Name}
+                      </div>
+                      <div className="image">
+                        <img
+                          width={100}
+                          height="auto"
+                          src={
+                            children.Images
+                              ? children.Images[0].Url
+                              : DefaultImg
+                          }
+                        />
+                      </div>
+                      <div className="price">
+                        Price: &nbsp;
+                        {children.TxCurrencyCode === "JPY" ? "¥" : ""}
+                        {children.Configurations[0].Quotes &&
+                          children.Configurations[0].Quotes[0].TotalPrice}
+                      </div>
+                      <div
+                        className="desc"
+                        dangerouslySetInnerHTML={{
+                          __html: children.LongDescription,
+                        }}
+                      ></div>
+                    </div>
+                    <div className="action col-12 col-lg-2">
+                      <Button variant="primary">Book Now</Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="info mb-4">
               <div className="sectionTitle">
@@ -200,7 +285,7 @@ const ProductDetail = () => {
                   </tr>
                   <tr>
                     <td>{t("website")}</td>
-                    <td>{service.Website}</td>
+                    <td>{service.Website || "No Public Website"}</td>
                   </tr>
                   <tr>
                     <td>{t("email")}</td>

@@ -46,7 +46,6 @@ const MapComponent = compose(
 });
 
 const Map = ({ positions }) => {
-  console.log(positions);
   return (
     <>
       <MapComponent isMarkerShown positions={positions} />
