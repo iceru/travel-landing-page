@@ -64,6 +64,25 @@
           margin-bottom: 1rem;
         }
 
+        .formCategories {
+          position: relative;
+          .icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+          select {
+            padding: 0.75rem 3rem;
+            font-weight: bold;
+          }
+        }
+
+        .btn {
+          font-size: 1.15rem;
+          padding: 0.5rem 2rem;
+        }
+
         .formDate {
           margin-right: 0.5rem;
           max-width: 300px;

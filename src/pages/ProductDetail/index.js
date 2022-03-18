@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useCart } from "react-use-cart";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faListDots } from "@fortawesome/free-solid-svg-icons";
 
 import {
   bodyRequest,
@@ -54,6 +54,10 @@ const ProductDetail = () => {
   detailRequest.request.Filter.Ids = [id];
 
   useEffect(() => {
+    setSkeletonShow("block");
+    setDetailShow("none");
+    setProductItemShow("none");
+
     detailRequest.request.Output.Children = {
       Output: {
         CommonContent: {
@@ -81,9 +85,6 @@ const ProductDetail = () => {
         },
       },
     };
-    setSkeletonShow("block");
-    setDetailShow("none");
-    setProductItemShow("none");
     axios
       .post(endpoints.search, detailRequest, { headers: headers })
       .then((response) => {
@@ -93,10 +94,23 @@ const ProductDetail = () => {
       });
   }, [searchParams, location]);
 
+  useEffect(() => {
+    const onReq = searchParams.get("on_req");
+    if (
+      service &&
+      service.IndustryCategoryGroups[0] === 3 &&
+      onReq === "false"
+    ) {
+      getQuote();
+    }
+  }, [service]);
+
   const getQuote = (values) => {
-    quoteRequest.request.Configurations[0].Pax.Adults = parseInt(values.pax);
-    quoteRequest.request.CommencementDate = values.date || new Date();
-    quoteRequest.request.Duration = parseInt(values.duration);
+    quoteRequest.request.Configurations[0].Pax.Adults =
+      parseInt(values && values.pax) || 2;
+    quoteRequest.request.CommencementDate =
+      (values && values.date) || new Date();
+    quoteRequest.request.Duration = parseInt(values && values.duration) || 1;
     console.log(quoteRequest);
     if (service && service.Children.length > 0) {
       setBookingQuotes([]);
@@ -172,7 +186,7 @@ const ProductDetail = () => {
         href="#"
         onClick={(e) => {
           e.preventDefault();
-          navigate("/products");
+          navigate("/");
         }}
         className="back"
       >
@@ -246,17 +260,27 @@ const ProductDetail = () => {
                 <div className="d-flex justify-content-between">
                   <div className="d-flex">
                     {service &&
-                      service.IndustryCategoryGroups &&
-                      service.IndustryCategoryGroups[0] !== 3 && (
-                        <div className="formDate">
-                          <Form.Control
-                            className="me-2"
-                            type="date"
-                            defaultValue={date}
-                            min={disablePastDate()}
-                          />
+                    service.IndustryCategoryGroups &&
+                    service.IndustryCategoryGroups[0] !== 3 ? (
+                      <div className="formDate">
+                        <Form.Control
+                          className="me-2"
+                          type="date"
+                          defaultValue={date}
+                          min={disablePastDate()}
+                        />
+                      </div>
+                    ) : (
+                      <div className="formCategories">
+                        <div className="icon">
+                          <FontAwesomeIcon icon={faListDots} />
                         </div>
-                      )}
+                        <Form.Select>
+                          <option>Diary</option>
+                          <option>Wine</option>
+                        </Form.Select>
+                      </div>
+                    )}
 
                     {service &&
                       service.IndustryCategoryGroups &&
@@ -324,7 +348,7 @@ const ProductDetail = () => {
                           />
                         </div>
                         <div className="price">
-                          Price: &nbsp;
+                          {t("price")}: &nbsp;
                           {children.TxCurrencyCode === "JPY" ? "¥" : "$"}
                           {children.Configurations[0].Quotes &&
                             children.Configurations[0].Quotes[0].TotalPrice}
