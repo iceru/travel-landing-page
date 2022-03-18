@@ -24,5 +24,7 @@ export const TRANSLATIONS_JP = {
   rate: "料金",
   price_range: "価格帯",
   keyword: "キーワード",
-  available_products: "利用可能な製品"
+  available_products: "利用可能な製品",
+  book_now: "今予約する",
+  check_price: "価格と在庫状況を確認する",
 };

@@ -26,4 +26,6 @@ export const TRANSLATIONS_EN = {
   price_range: "Price Range",
   keyword: "Type Keyword",
   available_products: "Available Products",
+  book_now: "Book Now",
+  check_price: "Check Price & Availability",
 };

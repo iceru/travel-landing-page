@@ -2,9 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as _ from "lodash";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
-import { useOutletContext, useSearchParams } from "react-router-dom";
+import {
+  useNavigate,
+  useOutletContext,
+  useSearchParams,
+} from "react-router-dom";
 import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
+import { useCart } from "react-use-cart";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import {
   bodyRequest,
@@ -23,17 +31,21 @@ import "./style.scss";
 import Map from "../../components/Maps";
 
 const ProductDetail = () => {
+  const [service, setService] = useState();
+  const [bookingQuotes, setBookingQuotes] = useState([]);
+  const [skeletonShow, setSkeletonShow] = useState("block");
+  const [detailShow, setDetailShow] = useState("block");
+  const [productItemShow, setProductItemShow] = useState("none");
+  const [skeletonItemShow, setSkeletonItemShow] = useState("none");
+
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [language] = useOutletContext();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const curr = new Date();
   const date = curr.toISOString().substr(0, 10);
-
-  const [service, setService] = useState();
-  const [bookingQuotes, setBookingQuotes] = useState([]);
-
   const detailRequest = bodyRequest;
 
   detailRequest.request.Language = `${language}-JP`;
@@ -69,18 +81,23 @@ const ProductDetail = () => {
         },
       },
     };
+    setSkeletonShow("block");
+    setDetailShow("none");
+    setProductItemShow("none");
     axios
       .post(endpoints.search, detailRequest, { headers: headers })
       .then((response) => {
         setService(response.data.Entities[0]);
+        setSkeletonShow("none");
+        setDetailShow("block");
       });
   }, [searchParams, location]);
 
-  /* eslint-disable */
   const getQuote = (values) => {
     quoteRequest.request.Configurations[0].Pax.Adults = parseInt(values.pax);
-    quoteRequest.request.CommencementDate = new Date(values.date);
+    quoteRequest.request.CommencementDate = values.date || new Date();
     quoteRequest.request.Duration = parseInt(values.duration);
+    console.log(quoteRequest);
     if (service && service.Children.length > 0) {
       setBookingQuotes([]);
       service.Children.map((children, i) => {
@@ -88,11 +105,23 @@ const ProductDetail = () => {
           children.IndustryCategoryGroups[0];
         quoteRequest.request.IndustryCategory = children.IndustryCategory;
         quoteRequest.request.Configurations[0].ProductId = children.Id;
+        setSkeletonItemShow("block");
+
         axios
           .post(endpoints.bookingQuote, quoteRequest, { headers: headers })
           .then((response) => {
             const mergeData = { ...service.Children[i], ...response.data };
+            mergeData.id = i + 1;
+            mergeData.price =
+              response.data.Configurations[0].Quotes[0].TotalPrice;
             setBookingQuotes((data) => [...data, mergeData]);
+
+            setProductItemShow("block");
+            setSkeletonItemShow("none");
+          })
+          .catch(function (error) {
+            console.log(error.toJSON());
+            setSkeletonItemShow("none");
           });
       });
     }
@@ -101,9 +130,9 @@ const ProductDetail = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const values = {
-      date: e.target[0].value,
-      duration: e.target[1].value,
-      pax: e.target[2].value,
+      date: e.target[0] ? e.target[0].value : "",
+      duration: e.target[1] ? e.target[1].value : 1,
+      pax: e.target[2] ? e.target[2].value : 2,
     };
     getQuote(values);
   };
@@ -136,11 +165,60 @@ const ProductDetail = () => {
     dots: true,
   };
 
+  const { addItem } = useCart();
   return (
     <div className="container">
+      <a
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("/products");
+        }}
+        className="back"
+      >
+        <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
+        Go Back
+      </a>
       <Row className="product">
+        <div className="skeletonWrapper" style={{ display: skeletonShow }}>
+          <SkeletonTheme>
+            <Skeleton height={35} className="mb-4" />
+            <div className="row">
+              <div className="col-6 offset-3">
+                <Skeleton height={300} className="mb-3" />
+              </div>
+            </div>
+            <Skeleton count={4} className="mb-2" />
+
+            <Skeleton height={32} width="30%" className="mb-2 mt-4" />
+            <div className="row">
+              <div className="col-3">
+                <Skeleton height={32} />
+              </div>
+              <div className="col-3">
+                <Skeleton height={32} />
+              </div>
+              <div className="col-3">
+                <Skeleton height={32} />
+              </div>
+              <div className="col-3">
+                <Skeleton height={32} />
+              </div>
+
+              <Skeleton height={32} width="20%" className="mb-3 mt-5" />
+              <Skeleton count={6} height={30} className="mb-3" />
+
+              <Skeleton height={32} width="20%" className="mb-3 mt-5" />
+              <Skeleton height={400} className="mb-3" />
+            </div>
+          </SkeletonTheme>
+        </div>
         {service && (
-          <Col xs={12} className="productWrapper">
+          <Col
+            xs={12}
+            className="productWrapper"
+            style={{ display: { detailShow } }}
+          >
             <div className="serviceType">{getServiceType()}</div>
             <h2 className="title mb-5">{service.Name}</h2>
             <div className="carousel">
@@ -163,18 +241,23 @@ const ProductDetail = () => {
               dangerouslySetInnerHTML={{ __html: service.LongDescription }}
             ></div>
             <div className="checkPrice mb-4">
-              <h4>Check Price & Availability</h4>
+              <h4>{t("check_price")}</h4>
               <form onSubmit={handleSubmit}>
                 <div className="d-flex justify-content-between">
                   <div className="d-flex">
-                    <div className="formDate">
-                      <Form.Control
-                        className="me-2"
-                        type="date"
-                        defaultValue={date}
-                        min={disablePastDate()}
-                      />
-                    </div>
+                    {service &&
+                      service.IndustryCategoryGroups &&
+                      service.IndustryCategoryGroups[0] !== 3 && (
+                        <div className="formDate">
+                          <Form.Control
+                            className="me-2"
+                            type="date"
+                            defaultValue={date}
+                            min={disablePastDate()}
+                          />
+                        </div>
+                      )}
+
                     {service &&
                       service.IndustryCategoryGroups &&
                       service.IndustryCategoryGroups[0] === 0 && (
@@ -214,47 +297,81 @@ const ProductDetail = () => {
                 </div>
               </form>
             </div>
-            <div className="availableProducts mb-4">
+            <div
+              className="availableProducts mb-4"
+              style={{ display: productItemShow }}
+            >
               <div className="sectionTitle">
                 <span>{t("available_products")}</span>
               </div>
               <div className="items">
                 {_.sortBy(bookingQuotes, "Name").map((children, i) => (
                   <div key={i} className="productItem row align-items-center">
-                    <div className="info col-12 col-lg-10">
-                      <div className="name">
-                        {children.Configurations[0].Name}
+                    <div className=" col-12 col-lg-10">
+                      <div className="info">
+                        <div className="name">
+                          {children.Configurations[0].Name}
+                        </div>
+                        <div className="image">
+                          <img
+                            width={100}
+                            height="auto"
+                            src={
+                              children.Images
+                                ? children.Images[0].Url
+                                : DefaultImg
+                            }
+                          />
+                        </div>
+                        <div className="price">
+                          Price: &nbsp;
+                          {children.TxCurrencyCode === "JPY" ? "¥" : "$"}
+                          {children.Configurations[0].Quotes &&
+                            children.Configurations[0].Quotes[0].TotalPrice}
+                        </div>
+                        <div
+                          className="desc"
+                          dangerouslySetInnerHTML={{
+                            __html: children.LongDescription,
+                          }}
+                        ></div>
                       </div>
-                      <div className="image">
-                        <img
-                          width={100}
-                          height="auto"
-                          src={
-                            children.Images
-                              ? children.Images[0].Url
-                              : DefaultImg
-                          }
-                        />
-                      </div>
-                      <div className="price">
-                        Price: &nbsp;
-                        {children.TxCurrencyCode === "JPY" ? "¥" : ""}
-                        {children.Configurations[0].Quotes &&
-                          children.Configurations[0].Quotes[0].TotalPrice}
-                      </div>
-                      <div
-                        className="desc"
-                        dangerouslySetInnerHTML={{
-                          __html: children.LongDescription,
-                        }}
-                      ></div>
                     </div>
                     <div className="action col-12 col-lg-2">
-                      <Button variant="primary">Book Now</Button>
+                      <Button
+                        variant="primary"
+                        onClick={() => addItem(children)}
+                      >
+                        {t("book_now")}
+                      </Button>
                     </div>
                   </div>
                 ))}
               </div>
+            </div>
+            <div
+              className="productSkeleton mb-4"
+              style={{ display: skeletonItemShow }}
+            >
+              <Skeleton height={30} width="30%" className="mb-3" />
+
+              {[...Array(2)].map((i) => (
+                <div key={i} className="row align-items-center mb-3">
+                  <div className="col-4">
+                    <Skeleton height={20} width="50%" className="mb-2" />
+                    <Skeleton height={80} width="30%" className="mb-2" />
+                    <Skeleton
+                      height={15}
+                      count={3}
+                      width="70%"
+                      className="mb-2"
+                    />
+                  </div>
+                  <div className="col-1 ms-auto">
+                    <Skeleton height={35} width="100%" />
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="info mb-4">
               <div className="sectionTitle">

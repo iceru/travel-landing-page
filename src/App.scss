@@ -20,5 +20,29 @@ a {
     display: inline-flex;
     align-items: center;
     border-radius: 0 0 1.25rem 1.25rem;
+    .fa-language {
+      margin-right: 1rem;
+    }
+    .btn {
+      border-radius: 0;
+      position: relative;
+
+      &:focus {
+        box-shadow: none;
+      }
+      &.active {
+        font-weight: bold;
+        &:after {
+          content: "";
+          width: 70%;
+          position: absolute;
+          bottom: 0;
+          height: 2px;
+          background-color: black;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+    }
   }
 }
