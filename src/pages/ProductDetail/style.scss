@@ -117,7 +117,21 @@
             margin-bottom: 2rem;
             .info {
               padding-left: 1rem;
-              border-left: 6px solid $primary;
+              border-left: 6px solid $secondary;
+
+              .qty {
+                align-items: center;
+                margin-bottom: .5rem;
+
+                .form-label {
+                  margin-bottom: 0;
+                }
+
+                input {
+                  height: 30px;
+                  width: 60px;
+                }
+              }
               .name,
               .price {
                 font-weight: bold;

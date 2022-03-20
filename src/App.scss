@@ -1,5 +1,6 @@
 $primary: #f2f504;
 $light: #fff;
+$secondary: #d2e7f1;
 
 @import "~bootstrap/scss/bootstrap";
 @import "./assets/styles/variables";
@@ -15,7 +16,7 @@ a {
   justify-content: flex-end;
   padding: 0 !important;
   .content {
-    background-color: #d2e7f1;
+    background-color: $secondary;
     padding: 0.5rem 2rem;
     display: inline-flex;
     align-items: center;

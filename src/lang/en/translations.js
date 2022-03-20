@@ -28,4 +28,18 @@ export const TRANSLATIONS_EN = {
   available_products: "Available Products",
   book_now: "Book Now",
   check_price: "Check Price & Availability",
+  cart_empty: "Cart is Empty",
+  first_name: "First Name",
+  last_name: "Last Name",
+  re_email: "Retype Email Address",
+  mobile: "Mobile/Cell phone",
+  city: "Suburb/City",
+  state: "State/Country",
+  country: "Country",
+  zip: "Zip/Postal Code",
+  type_keywords: "Type Keywords",
+  product: "Product",
+  options: "Options/Cost",
+  totals: "Totals",
+  special_requests: "Special Requests"
 };

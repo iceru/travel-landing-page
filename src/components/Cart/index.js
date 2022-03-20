@@ -1,23 +1,26 @@
-import React, { useState } from "react";
-import { useCart } from "react-use-cart";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingBasket, faTimes } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from 'react'
+import { useCart } from 'react-use-cart'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShoppingBasket, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { useTranslation } from 'react-i18next'
 
-import DefaultImg from "../../assets/images/no_image.png";
+import DefaultImg from '../../assets/images/no_image.png'
 
-import "./style.scss";
+import './style.scss'
+import moment from 'moment'
 
 const Cart = () => {
-  const [showCart, setShowCart] = useState("none");
+  const [showCart, setShowCart] = useState('none')
+  const { t } = useTranslation()
 
-  const { items, removeItem, totalUniqueItems, isEmpty } = useCart();
+  const { items, removeItem, totalUniqueItems, isEmpty } = useCart()
 
-  console.log(items);
+  console.log(items)
 
   const setCart = () => {
-    const show = showCart === "none" ? "block" : "none";
-    setShowCart(show);
-  };
+    const show = showCart === 'none' ? 'block' : 'none'
+    setShowCart(show)
+  }
 
   return (
     <>
@@ -35,16 +38,25 @@ const Cart = () => {
                 <div className="info col-7">
                   <div className="title">{item.Name}</div>
                   <div className="date">
-                    {item.Configurations[0].Quotes[0].Commence}
+                    {moment(item.Configurations[0].Quotes[0].Commence).format('l')}
                   </div>
-                  <div className="qty">
-                    Pax: {item.Configurations[0].Pax.Adults}
-                  </div>
-                  <div className="duration">
-                    Duration: {item.Configurations[0].Quotes[0].Duration}
-                  </div>
+                  {item.IndustryCategoryGroups[0] === 3 ? (
+                    <div className="qty">Qty: {item.quantity}</div>
+                  ) : (
+                    <>
+                      <div className="qty">
+                        Pax: {item.Configurations[0].Pax.Adults}
+                      </div>
+                      {item.IndustryCategoryGroups[0] === 0 && (
+                        <div className="duration">
+                          Duration:{' '}
+                          {item.Configurations[0].Quotes[0].Duration}
+                        </div>
+                      )}
+                    </>
+                  )}
                   <div className="price">
-                    {item.TxCurrencyCode === "JPY" ? "¥" : "$"}
+                    {item.TxCurrencyCode === 'JPY' ? '¥' : ''}
                     {item.price}
                   </div>
                 </div>
@@ -57,7 +69,7 @@ const Cart = () => {
               </div>
             ))
           ) : (
-            <h5>Cart is Empty</h5>
+            <h5>{t('cart_empty')}</h5>
           )}
         </div>
         <button className="cartButton btn" onClick={() => setCart()}>
@@ -66,7 +78,7 @@ const Cart = () => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

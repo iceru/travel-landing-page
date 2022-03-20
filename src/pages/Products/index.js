@@ -181,7 +181,14 @@ const Products = () => {
         <div className="titlePage">{t("search")}</div>
         <Filter lang={language} filter={filterData} />
         <div className="d-flex justify-content-between productsOption mb-4">
-          <div>Rate</div>
+          <div>
+            <Button variant="primary" className="me-3 fw-bold">
+              Quick Booking
+            </Button>
+            <Button variant="primary" className="fw-bold">
+              Request on Book
+            </Button>
+          </div>
           <div className="d-flex sort">
             <div className="text">Sort by:</div>
             <Form.Select

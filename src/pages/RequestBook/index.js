@@ -5,17 +5,19 @@ import { useTranslation } from "react-i18next";
 
 import { countries } from "../../helpers/countries";
 
+import './style.scss';
+
 const RequestBook = () => {
   const { t } = useTranslation();
   return (
     <div className="rbWrapper container">
-      <div className="rbTitle">Title Book</div>
+      <h5 className="rbTitle mb-2">Title Book</h5>
       <Table bordered responsive className="mb-3">
         <thead>
           <tr>
-            <th>Product</th>
-            <th>Options/Costs</th>
-            <th>Totals</th>
+            <th>{t('product')}</th>
+            <th>{t('options')}</th>
+            <th>{t('totals')}</th>
           </tr>
         </thead>
         <tbody>
@@ -33,12 +35,15 @@ const RequestBook = () => {
 
       <div className="notes mb-5">
         <Form.Group className="mb-3">
-          <Form.Label>{t("special_request")}</Form.Label>
+          <Form.Label>{t("special_requests")}</Form.Label>
           <Form.Control type="text" placeholder={t("type_keywords")} />
         </Form.Group>
       </div>
 
       <div className="customerDetail">
+        <h4 className="text-center mb-3">
+          Customer Detail
+        </h4>
         <Row>
           <Col xs={12} lg={6}>
             <Form.Group className="mb-3">
