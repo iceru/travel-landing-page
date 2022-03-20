@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import {
   useLocation,
@@ -12,8 +11,9 @@ import { useTranslation } from "react-i18next";
 
 import { bodyRequest, headers } from "../../helpers/utils";
 import { endpoints } from "../../helpers/endpoints";
-
+import SkeletonProducts from "./components/SkeletonProducts";
 import Filter from "../../components/Filter";
+
 import DefaultImg from "../../assets/images/no_image.png";
 
 import "./style.scss";
@@ -21,8 +21,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const Products = () => {
   const [services, setServices] = useState(null);
+  const [stateServices, setStateServices] = useState(null);
   const [skeletonShow, setSkeletonShow] = useState("none");
   const [productsShow, setProductsShow] = useState("block");
+  const [stateButton, setStateButton] = useState("primary");
+
   const [language] = useOutletContext();
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,6 +56,25 @@ const Products = () => {
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
   productsRequest.request.Language = `${language}-JP`;
+  console.log(services);
+
+  const changeToRequest = () => {
+    const requestBook = stateServices.filter((service) => {
+      return service.OnRequestOnly === true
+    })
+
+    setServices(requestBook);
+    setStateButton(false);
+  }
+
+  const changeToQuick = () => {
+    const quickBook = stateServices.filter((service) => {
+      return service.OnRequestOnly === false
+    })
+
+    setServices(quickBook);
+    setStateButton(true);
+  }
 
   const getData = () => {
     setSkeletonShow("block");
@@ -69,7 +91,8 @@ const Products = () => {
     axios
       .post(endpoints.search, productsRequest, { headers: headers })
       .then((response) => {
-        setServices(response.data);
+        setServices(response.data.Entities);
+        setStateServices(response.data.Entities);
         setSkeletonShow("none");
         setProductsShow("block");
       });
@@ -89,7 +112,7 @@ const Products = () => {
       productsRequest.request.Availability.Window.StartDate = values.date;
       searchParams.set("date", values.date);
     }
-    debugger; //eslint-disable-line
+
     if (values.category === "all") {
       delete productsRequest.request.Filter.TagCriteria;
     } else {
@@ -142,39 +165,7 @@ const Products = () => {
   return (
     <div className="container products">
       <div className="skeletonWrapper" style={{ display: skeletonShow }}>
-        <SkeletonTheme height={38}>
-          <Skeleton className="mb-4" />
-
-          <div className="row mb-4">
-            <div className="col">
-              <Skeleton />
-            </div>
-            <div className="col">
-              <Skeleton />
-            </div>
-            <div className="col">
-              <Skeleton />
-            </div>
-            <div className="col">
-              <Skeleton />
-            </div>
-            <div className="col">
-              <Skeleton />
-            </div>
-          </div>
-
-          <div className="row">
-            {[...Array(9)].map((item, i) => (
-              <div key={i} className="col-12 col-lg-4 mb-4">
-                <Skeleton className="mb-2" height={200} />
-                <Skeleton className="mb-2" width="50%" height={20} />
-                <Skeleton className="mb-2" width="75%" height={20} />
-                <Skeleton className="mb-2" width="25%" height={20} />
-                <Skeleton className="mb-2" count={2} height={20} />
-              </div>
-            ))}
-          </div>
-        </SkeletonTheme>
+        <SkeletonProducts />
       </div>
 
       <div className="productsWrapper" style={{ display: productsShow }}>
@@ -182,11 +173,11 @@ const Products = () => {
         <Filter lang={language} filter={filterData} />
         <div className="d-flex justify-content-between productsOption mb-4">
           <div>
-            <Button variant="primary" className="me-3 fw-bold">
-              Quick Booking
+            <Button variant={stateButton ? "primary" : "secondary"} onClick={() => changeToQuick()} className="me-3 fw-bold">
+              {t('quick_booking')}
             </Button>
-            <Button variant="primary" className="fw-bold">
-              Request on Book
+            <Button variant={stateButton ? "secondary" : "primary"} onClick={() => changeToRequest()} className="fw-bold">
+              {t('request_book')}
             </Button>
           </div>
           <div className="d-flex sort">
@@ -205,8 +196,8 @@ const Products = () => {
         </div>
         <div className="productItems">
           <Row>
-            {services && services.Entities && services.Entities.length > 0 ? (
-              services.Entities.map((service, i) => {
+            {services && services.length > 0 ? (
+              services.map((service, i) => {
                 return (
                   <Col xs={12} lg={4} key={i}>
                     <div className="item">
@@ -256,7 +247,7 @@ const Products = () => {
                 );
               })
             ) : (
-              <h3>{t("not_found")}</h3>
+              <h3 className="text-center">{t("not_found")}</h3>
             )}
           </Row>
         </div>

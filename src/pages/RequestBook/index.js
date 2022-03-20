@@ -42,7 +42,7 @@ const RequestBook = () => {
 
       <div className="customerDetail">
         <h4 className="text-center mb-3">
-          Customer Detail
+          {t('customer_detail')}
         </h4>
         <Row>
           <Col xs={12} lg={6}>

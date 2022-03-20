@@ -28,7 +28,7 @@ export const TRANSLATIONS_JP = {
   book_now: "今予約する",
   check_price: "価格と在庫状況を確認する",
   cart_empty: "カートは空です",
-  first_name: "First Name",
+  first_name: "ファーストネーム",
   last_name: "苗字",
   re_email: "メールを再入力",
   mobile: "携帯電話",
@@ -41,4 +41,7 @@ export const TRANSLATIONS_JP = {
   options: "オプション/コスト",
   totals: "合計",
   special_requests: "特別なお願い",
+  quick_booking: "クイック予約",
+  request_book: "予約のリクエスト",
+  customer_detail: "顧客の詳細",
 };

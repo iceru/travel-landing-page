@@ -41,5 +41,8 @@ export const TRANSLATIONS_EN = {
   product: "Product",
   options: "Options/Cost",
   totals: "Totals",
-  special_requests: "Special Requests"
+  special_requests: "Special Requests",
+  quick_booking: "Quick Booking",
+  request_book: "Request on Book",
+  customer_detail: "Customer Detail",
 };
