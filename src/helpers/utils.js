@@ -1,5 +1,3 @@
-let pageNumber = 1;
-
 const disablePastDate = () => {
   const today = new Date();
   const dd = String(today.getDate()).padStart(2, "0");
@@ -20,6 +18,9 @@ const bodyRequest = {
       MustBeInDealCampaign: false,
       Bookability: {
         RateRange: {},
+        BlockUnavailableResults: false,
+        IncludeOnRequest: true,
+        IsBookable: true,
       },
       TagCriteria: {},
     },
@@ -45,7 +46,7 @@ const bodyRequest = {
       Settings: true,
     },
     Paging: {
-      PageNumber: pageNumber,
+      PageNumber: 1,
       PageSize: 12,
     },
     ShortName: "TestDistributorOA",

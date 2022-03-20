@@ -6,11 +6,6 @@
   .slick-slide img {
     margin: auto;
   }
-
-  .skeletonWrapper {
-    padding: 2rem;
-  }
-
   .back {
     font-size: 1.15rem;
     margin-bottom: 1rem;
@@ -21,6 +16,10 @@
   .product {
     border: 8px solid $primary;
     border-radius: 0 0 1.25rem 1.25rem;
+
+    .skeletonWrapper {
+      padding: 2rem;
+    }
 
     .productWrapper {
       padding: 2rem;
@@ -96,7 +95,7 @@
           .icon {
             position: absolute;
             left: 0.5rem;
-            top: 45%;
+            top: 38%;
             transform: translateY(-50%);
 
             img {
@@ -107,60 +106,6 @@
 
           input {
             padding-left: 2rem;
-          }
-        }
-      }
-
-      .availableProducts {
-        .items {
-          .productItem {
-            margin-bottom: 2rem;
-            .info {
-              padding-left: 1rem;
-              border-left: 6px solid $secondary;
-
-              .qty {
-                align-items: center;
-                margin-bottom: .5rem;
-
-                .form-label {
-                  margin-bottom: 0;
-                }
-
-                input {
-                  height: 30px;
-                  width: 60px;
-                }
-              }
-              .name,
-              .price {
-                font-weight: bold;
-                font-size: 1.25rem;
-                margin-bottom: 0.5rem;
-              }
-
-              .image {
-                margin-bottom: 0.5rem;
-              }
-
-              .desc {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-              }
-            }
-
-            .action {
-              display: flex;
-              justify-content: flex-end;
-
-              .btn {
-                font-weight: bold;
-                padding: 0.75rem 1.5rem;
-              }
-            }
           }
         }
       }

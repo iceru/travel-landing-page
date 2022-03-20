@@ -45,4 +45,5 @@ export const TRANSLATIONS_EN = {
   quick_booking: "Quick Booking",
   request_book: "Request on Book",
   customer_detail: "Customer Detail",
+  load_more: "Load More",
 };

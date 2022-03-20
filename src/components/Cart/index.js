@@ -1,26 +1,24 @@
-import React, { useState } from 'react'
-import { useCart } from 'react-use-cart'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShoppingBasket, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { useTranslation } from 'react-i18next'
+import React, { useState } from "react";
+import { useCart } from "react-use-cart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingBasket, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
-import DefaultImg from '../../assets/images/no_image.png'
+import DefaultImg from "../../assets/images/no_image.png";
 
-import './style.scss'
-import moment from 'moment'
+import "./style.scss";
+import moment from "moment";
 
 const Cart = () => {
-  const [showCart, setShowCart] = useState('none')
-  const { t } = useTranslation()
+  const [showCart, setShowCart] = useState("none");
+  const { t } = useTranslation();
 
-  const { items, removeItem, totalUniqueItems, isEmpty } = useCart()
-
-  console.log(items)
+  const { items, removeItem, totalUniqueItems, isEmpty } = useCart();
 
   const setCart = () => {
-    const show = showCart === 'none' ? 'block' : 'none'
-    setShowCart(show)
-  }
+    const show = showCart === "none" ? "block" : "none";
+    setShowCart(show);
+  };
 
   return (
     <>
@@ -38,7 +36,9 @@ const Cart = () => {
                 <div className="info col-7">
                   <div className="title">{item.Name}</div>
                   <div className="date">
-                    {moment(item.Configurations[0].Quotes[0].Commence).format('l')}
+                    {moment(item.Configurations[0].Quotes[0].Commence).format(
+                      "l"
+                    )}
                   </div>
                   {item.IndustryCategoryGroups[0] === 3 ? (
                     <div className="qty">Qty: {item.quantity}</div>
@@ -49,14 +49,13 @@ const Cart = () => {
                       </div>
                       {item.IndustryCategoryGroups[0] === 0 && (
                         <div className="duration">
-                          Duration:{' '}
-                          {item.Configurations[0].Quotes[0].Duration}
+                          Duration: {item.Configurations[0].Quotes[0].Duration}
                         </div>
                       )}
                     </>
                   )}
                   <div className="price">
-                    {item.TxCurrencyCode === 'JPY' ? '¥' : ''}
+                    {item.TxCurrencyCode === "JPY" ? "¥" : ""}
                     {item.price}
                   </div>
                 </div>
@@ -69,7 +68,7 @@ const Cart = () => {
               </div>
             ))
           ) : (
-            <h5>{t('cart_empty')}</h5>
+            <h5>{t("cart_empty")}</h5>
           )}
         </div>
         <button className="cartButton btn" onClick={() => setCart()}>
@@ -78,7 +77,7 @@ const Cart = () => {
         </button>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;

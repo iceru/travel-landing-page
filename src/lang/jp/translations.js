@@ -44,4 +44,5 @@ export const TRANSLATIONS_JP = {
   quick_booking: "クイック予約",
   request_book: "予約のリクエスト",
   customer_detail: "顧客の詳細",
+  load_more: "もっと読み込む",
 };

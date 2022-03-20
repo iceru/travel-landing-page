@@ -1,62 +1,62 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Row, Col, Form, Button } from 'react-bootstrap'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import {
   useNavigate,
   useOutletContext,
   useSearchParams,
-} from 'react-router-dom'
-import Slider from 'react-slick'
-import { useTranslation } from 'react-i18next'
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faListDots } from '@fortawesome/free-solid-svg-icons'
+} from "react-router-dom";
+import Slider from "react-slick";
+import { useTranslation } from "react-i18next";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faListDots } from "@fortawesome/free-solid-svg-icons";
 
 import {
   bodyRequest,
   headers,
   quoteRequest,
   disablePastDate,
-} from '../../helpers/utils'
-import DefaultImg from '../../assets/images/no_image.png'
-import Guest from '../../assets/images/guest.png'
-import Night from '../../assets/images/night.png'
-import { endpoints } from '../../helpers/endpoints'
+} from "../../helpers/utils";
+import DefaultImg from "../../assets/images/no_image.png";
+import Guest from "../../assets/images/guest.png";
+import Night from "../../assets/images/night.png";
+import { endpoints } from "../../helpers/endpoints";
 
-import '../../../node_modules/slick-carousel/slick/slick.css'
-import '../../../node_modules/slick-carousel/slick/slick-theme.css'
-import './style.scss'
-import Map from '../../components/Maps'
-import ProductItems from './components/ProductItems'
-import BasicInfo from './components/BasicInfo'
+import "../../../node_modules/slick-carousel/slick/slick.css";
+import "../../../node_modules/slick-carousel/slick/slick-theme.css";
+import "./style.scss";
+import Map from "../../components/Maps";
+import ProductItems from "./components/ProductItems";
+import BasicInfo from "./components/BasicInfo";
 
 const ProductDetail = () => {
-  const [service, setService] = useState()
-  const [bookingQuotes, setBookingQuotes] = useState([])
-  const [skeletonShow, setSkeletonShow] = useState('block')
-  const [detailShow, setDetailShow] = useState('block')
-  const [productItemShow, setProductItemShow] = useState('none')
-  const [skeletonItemShow, setSkeletonItemShow] = useState('none')
+  const [service, setService] = useState();
+  const [bookingQuotes, setBookingQuotes] = useState([]);
+  const [skeletonShow, setSkeletonShow] = useState("block");
+  const [detailShow, setDetailShow] = useState("block");
+  const [productItemShow, setProductItemShow] = useState("none");
+  const [skeletonItemShow, setSkeletonItemShow] = useState("none");
 
-  const [searchParams] = useSearchParams()
-  const id = searchParams.get('id')
-  const [language] = useOutletContext()
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
+  const [language] = useOutletContext();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const curr = new Date()
-  const date = curr.toISOString().substr(0, 10)
-  const detailRequest = bodyRequest
+  const curr = new Date();
+  const date = curr.toISOString().substr(0, 10);
+  const detailRequest = bodyRequest;
 
-  detailRequest.request.Language = `${language}-JP`
-  quoteRequest.request.Language = `${language}`
+  detailRequest.request.Language = `${language}-JP`;
+  quoteRequest.request.Language = `${language}`;
 
-  detailRequest.request.Filter.Ids = [id]
+  detailRequest.request.Filter.Ids = [id];
 
   useEffect(() => {
-    setSkeletonShow('block')
-    setDetailShow('none')
-    setProductItemShow('none')
+    setSkeletonShow("block");
+    setDetailShow("none");
+    setProductItemShow("none");
 
     detailRequest.request.Output.Children = {
       Output: {
@@ -84,111 +84,111 @@ const ProductDetail = () => {
           Type: 4,
         },
       },
-    }
+    };
     axios
       .post(endpoints.search, detailRequest, { headers: headers })
       .then((response) => {
-        setService(response.data.Entities[0])
-        setSkeletonShow('none')
-        setDetailShow('block')
-      })
-  }, [searchParams, location])
+        setService(response.data.Entities[0]);
+        setSkeletonShow("none");
+        setDetailShow("block");
+      });
+  }, [searchParams, location]);
 
   useEffect(() => {
-    const onReq = searchParams.get('on_req')
+    const onReq = searchParams.get("on_req");
     if (
       service &&
       service.IndustryCategoryGroups[0] === 3 &&
-      onReq === 'false'
+      onReq === "false"
     ) {
-      getQuote()
+      getQuote();
     }
-  }, [service])
+  }, [service]);
 
   const getQuote = (values) => {
     quoteRequest.request.Configurations[0].Pax.Adults =
-      parseInt(values && values.pax) || 2
+      parseInt(values && values.pax) || 2;
     quoteRequest.request.CommencementDate =
-      (values && values.date) || new Date()
-    quoteRequest.request.Duration = parseInt(values && values.duration) || 1
-    console.log(quoteRequest)
+      (values && values.date) || new Date();
+    quoteRequest.request.Duration = parseInt(values && values.duration) || 1;
+
     if (service && service.Children.length > 0) {
-      setBookingQuotes([])
+      setBookingQuotes([]);
       service.Children.map((children, i) => {
         quoteRequest.request.IndustryCategoryGroup =
-          children.IndustryCategoryGroups[0]
-        quoteRequest.request.IndustryCategory = children.IndustryCategory
-        quoteRequest.request.Configurations[0].ProductId = children.Id
-        setSkeletonItemShow('block')
+          children.IndustryCategoryGroups[0];
+        quoteRequest.request.IndustryCategory = children.IndustryCategory;
+        quoteRequest.request.Configurations[0].ProductId = children.Id;
+        setSkeletonItemShow("block");
 
         axios
           .post(endpoints.bookingQuote, quoteRequest, { headers: headers })
           .then((response) => {
-            const mergeData = { ...service.Children[i], ...response.data }
-            mergeData.id = i + 1
-            mergeData.quantity = 2
+            const mergeData = { ...service.Children[i], ...response.data };
+            mergeData.id = i + 1;
+            mergeData.quantity = 2;
             mergeData.price =
-              response.data.Configurations[0]?.Quotes[0]?.TotalPrice
-            setBookingQuotes((data) => [...data, mergeData])
+              response.data.Configurations[0]?.Quotes[0]?.TotalPrice;
+            setBookingQuotes((data) => [...data, mergeData]);
 
-            setProductItemShow('block')
-            setSkeletonItemShow('none')
-          })
-      })
+            setProductItemShow("block");
+            setSkeletonItemShow("none");
+          });
+      });
     }
-  }
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const values = {
-      date: e.target[0] ? e.target[0].value : '',
+      date: e.target[0] ? e.target[0].value : "",
       duration: e.target[1] ? e.target[1].value : 1,
       pax: e.target[2] ? e.target[2].value : 2,
-    }
-    getQuote(values)
-  }
+    };
+    getQuote(values);
+  };
 
   const changeQuantity = (value, id) => {
     bookingQuotes.map((item) => {
-      if (item.id === id) item.quantity = value
-    })
-  }
+      if (item.id === id) item.quantity = value;
+    });
+  };
 
   function getServiceType() {
-    let serviceType = t('accommodation')
+    let serviceType = t("accommodation");
     if (service && service.IndustryCategoryGroups) {
       switch (service.IndustryCategoryGroups[0]) {
         case 0:
-          serviceType = t('accommodation')
-          break
+          serviceType = t("accommodation");
+          break;
         case 1:
-          serviceType = t('activity')
-          break
+          serviceType = t("activity");
+          break;
         case 2:
-          serviceType = t('restaurant')
-          break
+          serviceType = t("restaurant");
+          break;
         case 3:
-          serviceType = t('produce')
-          break
+          serviceType = t("produce");
+          break;
         default:
-          return t('accommodation')
+          return t("accommodation");
       }
     }
 
-    return serviceType
+    return serviceType;
   }
 
   const settings = {
     dots: true,
-  }
+  };
 
   return (
     <div className="container">
       <a
         href="#"
         onClick={(e) => {
-          e.preventDefault()
-          navigate('/')
+          e.preventDefault();
+          navigate("/");
         }}
         className="back"
       >
@@ -245,7 +245,7 @@ const ProductDetail = () => {
                       <div key={i}>
                         <img className="image" src={service.Url} />
                       </div>
-                    )
+                    );
                   })}
                 </Slider>
               ) : (
@@ -257,7 +257,7 @@ const ProductDetail = () => {
               dangerouslySetInnerHTML={{ __html: service.LongDescription }}
             ></div>
             <div className="checkPrice mb-4">
-              <h4>{t('check_price')}</h4>
+              <h4>{t("check_price")}</h4>
               <form onSubmit={handleSubmit}>
                 <div className="d-flex justify-content-between">
                   <div className="d-flex">
@@ -317,7 +317,7 @@ const ProductDetail = () => {
                   </div>
                   <div>
                     <Button type="submit" variant="secondary">
-                      {t('search')}
+                      {t("search")}
                     </Button>
                   </div>
                 </div>
@@ -328,7 +328,7 @@ const ProductDetail = () => {
               style={{ display: productItemShow }}
             >
               <div className="sectionTitle">
-                <span>{t('available_products')}</span>
+                <span>{t("available_products")}</span>
               </div>
               <ProductItems
                 bookingQuotes={bookingQuotes}
@@ -361,14 +361,14 @@ const ProductDetail = () => {
             </div>
             <div className="info mb-4">
               <div className="sectionTitle">
-                <span>{t('basic_info')}</span>
+                <span>{t("basic_info")}</span>
               </div>
               <BasicInfo service={service} />
             </div>
             {service.Geocodes !== null && (
               <div className="map">
                 <div className="sectionTitle">
-                  <span>{t('map')}</span>
+                  <span>{t("map")}</span>
                 </div>
                 <div className="mapContainer">
                   <Map positions={service.Geocodes} />
@@ -379,7 +379,7 @@ const ProductDetail = () => {
         )}
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetail
+export default ProductDetail;

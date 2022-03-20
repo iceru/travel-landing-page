@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import {
-  useLocation,
   useNavigate,
   useOutletContext,
   useSearchParams,
@@ -14,26 +13,11 @@ import { endpoints } from "../../helpers/endpoints";
 import SkeletonProducts from "./components/SkeletonProducts";
 import Filter from "../../components/Filter";
 
-import DefaultImg from "../../assets/images/no_image.png";
-
 import "./style.scss";
 import "react-loading-skeleton/dist/skeleton.css";
+import Items from "./components/Items";
 
 const Products = () => {
-  const [services, setServices] = useState(null);
-  const [stateServices, setStateServices] = useState(null);
-  const [skeletonShow, setSkeletonShow] = useState("none");
-  const [productsShow, setProductsShow] = useState("block");
-  const [stateButton, setStateButton] = useState("primary");
-
-  const [language] = useOutletContext();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const productsRequest = bodyRequest;
-
   const options = [
     {
       value: "Name-Ascending",
@@ -53,32 +37,43 @@ const Products = () => {
     },
   ];
 
+  const [services, setServices] = useState([]);
+  const [stateServices, setStateServices] = useState([]);
+  const [skeletonShow, setSkeletonShow] = useState("none");
+  const [productsShow, setProductsShow] = useState("block");
+  const [stateButton, setStateButton] = useState("primary");
   const [selectedOption, setSelectedOption] = useState(options[0].value);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  const [language] = useOutletContext();
+  // const location = useLocation();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const productsRequest = bodyRequest;
 
   productsRequest.request.Language = `${language}-JP`;
-  console.log(services);
 
-  const changeToRequest = () => {
-    const requestBook = stateServices.filter((service) => {
-      return service.OnRequestOnly === true
-    })
+  useEffect(() => {
+    delete productsRequest.request.Filter.Ids;
 
-    setServices(requestBook);
-    setStateButton(false);
-  }
+    // searchParams.set("page", page);
+    // setSearchParams(searchParams);
 
-  const changeToQuick = () => {
-    const quickBook = stateServices.filter((service) => {
-      return service.OnRequestOnly === false
-    })
+    productsRequest.request.Sorting = [
+      {
+        By: "Name",
+        Direction: "Ascending",
+        PositionOfNull: "PreferenceBottom",
+      },
+    ];
+    getData();
+  }, [language]);
 
-    setServices(quickBook);
-    setStateButton(true);
-  }
-
-  const getData = () => {
+  const getData = (page) => {
     setSkeletonShow("block");
-    setProductsShow("none");
 
     productsRequest.request.Availability = {
       MergeMethod: 1,
@@ -88,13 +83,29 @@ const Products = () => {
       },
     };
 
+    if (page && page > 1) {
+      productsRequest.request.Paging.PageNumber = page;
+      searchParams.get("page", page);
+    } else {
+      setProductsShow("none");
+    }
+
     axios
       .post(endpoints.search, productsRequest, { headers: headers })
       .then((response) => {
-        setServices(response.data.Entities);
-        setStateServices(response.data.Entities);
+        if (page && page > 1) {
+          setServices((data) => [...data, ...response.data.Entities]);
+          setStateServices((stateServices) => [
+            ...stateServices,
+            ...response.data.Entities,
+          ]);
+        } else {
+          setServices(response.data.Entities);
+          setStateServices(response.data.Entities);
+          setTotalPage(response.data.Paging.NumberOfPages);
+          setProductsShow("block");
+        }
         setSkeletonShow("none");
-        setProductsShow("block");
       });
   };
 
@@ -134,6 +145,23 @@ const Products = () => {
     getData();
   };
 
+  const changeToRequest = () => {
+    const requestBook = stateServices.filter((service) => {
+      return service.OnRequestOnly === true;
+    });
+
+    setServices(requestBook);
+    setStateButton(false);
+  };
+
+  const changeToQuick = () => {
+    const quickBook = stateServices.filter((service) => {
+      return service.OnRequestOnly === false;
+    });
+
+    setServices(quickBook);
+    setStateButton(true);
+  };
   const onSort = (value) => {
     setSelectedOption(value);
     productsRequest.request.Sorting = [
@@ -145,39 +173,41 @@ const Products = () => {
     getData();
   };
 
-  useEffect(() => {
-    delete productsRequest.request.Filter.Ids;
-
-    productsRequest.request.Sorting = [
-      {
-        By: "Name",
-        Direction: "Ascending",
-        PositionOfNull: "PreferenceBottom",
-      },
-    ];
-    getData();
-  }, [language, location]);
-
   const goToDetail = (id, onReq) => {
     navigate(`/product?id=${id}&on_req=${onReq}`);
   };
 
+  const loadMore = () => {
+    debugger; //eslint-disable-line
+    const paging = page + 1;
+
+    searchParams.set("pages", paging);
+    setSearchParams(searchParams);
+
+    setPage(paging);
+    getData(paging);
+  };
+
   return (
     <div className="container products">
-      <div className="skeletonWrapper" style={{ display: skeletonShow }}>
-        <SkeletonProducts />
-      </div>
-
       <div className="productsWrapper" style={{ display: productsShow }}>
         <div className="titlePage">{t("search")}</div>
         <Filter lang={language} filter={filterData} />
         <div className="d-flex justify-content-between productsOption mb-4">
           <div>
-            <Button variant={stateButton ? "primary" : "secondary"} onClick={() => changeToQuick()} className="me-3 fw-bold">
-              {t('quick_booking')}
+            <Button
+              variant={stateButton ? "primary" : "secondary"}
+              onClick={() => changeToQuick()}
+              className="me-3 fw-bold"
+            >
+              {t("quick_booking")}
             </Button>
-            <Button variant={stateButton ? "secondary" : "primary"} onClick={() => changeToRequest()} className="fw-bold">
-              {t('request_book')}
+            <Button
+              variant={stateButton ? "secondary" : "primary"}
+              onClick={() => changeToRequest()}
+              className="fw-bold"
+            >
+              {t("request_book")}
             </Button>
           </div>
           <div className="d-flex sort">
@@ -195,62 +225,18 @@ const Products = () => {
           </div>
         </div>
         <div className="productItems">
-          <Row>
-            {services && services.length > 0 ? (
-              services.map((service, i) => {
-                return (
-                  <Col xs={12} lg={4} key={i}>
-                    <div className="item">
-                      <div className="image">
-                        <img
-                          src={
-                            service.Images !== null
-                              ? service.Images[0].Url
-                              : DefaultImg
-                          }
-                          alt={service.Name}
-                        />
-                      </div>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          goToDetail(service.Id);
-                        }}
-                      >
-                        <div className="title">{service.Name}</div>
-                      </a>
-
-                      <div className="address">
-                        {service.PhysicalAddress.Line1},{" "}
-                        {service.PhysicalAddress.City},{" "}
-                        {service.PhysicalAddress.PostCode}
-                      </div>
-                      <div className="price">
-                        {service.Availability.Calendar.LowestRate &&
-                          `From ¥ ${service.Availability.Calendar.LowestRate}`}
-                      </div>
-                      <div className="desc">{service.LongDescription}</div>
-                      <div className="buttonWrapper">
-                        <Button
-                          className="w-100"
-                          variant="primary"
-                          onClick={() =>
-                            goToDetail(service.Id, service.OnRequestOnly)
-                          }
-                        >
-                          {t("view_details")}
-                        </Button>
-                      </div>
-                    </div>
-                  </Col>
-                );
-              })
-            ) : (
-              <h3 className="text-center">{t("not_found")}</h3>
-            )}
-          </Row>
+          <Items
+            services={services}
+            goToDetail={goToDetail}
+            loadMore={loadMore}
+            totalPage={totalPage}
+            currentPage={page}
+          />
         </div>
+      </div>
+
+      <div className="skeletonWrapper" style={{ display: skeletonShow }}>
+        <SkeletonProducts />
       </div>
     </div>
   );
