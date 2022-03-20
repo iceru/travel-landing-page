@@ -23,7 +23,6 @@ const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
   const navigate = useNavigate();
 
   const submitBooking = (booking) => {
-    debugger; //eslint-disable-line
     if (onRequest === "true") {
       navigate("/request-book", { state: { booking: booking } });
     } else {

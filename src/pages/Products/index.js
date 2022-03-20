@@ -178,7 +178,6 @@ const Products = () => {
   };
 
   const loadMore = () => {
-    debugger; //eslint-disable-line
     const paging = page + 1;
 
     searchParams.set("pages", paging);

@@ -16,8 +16,6 @@ const RequestBook = () => {
   const [booking, setBooking] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  debugger; //eslint-disable-line
-
   useEffect(() => {
     if (state && state.booking) {
       setBooking(state.booking);
