@@ -45,4 +45,6 @@ export const TRANSLATIONS_JP = {
   request_book: "予約のリクエスト",
   customer_detail: "顧客の詳細",
   load_more: "もっと読み込む",
+  request_to_book: "予約のリクエスト",
+  start_time: "始まる時間: {{ time }}, または別の時間を選択してください",
 };

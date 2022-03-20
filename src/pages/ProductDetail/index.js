@@ -37,6 +37,7 @@ const ProductDetail = () => {
   const [detailShow, setDetailShow] = useState("block");
   const [productItemShow, setProductItemShow] = useState("none");
   const [skeletonItemShow, setSkeletonItemShow] = useState("none");
+  const [onRequest, setOnRequest] = useState("true");
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -96,6 +97,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const onReq = searchParams.get("on_req");
+    setOnRequest(onReq);
     if (
       service &&
       service.IndustryCategoryGroups[0] === 3 &&
@@ -333,6 +335,7 @@ const ProductDetail = () => {
               <ProductItems
                 bookingQuotes={bookingQuotes}
                 changeQuantity={changeQuantity}
+                onRequest={onRequest}
               />
             </div>
             <div

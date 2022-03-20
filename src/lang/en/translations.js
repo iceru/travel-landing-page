@@ -46,4 +46,6 @@ export const TRANSLATIONS_EN = {
   request_book: "Request on Book",
   customer_detail: "Customer Detail",
   load_more: "Load More",
+  request_to_book: "Request to Book",
+  start_time: "Start time: {{ time }}, or choose a different time",
 };

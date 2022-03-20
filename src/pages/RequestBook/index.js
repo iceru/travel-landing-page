@@ -1,34 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+// import PropTypes from "prop-types";
+import { useLocation, useSearchParams } from "react-router-dom";
+import moment from "moment";
 
 import { Table, Form, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { countries } from "../../helpers/countries";
 
-import './style.scss';
+import "./style.scss";
 
 const RequestBook = () => {
+  const { state } = useLocation();
   const { t } = useTranslation();
-  return (
+  const [booking, setBooking] = useState();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  debugger; //eslint-disable-line
+
+  useEffect(() => {
+    if (state && state.booking) {
+      setBooking(state.booking);
+
+      searchParams.set("id", state.booking.Id);
+      setSearchParams(searchParams);
+    }
+  });
+
+  return booking ? (
     <div className="rbWrapper container">
-      <h5 className="rbTitle mb-2">Title Book</h5>
+      <h5 className="rbTitle mb-2">{booking.Name}</h5>
       <Table bordered responsive className="mb-3">
         <thead>
           <tr>
-            <th>{t('product')}</th>
-            <th>{t('options')}</th>
-            <th>{t('totals')}</th>
+            <th>{t("product")}</th>
+            <th>{t("options")}</th>
+            <th>{t("totals")}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th>Title</th>
-            <th>Pax Options</th>
-            <th>Price Total</th>
+            <td>
+              {booking.Configurations[0].Pax.Adults} Adults Check In <br />
+              {moment(booking.Configurations[0].Quotes[0].Commence).format(
+                "l"
+              )}{" "}
+              <br />
+              Check Out
+              {moment(booking.Configurations[0].Quotes[0].Conclude).format(
+                "l"
+              )}{" "}
+              <br />
+            </td>
+            <td>¥{booking.Configurations[0].Quotes[0].TotalPrice}</td>
           </tr>
           <tr>
-            <th colSpan={2}>Total</th>
-            <th>8000</th>
+            <td colSpan={2}>Total</td>
+            <td>¥{booking.Configurations[0].Quotes[0].TotalPrice}</td>
           </tr>
         </tbody>
       </Table>
@@ -41,9 +69,7 @@ const RequestBook = () => {
       </div>
 
       <div className="customerDetail">
-        <h4 className="text-center mb-3">
-          {t('customer_detail')}
-        </h4>
+        <h4 className="text-center mb-3">{t("customer_detail")}</h4>
         <Row>
           <Col xs={12} lg={6}>
             <Form.Group className="mb-3">
@@ -122,6 +148,8 @@ const RequestBook = () => {
         </Row>
       </div>
     </div>
+  ) : (
+    <h4 className="text-center">Page Error</h4>
   );
 };
 

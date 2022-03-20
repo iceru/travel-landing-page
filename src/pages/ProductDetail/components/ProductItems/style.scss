@@ -20,6 +20,11 @@
             height: 30px;
             width: 60px;
           }
+
+          select {
+            height: 45px;
+            width: fit-content;
+          }
         }
         .name,
         .price {
