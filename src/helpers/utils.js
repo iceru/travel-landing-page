@@ -10,13 +10,6 @@ const disablePastDate = () => {
 
 const bodyRequest = {
   request: {
-    Availability: {
-      MergeMethod: 1,
-      Window: {
-        Size: 42,
-        StartDate: new Date(),
-      },
-    },
     Campaign: {
       AdCampaignCode: "",
       DealCampaignCode: "",
@@ -55,14 +48,7 @@ const bodyRequest = {
       PageNumber: pageNumber,
       PageSize: 12,
     },
-    ShortName: "TestDistributor",
-    Sorting: [
-      {
-        By: "Name",
-        Direction: "Ascending",
-        PositionOfNull: "PreferenceBottom",
-      },
-    ],
+    ShortName: "TestDistributorOA",
   },
 };
 
@@ -87,7 +73,7 @@ const quoteRequest = {
         },
       },
     ],
-    Shortname: "TestDistributor",
+    Shortname: "TestDistributorOA",
   },
 };
 

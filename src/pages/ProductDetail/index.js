@@ -127,14 +127,10 @@ const ProductDetail = () => {
             const mergeData = { ...service.Children[i], ...response.data };
             mergeData.id = i + 1;
             mergeData.price =
-              response.data.Configurations[0].Quotes[0].TotalPrice;
+              response.data.Configurations[0].Quotes?.TotalPrice;
             setBookingQuotes((data) => [...data, mergeData]);
 
             setProductItemShow("block");
-            setSkeletonItemShow("none");
-          })
-          .catch(function (error) {
-            console.log(error.toJSON());
             setSkeletonItemShow("none");
           });
       });
@@ -349,7 +345,7 @@ const ProductDetail = () => {
                         </div>
                         <div className="price">
                           {t("price")}: &nbsp;
-                          {children.TxCurrencyCode === "JPY" ? "¥" : "$"}
+                          {children.TxCurrencyCode === "JPY" ? "¥" : ""}
                           {children.Configurations[0].Quotes &&
                             children.Configurations[0].Quotes[0].TotalPrice}
                         </div>

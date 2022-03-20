@@ -57,6 +57,15 @@ const Products = () => {
   const getData = () => {
     setSkeletonShow("block");
     setProductsShow("none");
+
+    productsRequest.request.Availability = {
+      MergeMethod: 1,
+      Window: {
+        Size: 42,
+        StartDate: new Date(),
+      },
+    };
+
     axios
       .post(endpoints.search, productsRequest, { headers: headers })
       .then((response) => {
@@ -115,6 +124,14 @@ const Products = () => {
 
   useEffect(() => {
     delete productsRequest.request.Filter.Ids;
+
+    productsRequest.request.Sorting = [
+      {
+        By: "Name",
+        Direction: "Ascending",
+        PositionOfNull: "PreferenceBottom",
+      },
+    ];
     getData();
   }, [language, location]);
 
@@ -212,7 +229,8 @@ const Products = () => {
                         {service.PhysicalAddress.PostCode}
                       </div>
                       <div className="price">
-                        From ¥{service.Availability.Calendar.LowestRate}
+                        {service.Availability.Calendar.LowestRate &&
+                          `From ¥ ${service.Availability.Calendar.LowestRate}`}
                       </div>
                       <div className="desc">{service.LongDescription}</div>
                       <div className="buttonWrapper">
