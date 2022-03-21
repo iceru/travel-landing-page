@@ -129,8 +129,9 @@ const ProductDetail = () => {
             const mergeData = { ...service.Children[i], ...response.data };
             mergeData.id = i + 1;
             mergeData.quantity = 2;
-            mergeData.price =
-              response.data.Configurations[0]?.Quotes[0]?.TotalPrice;
+            mergeData.price = response.data.Configurations[0].Quotes
+              ? response.data.Configurations[0].Quotes[0].TotalPrice
+              : null;
             setBookingQuotes((data) => [...data, mergeData]);
 
             setProductItemShow("block");
@@ -142,11 +143,15 @@ const ProductDetail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const values = {
-      date: e.target[0] ? e.target[0].value : "",
-      duration: e.target[1] ? e.target[1].value : 1,
-      pax: e.target[2] ? e.target[2].value : 2,
-    };
+    let values = null;
+    if (service.IndustryCategoryGroups[0] !== 3) {
+      values = {
+        date: e.target[0] ? e.target[0].value : "",
+        duration: e.target[1] ? e.target[1].value : 1,
+        pax: e.target[2] ? e.target[2].value : 2,
+      };
+    }
+
     getQuote(values);
   };
 
@@ -318,7 +323,11 @@ const ProductDetail = () => {
                       )}
                   </div>
                   <div>
-                    <Button type="submit" variant="secondary">
+                    <Button
+                      type="submit"
+                      variant="secondary"
+                      className="fw-bold"
+                    >
                       {t("search")}
                     </Button>
                   </div>

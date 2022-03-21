@@ -23,7 +23,7 @@ const RequestBook = () => {
       searchParams.set("id", state.booking.Id);
       setSearchParams(searchParams);
     }
-  });
+  }, []);
 
   return booking ? (
     <div className="rbWrapper container">

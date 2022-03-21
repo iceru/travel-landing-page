@@ -47,4 +47,8 @@ export const TRANSLATIONS_JP = {
   load_more: "もっと読み込む",
   request_to_book: "予約のリクエスト",
   start_time: "始まる時間: {{ time }}, または別の時間を選択してください",
+  continue_payment: "支払いを続ける",
+  close: "閉じる",
+  quantity: "数量",
+  see_more: "続きを読む",
 };

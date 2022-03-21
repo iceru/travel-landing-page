@@ -6,6 +6,8 @@ const disablePastDate = () => {
   return yyyy + "-" + mm + "-" + dd;
 };
 
+const distributor = "TestDistributor";
+
 const bodyRequest = {
   request: {
     Campaign: {
@@ -49,7 +51,7 @@ const bodyRequest = {
       PageNumber: 1,
       PageSize: 12,
     },
-    ShortName: "TestDistributorOA",
+    ShortName: distributor,
   },
 };
 
@@ -74,7 +76,7 @@ const quoteRequest = {
         },
       },
     ],
-    Shortname: "TestDistributorOA",
+    Shortname: distributor,
   },
 };
 

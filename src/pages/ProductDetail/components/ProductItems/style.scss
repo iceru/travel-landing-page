@@ -56,7 +56,15 @@
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
+
+          &.active {
+            display: block;
+          }
         }
+      }
+
+      .seeMore {
+        text-decoration: underline;
       }
 
       .action {
@@ -66,6 +74,7 @@
         .btn {
           font-weight: bold;
           padding: 0.75rem 1.5rem;
+          white-space: nowrap;
         }
       }
     }

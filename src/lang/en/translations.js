@@ -48,4 +48,8 @@ export const TRANSLATIONS_EN = {
   load_more: "Load More",
   request_to_book: "Request to Book",
   start_time: "Start time: {{ time }}, or choose a different time",
+  continue_payment: "Continue to Payment",
+  close: "Close",
+  quantity: "Quantity",
+  see_more: "See More",
 };

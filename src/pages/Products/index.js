@@ -57,10 +57,15 @@ const Products = () => {
   productsRequest.request.Language = `${language}-JP`;
 
   useEffect(() => {
-    delete productsRequest.request.Filter.Ids;
+    searchParams.delete("pages");
+    setSearchParams(searchParams);
 
-    // searchParams.set("page", page);
-    // setSearchParams(searchParams);
+    setPage(1);
+    productsRequest.request.Paging.PageNumber = 1;
+  }, []);
+
+  useEffect(() => {
+    delete productsRequest.request.Filter.Ids;
 
     productsRequest.request.Sorting = [
       {
@@ -111,12 +116,18 @@ const Products = () => {
 
   const filterData = (values) => {
     if (values.minRange) {
-      productsRequest.request.Filter.Bookability.RateRange = {
-        Min: values.minRange,
-        Max: values.maxRange,
-      };
-      searchParams.set("min", values.minRange);
-      searchParams.set("max", values.maxRange);
+      if (values.minRange === "0") {
+        productsRequest.request.Filter.Bookability.RateRange = {};
+        searchParams.delete("min");
+        searchParams.delete("max");
+      } else {
+        productsRequest.request.Filter.Bookability.RateRange = {
+          Min: values.minRange,
+          Max: values.maxRange,
+        };
+        searchParams.set("min", values.minRange);
+        searchParams.set("max", values.maxRange);
+      }
     }
 
     if (values.date) {

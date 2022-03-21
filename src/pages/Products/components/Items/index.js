@@ -33,26 +33,33 @@ const Items = ({ services, goToDetail, loadMore, totalPage, currentPage }) => {
                     alt={service.Name}
                   />
                 </div>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    goToDetail(service.Id);
-                  }}
-                >
-                  <div className="title">{service.Name}</div>
-                </a>
+                <div className="info">
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      goToDetail(service.Id);
+                    }}
+                  >
+                    <div className="title">{service.Name}</div>
+                  </a>
 
-                <div className="address">
-                  {service.PhysicalAddress.Line1},{" "}
-                  {service.PhysicalAddress.City},{" "}
-                  {service.PhysicalAddress.PostCode}
+                  <div className="address">
+                    {service.PhysicalAddress.Line1},{" "}
+                    {service.PhysicalAddress.City},{" "}
+                    {service.PhysicalAddress.PostCode}
+                  </div>
+                  <div className="price">
+                    {service.Availability.Calendar.LowestRate &&
+                      `From ¥ ${service.Availability.Calendar.LowestRate}`}
+                  </div>
+                  <div
+                    className="desc"
+                    dangerouslySetInnerHTML={{
+                      __html: service.LongDescription,
+                    }}
+                  ></div>
                 </div>
-                <div className="price">
-                  {service.Availability.Calendar.LowestRate &&
-                    `From ¥ ${service.Availability.Calendar.LowestRate}`}
-                </div>
-                <div className="desc">{service.LongDescription}</div>
                 <div className="buttonWrapper">
                   <Button
                     className="w-100"

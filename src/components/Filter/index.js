@@ -54,7 +54,7 @@ const Filter = ({ filter }) => {
           </Col>
           <Col>
             <Form.Select type="text">
-              <option>{t("price_range")}</option>
+              <option value="0-">{t("price_range")}</option>
               <option value="1-9999">{"< ¥9.999"}</option>
               <option value="10000-14999">{"¥10.000 - ¥14.999"}</option>
               <option value="15000-19999">{"¥15.000 - ¥19.999"}</option>
