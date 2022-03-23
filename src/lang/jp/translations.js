@@ -51,8 +51,9 @@ export const TRANSLATIONS_JP = {
   close: "閉じる",
   quantity: "数量",
   see_more: "続きを読む",
-  modal_header: "Make a booking request",
+  modal_header: "予約リクエストを行う",
   modal_desc:
-    "Please note, this booking needs to be confirmed with the operator.<br><br>You'll receive an email within 24 hours to confirm if your booking has been accepted and if so you can pay securely online",
+    "この予約はオペレーターに確認する必要があります。<br><br>24時間以内に、予約が承認されたかどうか、オンラインで安全に支払うことができるかどうかを確認するメールが届きます。",
   confirm: "Confirm",
+  submit: "参加する",
 };

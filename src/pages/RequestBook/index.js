@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
 
-import { Table, Form, Row, Col } from "react-bootstrap";
+import { Table, Form, Row, Col, Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { countries } from "../../helpers/countries";
@@ -14,8 +14,6 @@ const RequestBook = () => {
   const { state } = useLocation();
   const { t } = useTranslation();
   const [booking, setBooking] = useState();
-
-  console.log(booking);
 
   useEffect(() => {
     if (state && state.booking) {
@@ -38,12 +36,21 @@ const RequestBook = () => {
           <tr>
             <td>{booking.Name}</td>
             <td>
-              {booking.Configurations[0].Pax.Adults} Adults <br />
-              Check In &nbsp;
-              {moment(booking.Configurations[0].Quotes[0].Commence).format("l")}
-              <br />
-              Check Out &nbsp;
-              {moment(booking.Configurations[0].Quotes[0].Conclude).format("l")}
+              <div className="mb-3">
+                {booking.Configurations[0].Pax.Adults} Adults
+              </div>
+              <div className="mb-3">
+                Check In &nbsp;
+                {moment(booking.Configurations[0].Quotes[0].Commence).format(
+                  "l"
+                )}
+              </div>
+              <div>
+                Check Out &nbsp;
+                {moment(booking.Configurations[0].Quotes[0].Conclude).format(
+                  "l"
+                )}
+              </div>
               <br />
             </td>
             <td>¥{booking.Configurations[0].Quotes[0].TotalPrice}</td>
@@ -59,7 +66,9 @@ const RequestBook = () => {
               );
             })}
           <tr>
-            <td colSpan={2}>Total</td>
+            <td colSpan={2} className="text-end">
+              Total
+            </td>
             <td>¥{booking.Configurations[0].Quotes[0].TotalPrice}</td>
           </tr>
         </tbody>
@@ -74,82 +83,87 @@ const RequestBook = () => {
 
       <div className="customerDetail">
         <h4 className="text-center mb-4">{t("customer_detail")}</h4>
-        <Row>
-          <Col xs={12} lg={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("first_name")}</Form.Label>
-              <Form.Control type="text" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12} lg={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("last_name")}</Form.Label>
-              <Form.Control type="text" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("email")}</Form.Label>
-              <Form.Control type="email" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("re_email")}</Form.Label>
-              <Form.Control type="email" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12} lg={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("phone")}</Form.Label>
-              <Form.Control type="tel" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12} lg={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("mobile")}</Form.Label>
-              <Form.Control type="tel" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("address")}</Form.Label>
-              <Form.Control
-                as="textarea"
-                type="text"
-                placeholder={t("type_keywords")}
-              />
-            </Form.Group>
-          </Col>
-          <Col xs={12} lg={4}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("city")}</Form.Label>
-              <Form.Control type="text" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12} lg={4}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("country")}</Form.Label>
-              <Form.Control type="text" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12} lg={4}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("zip")}</Form.Label>
-              <Form.Control type="text" placeholder={t("type_keywords")} />
-            </Form.Group>
-          </Col>
-          <Col xs={12}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t("city")}</Form.Label>
-              <Form.Select type="email" placeholder={t("type_keywords")}>
-                {countries.map((country, i) => (
-                  <option key={i}>{country.name}</option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-          </Col>
-        </Row>
+        <form>
+          <Row>
+            <Col xs={12} lg={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("first_name")}</Form.Label>
+                <Form.Control type="text" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12} lg={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("last_name")}</Form.Label>
+                <Form.Control type="text" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("email")}</Form.Label>
+                <Form.Control type="email" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("re_email")}</Form.Label>
+                <Form.Control type="email" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12} lg={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("phone")}</Form.Label>
+                <Form.Control type="tel" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12} lg={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("mobile")}</Form.Label>
+                <Form.Control type="tel" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("address")}</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  type="text"
+                  placeholder={t("type_keywords")}
+                />
+              </Form.Group>
+            </Col>
+            <Col xs={12} lg={4}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("city")}</Form.Label>
+                <Form.Control type="text" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12} lg={4}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("country")}</Form.Label>
+                <Form.Control type="text" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12} lg={4}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t("zip")}</Form.Label>
+                <Form.Control type="text" placeholder={t("type_keywords")} />
+              </Form.Group>
+            </Col>
+            <Col xs={12}>
+              <Form.Group className="mb-4">
+                <Form.Label>{t("city")}</Form.Label>
+                <Form.Select type="email" placeholder={t("type_keywords")}>
+                  {countries.map((country, i) => (
+                    <option key={i}>{country.name}</option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col xs={12}>
+              <Button className="fw-bold">{t("submit")}</Button>
+            </Col>
+          </Row>
+        </form>
       </div>
     </div>
   ) : (
