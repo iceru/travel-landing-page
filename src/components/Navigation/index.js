@@ -36,7 +36,7 @@ const Navigation = () => {
                     </Col>
                     <Col className="itemLink gray">お便り.</Col>
                     <Col className="itemLink">
-                      <a href="#">わたしたち.</a>
+                      <a href="https://ako-mag.jp/about/">わたしたち.</a>
                     </Col>
                   </Row>
                 </div>

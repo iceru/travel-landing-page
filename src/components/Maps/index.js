@@ -10,6 +10,7 @@ import { compose, withProps } from "recompose";
 
 const propTypes = {
   positions: PropTypes.array,
+  zoom: PropTypes.number,
 };
 
 const MapComponent = compose(
@@ -17,7 +18,7 @@ const MapComponent = compose(
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `500px` }} />,
+    containerElement: <div style={{ height: `600px` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
   withScriptjs,
@@ -25,7 +26,7 @@ const MapComponent = compose(
 )((props) => {
   return (
     <GoogleMap
-      defaultZoom={12}
+      defaultZoom={props.zoom}
       defaultCenter={{
         lat: props.positions[0].Geocode.Latitude,
         lng: props.positions[0].Geocode.Longitude,
@@ -45,10 +46,10 @@ const MapComponent = compose(
   );
 });
 
-const Map = ({ positions }) => {
+const Map = ({ positions, zoom }) => {
   return (
     <>
-      <MapComponent isMarkerShown positions={positions} />
+      <MapComponent isMarkerShown positions={positions} zoom={zoom || 12} />
     </>
   );
 };

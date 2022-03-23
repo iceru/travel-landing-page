@@ -22,9 +22,11 @@ const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [descMore, setDescMore] = useState(false);
+  const [extras, setExtras] = useState([]);
 
   const submitBooking = (booking) => {
     if (onRequest === "true") {
+      booking.selectedExtras = extras;
       navigate("/request-book", { state: { booking: booking } });
     } else {
       addItem(booking, parseInt(booking.quantity));
@@ -33,6 +35,10 @@ const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
 
   const seeMore = () => {
     setDescMore(!descMore);
+  };
+
+  const selectedExtras = (extra) => {
+    setExtras((item) => [...item, extra]);
   };
 
   return (
@@ -98,6 +104,7 @@ const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
                           <Form.Check
                             type="checkbox"
                             label={`${extra.Name} ¥${extra.TotalCost}`}
+                            onChange={() => selectedExtras(extra)}
                           />
                         </div>
                       );

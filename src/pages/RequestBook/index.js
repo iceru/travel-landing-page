@@ -52,6 +52,16 @@ const RequestBook = () => {
             </td>
             <td>¥{booking.Configurations[0].Quotes[0].TotalPrice}</td>
           </tr>
+          {booking.selectedExtras &&
+            booking.selectedExtras.map((extra, i) => {
+              return (
+                <tr key={i}>
+                  <td></td>
+                  <td>{extra.Name}</td>
+                  <td>{extra.TotalCost}</td>
+                </tr>
+              );
+            })}
           <tr>
             <td colSpan={2}>Total</td>
             <td>¥{booking.Configurations[0].Quotes[0].TotalPrice}</td>
