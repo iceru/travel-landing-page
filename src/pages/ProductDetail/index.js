@@ -11,12 +11,7 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  bodyRequest,
-  headers,
-  quoteRequest,
-  disablePastDate,
-} from "../../helpers/utils";
+import { bodyRequest, headers, quoteRequest } from "../../helpers/utils";
 import DefaultImg from "../../assets/images/no_image.png";
 import { endpoints } from "../../helpers/endpoints";
 
@@ -45,8 +40,10 @@ const ProductDetail = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const curr = new Date();
-  const date = curr.toISOString().substr(0, 10);
+  const today = new Date();
+  const date = new Date(today);
+  date.setDate(date.getDate() + 1);
+
   const detailRequest = bodyRequest;
 
   detailRequest.request.Language = `${language}-JP`;
@@ -236,7 +233,6 @@ const ProductDetail = () => {
               ></div>
               <CheckPrice
                 date={date}
-                disablePastDate={disablePastDate}
                 service={service}
                 handleSubmit={handleSubmit}
               />

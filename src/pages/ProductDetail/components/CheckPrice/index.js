@@ -12,11 +12,25 @@ const propTypes = {
   service: PropTypes.object,
   handleSubmit: PropTypes.func,
   date: PropTypes.any,
-  disablePastDate: PropTypes.func,
 };
 
-const CheckPrice = ({ service, handleSubmit, date, disablePastDate }) => {
+const CheckPrice = ({ service, handleSubmit, date }) => {
   const { t } = useTranslation();
+
+  const setMinDate = () => {
+    const today = new Date();
+    let dd = today.getDate() + 1;
+    let mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+
+    return yyyy + "-" + mm + "-" + dd;
+  };
 
   return (
     <div className="checkPrice mb-4">
@@ -30,9 +44,9 @@ const CheckPrice = ({ service, handleSubmit, date, disablePastDate }) => {
               <div className="formDate">
                 <Form.Control
                   className="me-2"
-                  type="date"
                   defaultValue={date}
-                  min={disablePastDate()}
+                  type="date"
+                  min={setMinDate()}
                 />
               </div>
             ) : (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import PropTypes from "prop-types";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import moment from "moment";
 
 import { Table, Form, Row, Col } from "react-bootstrap";
@@ -14,20 +14,18 @@ const RequestBook = () => {
   const { state } = useLocation();
   const { t } = useTranslation();
   const [booking, setBooking] = useState();
-  const [searchParams, setSearchParams] = useSearchParams();
+
+  console.log(booking);
 
   useEffect(() => {
     if (state && state.booking) {
       setBooking(state.booking);
-
-      searchParams.set("id", state.booking.Id);
-      setSearchParams(searchParams);
     }
   }, []);
 
   return booking ? (
     <div className="rbWrapper container">
-      <h5 className="rbTitle mb-2">{booking.Name}</h5>
+      <h4 className="rbTitle mb-3">{booking.Name}</h4>
       <Table bordered responsive className="mb-3">
         <thead>
           <tr>
@@ -38,16 +36,14 @@ const RequestBook = () => {
         </thead>
         <tbody>
           <tr>
+            <td>{booking.Name}</td>
             <td>
-              {booking.Configurations[0].Pax.Adults} Adults Check In <br />
-              {moment(booking.Configurations[0].Quotes[0].Commence).format(
-                "l"
-              )}{" "}
+              {booking.Configurations[0].Pax.Adults} Adults <br />
+              Check In &nbsp;
+              {moment(booking.Configurations[0].Quotes[0].Commence).format("l")}
               <br />
-              Check Out
-              {moment(booking.Configurations[0].Quotes[0].Conclude).format(
-                "l"
-              )}{" "}
+              Check Out &nbsp;
+              {moment(booking.Configurations[0].Quotes[0].Conclude).format("l")}
               <br />
             </td>
             <td>¥{booking.Configurations[0].Quotes[0].TotalPrice}</td>
@@ -58,7 +54,7 @@ const RequestBook = () => {
                 <tr key={i}>
                   <td></td>
                   <td>{extra.Name}</td>
-                  <td>{extra.TotalCost}</td>
+                  <td>¥{extra.TotalCost}</td>
                 </tr>
               );
             })}
@@ -77,7 +73,7 @@ const RequestBook = () => {
       </div>
 
       <div className="customerDetail">
-        <h4 className="text-center mb-3">{t("customer_detail")}</h4>
+        <h4 className="text-center mb-4">{t("customer_detail")}</h4>
         <Row>
           <Col xs={12} lg={6}>
             <Form.Group className="mb-3">

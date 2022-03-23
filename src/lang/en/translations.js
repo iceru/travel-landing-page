@@ -52,4 +52,8 @@ export const TRANSLATIONS_EN = {
   close: "Close",
   quantity: "Quantity",
   see_more: "See More",
+  modal_header: "Make a booking request",
+  modal_desc:
+    "Please note, this booking needs to be confirmed with the operator.<br><br>You'll receive an email within 24 hours to confirm if your booking has been accepted and if so you can pay securely online",
+  confirm: "Confirm",
 };
