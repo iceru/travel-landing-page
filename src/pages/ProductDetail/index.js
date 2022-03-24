@@ -52,6 +52,8 @@ const ProductDetail = () => {
   detailRequest.request.Filter.Ids = [id];
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     setSkeletonShow("block");
     setDetailShow("none");
     setProductItemShow("none");

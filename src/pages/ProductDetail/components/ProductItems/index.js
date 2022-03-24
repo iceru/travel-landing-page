@@ -53,7 +53,6 @@ const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
   };
 
   const selectedExtras = (extra, booking, checked) => {
-    debugger; //eslint-disable-line
     extra.ParentId = booking.Id;
     if (extras.length > 0) {
       extras.map((item) => {
@@ -153,22 +152,26 @@ const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
                       })}
                     </div>
                   )}
-                <div
-                  className={`desc ${descMore ? "active" : ""}`}
-                  dangerouslySetInnerHTML={{
-                    __html: booking.LongDescription,
-                  }}
-                ></div>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    seeMore();
-                  }}
-                  className="seeMore"
-                >
-                  + {t("see_more")}
-                </a>
+                {booking.LongDescription && (
+                  <>
+                    <div
+                      className={`desc ${descMore ? "active" : ""}`}
+                      dangerouslySetInnerHTML={{
+                        __html: booking.LongDescription,
+                      }}
+                    ></div>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        seeMore();
+                      }}
+                      className="seeMore"
+                    >
+                      + {t("see_more")}
+                    </a>
+                  </>
+                )}
               </div>
             </div>
             <div className="action col-12 col-lg-2">

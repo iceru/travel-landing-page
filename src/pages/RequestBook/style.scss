@@ -1,10 +1,15 @@
-@import '../../assets/styles/variables';
+@import "../../assets/styles/variables";
 
 .rbWrapper {
-    @include breakpoint(desktop) {
-        .customerDetail {
-            width: 80%;
-            margin: auto;
-        }
+  .customerDetail {
+    padding: 2rem;
+    border-radius: 1.25rem;
+    background-color: $secondary;
+  }
+  @include breakpoint(desktop) {
+    .customerDetail {
+      width: 80%;
+      margin: auto;
     }
+  }
 }

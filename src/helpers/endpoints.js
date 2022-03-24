@@ -10,4 +10,6 @@ const endpoints = {
   bookingQuote: `${serviceEndpoint}/BookingService.jsws/GetBookingQuote`,
 };
 
-export { endpoints };
+const OREndpoint = "https://nara-or-backend.reforsindo.com/api";
+
+export { endpoints, OREndpoint };
