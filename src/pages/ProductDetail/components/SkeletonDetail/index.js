@@ -6,7 +6,7 @@ const SkeletonDetail = () => {
     <SkeletonTheme>
       <Skeleton height={35} className="mb-4" />
       <div className="row">
-        <div className="col-6 offset-3">
+        <div className="col-lg-6 offset-lg-3 col-12">
           <Skeleton height={300} className="mb-3" />
         </div>
       </div>

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { bodyRequest, headers } from "../../helpers/utils";
 import { endpoints } from "../../helpers/endpoints";
 import SkeletonProducts from "./components/SkeletonProducts";
-import Filter from "../../components/Filter";
+import Filter from "./components/Filter";
 import Map from "../../components/Maps";
 import Items from "./components/Items";
 
@@ -214,19 +214,19 @@ const Products = () => {
       <div className="productsWrapper" style={{ display: productsShow }}>
         <div className="titlePage">{t("search")}</div>
         <Filter lang={language} filter={filterData} />
-        <div className="d-flex justify-content-between productsOption mb-4">
-          <div>
+        <div className="d-flex flex-wrap justify-content-between productsOption mb-4">
+          <div className="mb-3 mb-lg-0">
             <Button
               variant={stateButton === "quick" ? "primary" : "secondary"}
               onClick={() => changeToQuick()}
-              className="me-3 fw-bold"
+              className="me-2 me-lg-3 fw-bold"
             >
               {t("quick_booking")}
             </Button>
             <Button
               variant={stateButton === "request" ? "primary" : "secondary"}
               onClick={() => changeToRequest()}
-              className="fw-bold me-3"
+              className="fw-bold me-2 me-lg-3"
             >
               {t("request_book")}
             </Button>
@@ -268,7 +268,7 @@ const Products = () => {
           className="productsMap"
           style={{ display: itemsShow === true ? "none" : "block" }}
         >
-          {geocodes.length > 0 && <Map positions={geocodes} zoom={9} />}
+          {geocodes.length > 0 && <Map positions={stateServices} zoom={9} />}
         </div>
       </div>
 

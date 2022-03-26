@@ -56,4 +56,6 @@ export const TRANSLATIONS_JP = {
     "この予約はオペレーターに確認する必要があります。<br><br>24時間以内に、予約が承認されたかどうか、オンラインで安全に支払うことができるかどうかを確認するメールが届きます。",
   confirm: "Confirm",
   submit: "参加する",
+  items: "アイテム",
+  go_back: "戻る",
 };

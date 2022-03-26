@@ -1,0 +1,13 @@
+.infoBox {
+  .image {
+    img {
+      width: 100%;
+      height: 145px;
+      object-fit: cover;
+    }
+  }
+
+  .name {
+    font-weight: bold;
+  }
+}

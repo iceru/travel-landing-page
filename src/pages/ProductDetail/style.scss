@@ -1,16 +1,20 @@
 @import "../../assets/styles/variables";
 
 .container {
-  padding: 5vh 0;
+  padding: 5vh 1rem;
 
   .slick-slide img {
     margin: auto;
   }
   .back {
-    font-size: 1.15rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     font-weight: bold;
     display: block;
+
+    @include breakpoint(untilTablet) {
+      font-size: 0.85rem;
+    }
   }
 
   .product {
@@ -26,7 +30,8 @@
       padding-top: 0;
 
       .serviceType {
-        margin-left: -2rem;
+        margin-left: -2.25rem;
+        margin-top: -0.25rem;
         padding: 0.5rem 2rem;
         padding-bottom: 0.75rem;
         font-size: 1.25rem;
@@ -54,6 +59,25 @@
           max-height: 300px;
           width: auto;
         }
+
+        .slider-nav {
+          .slick-track {
+            justify-content: center;
+          }
+          .slick-slide {
+            height: 50px;
+            width: 50px !important;
+            > div {
+              height: 50px;
+              width: 50px;
+            }
+            img {
+              max-height: 50px;
+              width: 50px;
+              object-fit: cover;
+            }
+          }
+        }
       }
 
       .checkPrice {
@@ -80,17 +104,31 @@
         .btn {
           font-size: 1.15rem;
           padding: 0.5rem 2rem;
+
+          @include breakpoint(untilTablet) {
+            height: 100%;
+            font-size: 1rem;
+            padding: 1.5rem;
+          }
         }
 
         .formDate {
           margin-right: 0.5rem;
           max-width: 300px;
+
+          @include breakpoint(untilTablet) {
+            max-width: 100%;
+          }
         }
 
         .formIcon {
           position: relative;
           margin-right: 0.5rem;
           max-width: 100px;
+
+          @include breakpoint(untilTablet) {
+            max-width: 100%;
+          }
 
           .icon {
             position: absolute;
@@ -130,6 +168,25 @@
 
         td {
           padding: 1rem 0.5rem;
+        }
+      }
+    }
+
+    @include breakpoint(untilTablet) {
+      border-width: 4px;
+
+      .skeletonWrapper,
+      .productWrapper {
+        padding: 1rem;
+      }
+
+      .productWrapper {
+        padding-top: 0;
+
+        .carousel {
+          .image {
+            max-width: 100%;
+          }
         }
       }
     }

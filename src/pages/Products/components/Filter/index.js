@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { disablePastDate } from "../../helpers/utils";
+import { disablePastDate } from "../../../../helpers/utils";
 
 import "./style.scss";
 
@@ -35,7 +35,7 @@ const Filter = ({ filter }) => {
     <div className="filterWrapper">
       <form onSubmit={handleSubmit}>
         <Row>
-          <Col>
+          <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Control
               type="date"
               min={disablePastDate()}
@@ -43,7 +43,7 @@ const Filter = ({ filter }) => {
               placeholder="Date"
             />
           </Col>
-          <Col>
+          <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Select>
               <option value="all">{t("all_categories")}</option>
               <option value="0">{t("accommodation")}</option>
@@ -52,7 +52,7 @@ const Filter = ({ filter }) => {
               <option value="3">{t("produce")}</option>
             </Form.Select>
           </Col>
-          <Col>
+          <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Select type="text">
               <option value="0-">{t("price_range")}</option>
               <option value="1-9999">{"< ¥9.999"}</option>
@@ -61,14 +61,14 @@ const Filter = ({ filter }) => {
               <option value="20000-">¥20.000 +</option>
             </Form.Select>
           </Col>
-          <Col>
+          <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Control
               type="text"
               name="keyword"
               placeholder={t("keyword")}
             />
           </Col>
-          <Col>
+          <Col xs={12} className="col-lg mb-3 mb-lg-0">
             <Button className="w-100" variant="secondary" type="submit">
               {t("search")}
             </Button>

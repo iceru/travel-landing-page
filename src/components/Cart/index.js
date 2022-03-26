@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useCart } from "react-use-cart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,17 +10,78 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
+import moment from "moment";
 
 import DefaultImg from "../../assets/images/no_image.png";
 
-import "./style.scss";
-import moment from "moment";
+import { distributor } from "../../helpers/utils";
+import { endpoints } from "../../helpers/endpoints";
 
-const Cart = () => {
+import "./style.scss";
+
+const propTypes = {
+  language: PropTypes.string,
+};
+
+const Cart = ({ language }) => {
   const [showCart, setShowCart] = useState("none");
   const { t } = useTranslation();
 
   const { items, removeItem, totalUniqueItems, isEmpty } = useCart();
+
+  const goToCABS = () => {
+    debugger; //eslint-disable-line
+
+    let products = [];
+
+    items.map((item) => {
+      const data = {
+        ProductId: item.Configurations[0].ProductId,
+        Commence: item.Configurations[0].Quotes[0].Commence,
+        Conclude: item.Configurations[0].Quotes[0].Conclude,
+        Pax: item.Configurations[0].Pax,
+        TotalPrice: item.Configurations[0].Quotes[0].TotalPrice,
+      };
+      products = [...products, data];
+    });
+
+    const favourites = {
+      Products: products,
+    };
+
+    const brandingStyle = distributor;
+    const formData = [
+      { name: "type", value: "BookingInjection" },
+      { name: "data", value: JSON.stringify(favourites) },
+      { name: "exl_dn", value: distributor },
+      { name: "exl_bs", value: brandingStyle },
+      { name: "exl_lng", value: language + "-JP" },
+      { name: "exl_cur", value: "JPY" },
+      {
+        name: "options",
+        value: JSON.stringify({ OpenInNewWindow: true }),
+      },
+    ];
+
+    const form = document.createElement("form");
+    form.action = endpoints.injection;
+    form.method = "POST";
+
+    formData.forEach(function (item) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = item.name;
+      input.value = item.value;
+
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+
+    form.submit();
+
+    document.body.removeChild(form);
+  };
 
   const setCart = () => {
     const show = showCart === "none" ? "block" : "none";
@@ -31,24 +93,28 @@ const Cart = () => {
       <div className="cart">
         <div className="cartWrapper" style={{ display: showCart }}>
           {!isEmpty ? (
-            <div className="items">
+            <div className="items container-fluid">
               {items.map((item, i) => (
                 <div key={i} className="item row">
-                  <div className="image col-4">
+                  <div className="image col-4 ps-0">
                     <img
                       alt="test"
                       src={item.Images ? item.Images[0].Url : DefaultImg}
                     />
                   </div>
-                  <div className="info col-7">
-                    <div className="title">{item.Name}</div>
+                  <div className="info col-7 ps-1">
+                    <div className="title" title={item.Name}>
+                      {item.Name}
+                    </div>
                     <div className="date">
                       {moment(item.Configurations[0].Quotes[0].Commence).format(
                         "ll, hh:mm A"
                       )}
                     </div>
                     {item.IndustryCategoryGroups[0] === 3 ? (
-                      <div className="qty">Qty: {item.quantity}</div>
+                      <div className="qty">
+                        {item.quantity} {t("items")}
+                      </div>
                     ) : (
                       <>
                         <div className="qty">
@@ -62,10 +128,10 @@ const Cart = () => {
                         )}
                       </>
                     )}
-                    <div className="price">
+                    <h5 className="price">
                       {item.TxCurrencyCode === "JPY" ? "¥" : ""}
                       {item.price}
-                    </div>
+                    </h5>
                   </div>
                   <div
                     className="col-1 remove"
@@ -86,7 +152,7 @@ const Cart = () => {
           {!isEmpty && (
             <div
               className="btn btn-primary w-100 mb-3 fw-bold"
-              onClick={() => console.log("first")}
+              onClick={() => goToCABS()}
             >
               <FontAwesomeIcon icon={faCheck} />
               &nbsp;{t("continue_payment")}
@@ -110,5 +176,7 @@ const Cart = () => {
     </>
   );
 };
+
+Cart.propTypes = propTypes;
 
 export default Cart;

@@ -2,12 +2,13 @@
 
 .rbWrapper {
   .customerDetail {
-    padding: 2rem;
+    padding: 2rem 1rem;
     border-radius: 1.25rem;
     background-color: $secondary;
   }
   @include breakpoint(desktop) {
     .customerDetail {
+      padding: 2rem;
       width: 80%;
       margin: auto;
     }

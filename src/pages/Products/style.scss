@@ -47,8 +47,10 @@
         margin-bottom: 0.5rem;
       }
 
-      .info {
-        min-height: 170px;
+      @include breakpoint(desktop) {
+        .info {
+          min-height: 170px;
+        }
       }
 
       .address {

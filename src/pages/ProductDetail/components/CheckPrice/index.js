@@ -11,15 +11,14 @@ import Night from "../../../../assets/images/night.png";
 const propTypes = {
   service: PropTypes.object,
   handleSubmit: PropTypes.func,
-  date: PropTypes.any,
 };
 
-const CheckPrice = ({ service, handleSubmit, date }) => {
+const CheckPrice = ({ service, handleSubmit }) => {
   const { t } = useTranslation();
 
   const setMinDate = () => {
     const today = new Date();
-    let dd = today.getDate() + 1;
+    let dd = today.getDate() + 2;
     let mm = today.getMonth() + 1;
     const yyyy = today.getFullYear();
     if (dd < 10) {
@@ -37,20 +36,20 @@ const CheckPrice = ({ service, handleSubmit, date }) => {
       <h4>{t("check_price")}</h4>
       <form onSubmit={handleSubmit}>
         <div className="d-flex justify-content-between">
-          <div className="d-flex">
+          <div className="d-flex flex-wrap">
             {service &&
             service.IndustryCategoryGroups &&
             service.IndustryCategoryGroups[0] !== 3 ? (
-              <div className="formDate">
+              <div className="formDate mb-3 mb-lg-0">
                 <Form.Control
                   className="me-2"
-                  defaultValue={date}
+                  defaultValue={setMinDate()}
                   type="date"
                   min={setMinDate()}
                 />
               </div>
             ) : (
-              <div className="formCategories">
+              <div className="formCategories mb-3 mb-lg-0">
                 <div className="icon">
                   <FontAwesomeIcon icon={faListDots} />
                 </div>
@@ -64,7 +63,7 @@ const CheckPrice = ({ service, handleSubmit, date }) => {
             {service &&
               service.IndustryCategoryGroups &&
               service.IndustryCategoryGroups[0] === 0 && (
-                <div className="formIcon">
+                <div className="formIcon mb-3 mb-lg-0">
                   <div className="icon">
                     <img src={Night} />
                   </div>

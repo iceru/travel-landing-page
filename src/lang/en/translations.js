@@ -57,4 +57,6 @@ export const TRANSLATIONS_EN = {
     "Please note, this booking needs to be confirmed with the operator.<br><br>You'll receive an email within 24 hours to confirm if your booking has been accepted and if so you can pay securely online",
   confirm: "Confirm",
   submit: "Submit",
+  items: "Item(s)",
+  go_back: "Go Back",
 };

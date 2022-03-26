@@ -51,7 +51,7 @@ function App() {
         </div>
       </div>
       <Outlet context={[language]} />
-      <Cart />
+      <Cart language={language} />
       <Footer />
     </div>
   );

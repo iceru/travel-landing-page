@@ -69,13 +69,14 @@ const RequestBook = () => {
 
     if (req.selectedExtras.length > 0) {
       req.selectedExtras.forEach((extra) => {
-        extrasPrice += JSON.parse(extra).TotalCost;
+        extrasPrice += extra.TotalCost;
       });
     }
     return price + extrasPrice;
   };
 
   const handleSubmit = (values) => {
+    debugger; //eslint-disable-line
     const request = {
       ProductDetails: JSON.stringify(booking),
       CustomerDetails: JSON.stringify(values),
@@ -192,9 +193,7 @@ const RequestBook = () => {
           city: Yup.string().required("Required"),
           state: Yup.string().required("Required"),
           zip: Yup.string().required("Required"),
-          country: Yup.string()
-            .oneOf(countries, "Invalid Country")
-            .required("Required"),
+          country: Yup.string().required("Required"),
         })}
         onSubmit={(values) => {
           setTimeout(() => {

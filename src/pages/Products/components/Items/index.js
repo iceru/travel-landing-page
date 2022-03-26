@@ -41,7 +41,7 @@ const Items = ({ services, goToDetail, loadMore, totalPage, currentPage }) => {
                       goToDetail(service.Id);
                     }}
                   >
-                    <div className="title">{service.Name}</div>
+                    <h6 className="title">{service.Name}</h6>
                   </a>
 
                   <div className="address">

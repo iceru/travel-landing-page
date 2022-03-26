@@ -28,8 +28,7 @@ import CheckPrice from "./components/CheckPrice";
 const ProductDetail = () => {
   const [service, setService] = useState();
   const [bookingQuotes, setBookingQuotes] = useState([]);
-  const [skeletonShow, setSkeletonShow] = useState("block");
-  const [detailShow, setDetailShow] = useState("block");
+  const [detailShow, setDetailShow] = useState(false);
   const [productItemShow, setProductItemShow] = useState("none");
   const [skeletonItemShow, setSkeletonItemShow] = useState("none");
   const [onRequest, setOnRequest] = useState("true");
@@ -54,8 +53,7 @@ const ProductDetail = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    setSkeletonShow("block");
-    setDetailShow("none");
+    setDetailShow(false);
     setProductItemShow("none");
 
     detailRequest.request.Output.Children = {
@@ -89,8 +87,7 @@ const ProductDetail = () => {
       .post(endpoints.search, detailRequest, { headers: headers })
       .then((response) => {
         setService(response.data.Entities[0]);
-        setSkeletonShow("none");
-        setDetailShow("block");
+        setDetailShow(true);
       });
   }, [searchParams, location]);
 
@@ -162,6 +159,7 @@ const ProductDetail = () => {
 
   const settings = {
     dots: true,
+    adaptiveHeight: true,
   };
 
   const getServiceType = () => {
@@ -200,17 +198,20 @@ const ProductDetail = () => {
           className="back"
         >
           <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
-          Go Back
+          {t("go_back")}
         </a>
         <Row className="product">
-          <div className="skeletonWrapper" style={{ display: skeletonShow }}>
+          <div
+            className="skeletonWrapper"
+            style={{ display: !detailShow ? "block" : "none" }}
+          >
             <SkeletonDetail />
           </div>
           {service && (
             <Col
               xs={12}
               className="productWrapper"
-              style={{ display: { detailShow } }}
+              style={{ display: detailShow ? "block" : "none" }}
             >
               <div className="serviceType">{getServiceType()}</div>
               <h2 className="title mb-5">{service.Name}</h2>
@@ -264,7 +265,7 @@ const ProductDetail = () => {
                     <span>{t("map")}</span>
                   </div>
                   <div className="mapContainer">
-                    <Map positions={service.Geocodes} />
+                    <Map positions={service} />
                   </div>
                 </div>
               )}

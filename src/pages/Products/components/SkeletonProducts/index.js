@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const SkeletonProducts = () => {
   return (
@@ -8,19 +8,19 @@ const SkeletonProducts = () => {
       <Skeleton className="mb-4" />
 
       <div className="row mb-4">
-        <div className="col">
+        <div className="col-6 col-lg mb-3 mb-lg-0">
           <Skeleton />
         </div>
-        <div className="col">
+        <div className="col-6 col-lg mb-3 mb-lg-0">
           <Skeleton />
         </div>
-        <div className="col">
+        <div className="col-6 col-lg mb-3 mb-lg-0">
           <Skeleton />
         </div>
-        <div className="col">
+        <div className="col-6 col-lg mb-3 mb-lg-0">
           <Skeleton />
         </div>
-        <div className="col">
+        <div className="col-12 col-lg mb-3 mb-lg-0">
           <Skeleton />
         </div>
       </div>
@@ -37,7 +37,7 @@ const SkeletonProducts = () => {
         ))}
       </div>
     </SkeletonTheme>
-  )
-}
+  );
+};
 
-export default SkeletonProducts
+export default SkeletonProducts;

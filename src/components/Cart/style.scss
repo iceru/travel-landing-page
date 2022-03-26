@@ -12,6 +12,12 @@
   justify-content: center;
   z-index: 20;
 
+  @include breakpoint(untilTablet) {
+    width: 90%;
+    min-width: 90%;
+    right: 1rem;
+  }
+
   .cartWrapper {
     background-color: white;
     border: 1px solid lightgray;
@@ -20,6 +26,11 @@
     padding: 1rem;
     max-width: 450px;
     min-width: 300px;
+
+    @include breakpoint(untilTablet) {
+      max-width: 100%;
+      min-width: 100%;
+    }
 
     .items {
       min-height: 300px;
@@ -31,6 +42,11 @@
       .info {
         .title {
           font-weight: bold;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
       }
     }
