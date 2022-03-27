@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import DefaultImg from "../../../../assets/images/no_image.png";
-import { useTranslation } from "react-i18next";
+import { formatMoney } from "../../../../helpers/formatters";
 
 const propTypes = {
   services: PropTypes.array,
@@ -51,7 +52,9 @@ const Items = ({ services, goToDetail, loadMore, totalPage, currentPage }) => {
                   </div>
                   <div className="price">
                     {service.Availability.Calendar.LowestRate &&
-                      `From ¥ ${service.Availability.Calendar.LowestRate}`}
+                      `From ¥ ${formatMoney(
+                        service.Availability.Calendar.LowestRate
+                      )}`}
                   </div>
                   <div
                     className="desc"

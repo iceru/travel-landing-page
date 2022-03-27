@@ -54,6 +54,7 @@ const CheckPrice = ({ service, handleSubmit }) => {
                   <FontAwesomeIcon icon={faListDots} />
                 </div>
                 <Form.Select>
+                  <option>All Categories</option>
                   <option>Dairy</option>
                   <option>Wine</option>
                 </Form.Select>

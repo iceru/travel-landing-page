@@ -125,13 +125,13 @@ const RequestBook = () => {
                 {booking.Configurations[0].Pax.Adults} Adults
               </div>
               <div className="mb-3">
-                Check In &nbsp;
+                {t("check_in")} &nbsp;
                 {moment(booking.Configurations[0].Quotes[0].Commence).format(
                   "l"
                 )}
               </div>
               <div>
-                Check Out &nbsp;
+                {t("check_out")} &nbsp;
                 {moment(booking.Configurations[0].Quotes[0].Conclude).format(
                   "l"
                 )}
@@ -165,7 +165,7 @@ const RequestBook = () => {
           firstName: "",
           lastName: "",
           email: "",
-          reEmail: "",
+          conf_email: "",
           phone: "",
           mobile: "",
           address: "",
@@ -180,7 +180,7 @@ const RequestBook = () => {
           email: Yup.string()
             .email("Invalid email address")
             .required("Required"),
-          reEmail: Yup.string()
+          conf_email: Yup.string()
             .oneOf([Yup.ref("email"), null], "Email must match")
             .required("Required"),
           phone: Yup.string()
@@ -250,7 +250,7 @@ const RequestBook = () => {
                 <div className="mb-3">
                   <TextInput
                     label={t("re_email")}
-                    name="reEmail"
+                    name="conf_email"
                     type="text"
                     placeholder={t("type_keywords")}
                   />
@@ -322,7 +322,9 @@ const RequestBook = () => {
                   <SelectInput label={t("country")} name="country">
                     <option value="">Select Country</option>
                     {countries.map((country, i) => (
-                      <option key={i}>{country.name}</option>
+                      <option value={country.name} key={i}>
+                        {country.name}
+                      </option>
                     ))}
                   </SelectInput>
                 </div>

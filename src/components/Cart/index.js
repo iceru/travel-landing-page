@@ -16,6 +16,7 @@ import DefaultImg from "../../assets/images/no_image.png";
 
 import { distributor } from "../../helpers/utils";
 import { endpoints } from "../../helpers/endpoints";
+import { formatMoney } from "../../helpers/formatters";
 
 import "./style.scss";
 
@@ -30,8 +31,6 @@ const Cart = ({ language }) => {
   const { items, removeItem, totalUniqueItems, isEmpty } = useCart();
 
   const goToCABS = () => {
-    debugger; //eslint-disable-line
-
     let products = [];
 
     items.map((item) => {
@@ -130,7 +129,7 @@ const Cart = ({ language }) => {
                     )}
                     <h5 className="price">
                       {item.TxCurrencyCode === "JPY" ? "¥" : ""}
-                      {item.price}
+                      {formatMoney(item.price)}
                     </h5>
                   </div>
                   <div

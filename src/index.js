@@ -9,6 +9,7 @@ import reportWebVitals from "./reportWebVitals";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import RequestBook from "./pages/RequestBook";
+import Invoice from "./pages/Invoice";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.render(
             <Route path="/" element={<Products />} />
             <Route exact path="product" element={<ProductDetail />} />
             <Route path="request-book" element={<RequestBook />} />
+            <Route path="invoice" element={<Invoice />} />
           </Route>
         </Routes>
       </BrowserRouter>

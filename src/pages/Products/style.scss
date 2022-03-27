@@ -47,7 +47,7 @@
         margin-bottom: 0.5rem;
       }
 
-      @include breakpoint(desktop) {
+      @include breakpoint(laptop) {
         .info {
           min-height: 170px;
         }

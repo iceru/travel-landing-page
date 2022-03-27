@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
+import { formatMoney } from "../../../../helpers/formatters";
+
 const propTypes = {
   service: PropTypes.object,
 };
@@ -20,9 +22,8 @@ const BasicInfo = ({ service }) => {
         <tr>
           <td>{t("price")}</td>
           <td>
-            {service.Availability.Calendar.LowestRate
-              ? `¥${service.Availability.Calendar.LowestRate}`
-              : ""}
+            {service.Availability.Calendar.LowestRate &&
+              `¥${formatMoney(service.Availability.Calendar.LowestRate)}`}
           </td>
         </tr>
         <tr>

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import moment from "moment";
 
 import DefaultImg from "../../../../assets/images/no_image.png";
+import { formatMoney } from "../../../../helpers/formatters";
 
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
@@ -125,7 +126,9 @@ const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
                     {t("price")}: &nbsp;
                     {booking.TxCurrencyCode === "JPY" ? "¥" : ""}
                     {booking.Configurations[0].Quotes &&
-                      booking.Configurations[0].Quotes[0].TotalPrice}
+                      formatMoney(
+                        booking.Configurations[0].Quotes[0].TotalPrice
+                      )}
                   </div>
                 )}
                 {booking.Extras &&
