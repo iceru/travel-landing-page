@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Row, Col, Form, Dropdown, NavItem, NavLink } from "react-bootstrap";
+import { Row, Col, Dropdown, NavItem, NavLink } from "react-bootstrap";
 
 import Logo from "../../assets/images/visit-nara/logo.svg";
 import Search from "../../assets/images/visit-nara/search.svg";
 import Menu from "../../assets/images/visit-nara/icon-menu.svg";
+import Close from "../../assets/images/visit-nara/icon-close.png";
 
 import "./style.scss";
 
@@ -31,6 +32,8 @@ const Navigation = () => {
   const [sidebar, setSidebar] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [scrollTop, setScrollTop] = useState(30);
+  const [searchClicked, setSearchClicked] = useState(false);
+
   let domNode = useClickOutside(() => {
     setSidebar(false);
   });
@@ -58,14 +61,26 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="navigation">
+      <nav className={`navigation ${searchClicked ? "showSearch" : ""}`}>
         <div className="container">
-          <Row>
-            <Col xs={5}>
+          <Row className="flex-nowrap">
+            <Col xs={!searchClicked ? 5 : 12}>
               <div className="search">
-                <Form.Control placeholder="Search the Nara directory here"></Form.Control>
+                <input
+                  className="form-control"
+                  placeholder={
+                    searchClicked ? "" : "Search the Nara directory here"
+                  }
+                  onClick={() => setSearchClicked(true)}
+                ></input>
                 <div className="icon">
                   <img src={Search} />
+                </div>
+                <div
+                  className="icon back"
+                  onClick={() => setSearchClicked(false)}
+                >
+                  <img src={Close} />
                 </div>
               </div>
             </Col>

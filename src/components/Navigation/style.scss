@@ -8,6 +8,20 @@
   display: block;
   font-size: 1rem;
 
+  &.showSearch {
+    background-color: #dce3e7;
+
+    .logo,
+    .menu {
+      transform: translateY(-200px);
+      transition: transform 0.3s;
+    }
+
+    .search .icon.back {
+      display: block;
+    }
+  }
+
   .nav-link {
     color: inherit;
     padding: 0;
@@ -59,6 +73,11 @@
     .form-control {
       border: none;
       padding-left: 2rem;
+      background-color: transparent;
+
+      &:focus {
+        box-shadow: none;
+      }
     }
 
     .icon {
@@ -66,6 +85,14 @@
       left: 5.5rem;
       top: 50%;
       transform: translateY(-50%);
+
+      &.back {
+        left: auto;
+        right: 2rem;
+        z-index: 4;
+        cursor: pointer;
+        display: none;
+      }
 
       img {
         width: 20px;
@@ -205,6 +232,6 @@
   }
 
   .item_sublist {
-    padding: 11px 20px;
+    padding: 8px 20px;
   }
 }
