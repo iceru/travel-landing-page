@@ -1,140 +1,253 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
+import { Row, Col, Form } from "react-bootstrap";
 
-import {
-  faMapMarkerAlt,
-  faSuitcaseRolling,
-  faExternalLink,
-} from "@fortawesome/free-solid-svg-icons";
-
-import Logo from "../../assets/images/logo.svg";
-import Img from "../../assets/images/nav-image.webp";
-import ImgLg from "../../assets/images/nav-image-lg.webp";
-import Img2 from "../../assets/images/nav-image-2.webp";
+import Logo from "../../assets/images/visit-nara/logo.svg";
+import Search from "../../assets/images/visit-nara/search.svg";
+import Menu from "../../assets/images/visit-nara/icon-menu.svg";
 
 import "./style.scss";
 
+let useClickOutside = (handler) => {
+  let domNode = useRef();
+
+  useEffect(() => {
+    let maybeHandler = (event) => {
+      if (!domNode.current.contains(event.target)) {
+        handler();
+      }
+    };
+
+    document.addEventListener("mousedown", maybeHandler);
+
+    return () => {
+      document.removeEventListener("mousedown", maybeHandler);
+    };
+  });
+
+  return domNode;
+};
+
 const Navigation = () => {
+  const [sidebar, setSidebar] = useState(false);
+  const [scrolling, setScrolling] = useState(false);
+  const [scrollTop, setScrollTop] = useState(30);
+
+  let domNode = useClickOutside(() => {
+    setSidebar(false);
+  });
+
+  useEffect(() => {
+    let currentPosition = window.pageYOffset; // or use document.documentElement.scrollTop;
+    function onScroll() {
+      if (currentPosition > scrollTop) {
+        // downscroll code
+        setScrolling(true);
+      } else if (currentPosition === 0) {
+        setScrolling(false);
+      }
+      setScrollTop(currentPosition <= 0 ? 0 : currentPosition);
+    }
+
+    if (currentPosition > 50) {
+      setScrolling(true);
+    } else {
+      setScrolling(false);
+    }
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [scrollTop]);
+
   return (
     <>
-      <div className="navigation">
-        <div className="container-fluid">
+      <nav className="navigation">
+        <div className="container">
           <Row>
-            <Col className="navLeft" xs={9} sm={5} md={"auto"}>
-              <div className="leftTop">
-                <div className="position-sticky">
-                  <img src={Logo} className="logo" alt="AKO MAG." />
-                  <Row className="items g-0 mt-2 mt-md-3 ">
-                    <Col className="itemLink">
-                      <Link to="/test">いこう.</Link>
-                    </Col>
-                    <Col className="itemLink gray">かおう.</Col>
-                    <Col className="itemLink">
-                      <Link to="/test">すもう.</Link>
-                    </Col>
-                    <Col className="itemLink gray">お便り.</Col>
-                    <Col className="itemLink">
-                      <a href="https://ako-mag.jp/about/">わたしたち.</a>
-                    </Col>
-                  </Row>
+            <Col xs={5}>
+              <div className="search">
+                <Form.Control placeholder="Search the Nara directory here"></Form.Control>
+                <div className="icon">
+                  <img src={Search} />
                 </div>
               </div>
-              <div className="mt-3 mt-lg-4">
-                温泉やスイーツといったカルチャーと塩田や赤穂浪士といった伝統が溶け合った｢新しい赤穂｣が､今注目を浴びています｡
-              </div>
-              <div className="mt-3 mt-lg-4">
-                この溢れる｢赤穂｣の魅力を､｢観光｣｢物産｣｢移住｣のカテゴリで発信｡あなたにとってイイ感じの赤穂､見つけてください♪
-              </div>
-              <div className="text-end mt-3 mt-md-5">赤穂マガジン.</div>
             </Col>
-            <Col xs={9} sm={5} md={"auto"} className="navRight">
-              <Row className="align-items-end ">
-                <Col sm={7} md>
-                  <div className="textSkew">冬のイチオシ</div>
-                  <div className="navImages">
-                    <div className="topRight">
-                      <h1>
-                        <span>赤穂の冬は､ </span> <br /> 牡蠣小屋と温泉♨️
-                      </h1>
-                      <p className="mt-2">
-                        瀬戸内海が育む牡蠣と <br /> 絶景温泉を堪能
-                      </p>
-                    </div>
-                    <picture className="image">
-                      <source srcSet={ImgLg} media="(min-width: 897px)" />
-                      <img
-                        className="w-100 h-100 of-cover"
-                        src={Img}
-                        alt="牡蠣小屋と温泉"
-                      />
-                    </picture>
-                  </div>
-                </Col>
-                <Col sm="auto" className="mt-3 mt-md-0 rightLinks">
-                  <Row>
-                    <Col xs={5} sm={12}>
-                      <picture className="image2">
-                        <img
-                          className="of-cover"
-                          src={Img2}
-                          alt="牡蠣小屋と温泉"
-                        />
-                      </picture>
-                    </Col>
-                    <Col xs={7} sm={12} className="textDesc d-flex flex-column">
-                      <div className="d-inline-block mt-2 mt-md-4">
-                        ｢夕日眺めながらの牡蠣小屋｣
-                      </div>
-                      <div className="text-end d-inline-block mt-2 mt-md-4">
-                        ｢牡蠣汁...ジュワあつあつ｣
-                      </div>
-                      <div className="d-inline-block mt-2 mt-md-4">
-                        ｢贅沢な心地よ...｣
-                      </div>
-                      <div className="text-end d-inline-block mt-2 mt-md-4">
-                        ｢うむ...良きかな赤穂｣
-                      </div>
-                    </Col>
-                  </Row>
-                  <hr className="dashed" />
-                  <Row className="justify-content-between">
-                    <Col xs={6} md={12}>
-                      <div className="row align-items-center flex-nowrap">
-                        <div className="linkIcon col-auto px-1">
-                          <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        </div>
-                        <div className="f-11px col-auto px-1">
-                          牡蠣小屋 りょうちゃん <br />
-                          <small>
-                            Google maps &nbsp;
-                            <FontAwesomeIcon icon={faExternalLink} />
-                          </small>
-                        </div>
-                      </div>
-                    </Col>
-                    <Col xs={6} md={12}>
-                      <div className="row mt-lg-3 align-items-center linkRight">
-                        <div className="linkIcon col-auto px-1">
-                          <FontAwesomeIcon icon={faSuitcaseRolling} />
-                        </div>
-                        <div className="f-11px col-auto px-1">
-                          [観光]ほかる赤穂 <br />
-                          <small>
-                            Website &nbsp;
-                            <FontAwesomeIcon icon={faExternalLink} />
-                          </small>
-                        </div>
-                      </div>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
+            <Col xs={2}>
+              <div className="logo">
+                <img src={Logo} />
+              </div>
+            </Col>
+            <Col xs={5}>
+              <div className="menu">
+                <ul>
+                  <li>Discover</li>
+                  <li>Things to Do</li>
+                  <li>Plan Your Trip</li>
+                </ul>
+              </div>
             </Col>
           </Row>
         </div>
+      </nav>
+      <div className={`headerSmall ${scrolling ? "active" : ""}`}>
+        <div className="container d-flex justify-content-between align-items-center">
+          <div className="iconSearch">
+            <img src={Search} />
+          </div>
+          <div className="logo">
+            <img src={Logo} />
+          </div>
+          <div
+            className="iconMenu"
+            onClick={() => {
+              setSidebar(!sidebar);
+            }}
+          >
+            <img src={Menu} />
+          </div>
+        </div>
       </div>
+      <nav
+        className="gnav trans_trf"
+        style={{ transform: sidebar ? "translateX(-105%)" : "" }}
+        ref={domNode}
+      >
+        <ul className="gnav_lists">
+          <li className="item_list item_01">
+            <a href="#">Discover</a>
+            <ul className="gnav_sublists">
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/destinations/"
+                  id="head_destination"
+                >
+                  Destinations
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/world-heritage/"
+                  id="head_world_heritage"
+                >
+                  World Heritage
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a href="https://www.visitnara.jp/seasons/" id="head_seasons">
+                  Seasons
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a href="https://www.visitnara.jp/history/" id="head_history">
+                  History
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/buddhist-statues/"
+                  id="head_buddhist_statues"
+                >
+                  Buddhist Statues
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/travel-directory/"
+                  id="head_travel_directory"
+                >
+                  Travel Directory
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li className="item_list item_02">
+            <a href="#">Things to Do</a>
+            <ul className="gnav_sublists">
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/see-and-do/"
+                  id="head_see_and_do"
+                >
+                  See &amp; Do
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/eat-and-drink/"
+                  id="head_eat_and_drink"
+                >
+                  Eat &amp; Drink
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a href="https://www.visitnara.jp/shopping/" id="head_shopping">
+                  Shopping
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/event-calendar/"
+                  id="head_event_calendar"
+                >
+                  Event Calendar
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/lists-and-stories/"
+                  id="head_lists_and_stories"
+                >
+                  Lists &amp; Stories
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li className="item_list item_03">
+            <a href="#">Plan Your Trip</a>
+            <ul className="gnav_sublists">
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/for-first-time-visitor/"
+                  id="head_for_first_time_visitor"
+                >
+                  For First-Time Visitors
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/travel-to-nara/"
+                  id="head_travel_to_nara"
+                >
+                  Travel to Nara
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/getting-around-nara/"
+                  id="head_getting_around_nara"
+                >
+                  Getting Around Nara
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/accommodation/"
+                  id="head_accommodation"
+                >
+                  Accommodation
+                </a>
+              </li>
+              <li className="item_sublist">
+                <a
+                  href="https://www.visitnara.jp/travel-tips/"
+                  id="head_travel_tips"
+                >
+                  Travel Tips
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </>
   );
 };

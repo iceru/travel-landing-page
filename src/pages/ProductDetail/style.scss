@@ -9,17 +9,11 @@
   .back {
     font-size: 1rem;
     margin-bottom: 1rem;
-    font-weight: bold;
     display: block;
-
-    @include breakpoint(untilTablet) {
-      font-size: 0.85rem;
-    }
   }
 
   .product {
-    border: 8px solid $primary;
-    border-radius: 0 0 1.25rem 1.25rem;
+    border: 1px solid lightgray;
 
     .skeletonWrapper {
       padding: 2rem;
@@ -30,15 +24,16 @@
       padding-top: 0;
 
       .serviceType {
-        margin-left: -2.25rem;
-        margin-top: -0.25rem;
+        margin-left: -2rem;
         padding: 0.5rem 2rem;
         padding-bottom: 0.75rem;
-        font-size: 1.25rem;
+        font-size: 1rem;
         margin-bottom: 1.5rem;
-        border-bottom-right-radius: 1.25rem;
-        background-color: $primary;
-        font-weight: bold;
+        border: 1px solid lightgray;
+        color: $primary;
+        border-left: 0;
+        border-top: 0;
+        font-family: "Crimson Pro", serif;
         display: inline-block;
       }
 
@@ -59,30 +54,12 @@
           max-height: 300px;
           width: auto;
         }
-
-        .slider-nav {
-          .slick-track {
-            justify-content: center;
-          }
-          .slick-slide {
-            height: 50px;
-            width: 50px !important;
-            > div {
-              height: 50px;
-              width: 50px;
-            }
-            img {
-              max-height: 50px;
-              width: 50px;
-              object-fit: cover;
-            }
-          }
-        }
       }
 
       .checkPrice {
         padding: 1rem;
-        border: 2px solid lightgray;
+        background-color: $primary;
+        color: white;
         h4 {
           margin-bottom: 1rem;
         }
@@ -104,31 +81,20 @@
         .btn {
           font-size: 1.15rem;
           padding: 0.5rem 2rem;
-
-          @include breakpoint(untilTablet) {
-            height: 100%;
-            font-size: 1rem;
-            padding: 1.5rem;
-          }
+          background-color: transparent;
+          color: white;
+          border: 1px solid white;
         }
 
         .formDate {
           margin-right: 0.5rem;
           max-width: 300px;
-
-          @include breakpoint(untilTablet) {
-            max-width: 100%;
-          }
         }
 
         .formIcon {
           position: relative;
           margin-right: 0.5rem;
           max-width: 100px;
-
-          @include breakpoint(untilTablet) {
-            max-width: 100%;
-          }
 
           .icon {
             position: absolute;
@@ -149,17 +115,16 @@
       }
 
       .sectionTitle {
-        border-bottom: 3px solid $primary;
+        border-bottom: 1px solid $primary;
         margin-bottom: 1rem;
 
         span {
-          background-color: $primary;
           padding: 0.5rem 3rem;
           padding-left: 1rem;
-          display: inline-block;
-          font-weight: bold;
-          border-top-right-radius: 1.25rem;
-          font-size: 1.25rem;
+          font-size: 1.75rem;
+          font-family: "Crimson Pro", serif;
+          text-align: center;
+          display: block;
         }
       }
 
@@ -173,8 +138,6 @@
     }
 
     @include breakpoint(untilTablet) {
-      border-width: 4px;
-
       .skeletonWrapper,
       .productWrapper {
         padding: 1rem;
@@ -182,6 +145,11 @@
 
       .productWrapper {
         padding-top: 0;
+
+        .serviceType {
+          margin-left: -1rem;
+          padding: 0.5rem 1rem;
+        }
 
         .carousel {
           .image {

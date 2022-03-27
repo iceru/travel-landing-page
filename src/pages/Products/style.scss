@@ -3,12 +3,18 @@
 .products {
   .titlePage {
     text-align: center;
-    padding: 0.5rem 1rem;
-    background-color: $primary;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 2rem;
+    font-family: "Crimson Pro", serif;
     margin-bottom: 2rem;
     border-radius: 1.25rem 1.25rem 0 0;
+  }
+
+  .btn-primary {
+    color: white;
+  }
+
+  .btn-secondary {
+    color: gray;
   }
 
   .productsOption {
@@ -27,35 +33,39 @@
   .productItems {
     .item {
       margin-bottom: 2rem;
-      border: 1px solid #f1efef;
       padding: 1rem;
-      border-radius: 1.25rem 0 1.25rem 0;
       .image {
         margin: -1rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0;
         img {
           width: 100%;
-          height: 220px;
+          height: 250px;
           object-fit: cover;
-          border-top-left-radius: 1.25rem;
         }
+      }
+
+      .info {
+        margin-top: -2rem;
+        background-color: white;
+        z-index: 2;
+        position: relative;
+        padding: 1rem;
+        border: 1px solid #cacaca;
+
+        min-height: 188px;
       }
       .title,
       .address,
       .price,
       .desc {
         margin-bottom: 0.5rem;
-      }
-
-      @include breakpoint(laptop) {
-        .info {
-          min-height: 170px;
-        }
+        text-align: center;
       }
 
       .address {
         color: rgb(105, 105, 105);
-        font-weight: 500;
+        font-family: "Crimson Pro", serif;
+        font-style: italic;
       }
 
       .title,
@@ -67,23 +77,20 @@
         -webkit-box-orient: vertical;
       }
 
+      .title {
+        -webkit-line-clamp: 1;
+        font-size: 1.25rem;
+      }
+
       .buttonWrapper {
-        margin: -1rem;
         margin-top: 0;
         padding-top: 0.5rem;
+        display: flex;
+        justify-content: center;
 
-        .btn {
-          border-radius: 0 0 1.25rem 0;
+        .btnView {
+          padding: 0.5rem 2rem;
         }
-      }
-
-      .title {
-        font-weight: bold;
-        -webkit-line-clamp: 1;
-      }
-
-      .btn {
-        font-weight: bold;
       }
     }
   }

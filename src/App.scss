@@ -1,6 +1,8 @@
-$primary: #f2f504;
-$light: #fff;
+$primary: #789798;
+$light: #ededed;
 $secondary: #d2e7f1;
+
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200;400;600;700&family=PT+Sans:wght@400;700&display=swap");
 
 @import "~bootstrap/scss/bootstrap";
 @import "./assets/styles/variables";
@@ -8,12 +10,19 @@ $secondary: #d2e7f1;
 
 body {
   font-size: 14px;
+  font-family: "PT Sans", sans-serif;
 
   .btn,
   .form-control,
   .form-select {
     font-size: 14px;
   }
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -25,6 +34,10 @@ a {
   display: flex;
   justify-content: flex-end;
   padding: 0 !important;
+
+  @include breakpoint(untilTablet) {
+    margin-top: 3rem;
+  }
   .content {
     background-color: $secondary;
     padding: 0.5rem 2rem;

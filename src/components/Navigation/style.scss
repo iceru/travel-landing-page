@@ -1,159 +1,180 @@
 @import "../../assets/styles/variables";
 
 .navigation {
+  position: relative;
+  z-index: 99;
+  background-color: white;
+  height: 70px;
+  display: block;
+
+  @include breakpoint(untilTablet) {
+    display: none;
+  }
+
   ul {
     list-style-type: none;
   }
-  font-size: 12px;
 
-  @include breakpoint(desktop) {
-    font-size: 1rem;
+  .container {
+    padding: 0;
+    padding-top: 0.5rem;
   }
 
-  .container-fluid {
-    padding-bottom: 10vh;
-    padding-top: 10vh;
-    background: rgb(242, 245, 4);
+  .row {
+    align-items: center;
+  }
 
-    @include breakpoint(desktop) {
-      padding: 12vh 4rem;
+  .search {
+    padding-left: 50px;
+    position: relative;
+
+    .form-control {
+      border: none;
+      padding-left: 2rem;
     }
 
-    > .row {
-      justify-content: center;
+    .icon {
+      position: absolute;
+      left: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
 
-      @include breakpoint(desktop) {
-        flex-wrap: nowrap;
-      }
-
-      .navLeft {
-        .items {
-          flex-wrap: nowrap;
-        }
-        .logo {
-          width: 100%;
-        }
-        .itemLink {
-          white-space: nowrap;
-          font-weight: bold;
-
-          &.gray {
-            color: rgba(90, 90, 90, 0.5);
-          }
-        }
-
-        @include breakpoint(desktop) {
-          width: 25rem;
-          padding: 0 4rem;
-          .leftTop {
-            height: 14rem;
-          }
-
-          .itemLink {
-            font-size: 15px;
-          }
-        }
-      }
-
-      .navRight {
-        padding-top: 10vh;
-
-        .dashed {
-          border-top: 0.1rem dashed rgba($color: #000000, $alpha: 0.7);
-        }
-
-        @include breakpoint(desktop) {
-          padding-right: 4rem !important;
-          padding-left: 4rem !important;
-          padding-top: 0;
-        }
-        .textSkew {
-          transform: skew(-10deg, 0deg) rotateZ(-15deg);
-          margin-top: -4rem !important;
-          margin-left: -1.5rem !important;
-          margin-bottom: 3rem !important;
-          font-size: 10px;
-          line-height: 1.7;
-        }
-
-        .linkRight {
-          @include breakpoint(untilTablet) {
-            justify-content: end;
-          }
-        }
-
-        .navImages {
-          position: relative;
-          .topRight {
-            position: absolute;
-            background-color: rgba($color: white, $alpha: 0.5);
-            border-left: 0.8rem solid rgba(242, 245, 4, 0.8);
-            border-bottom: 0.8rem solid rgba(242, 245, 4, 0.8);
-            top: 0;
-            right: 0;
-            padding: 12px;
-            border-bottom-left-radius: 1.5rem;
-            border-top-right-radius: 1.5rem;
-
-            h1,
-            p {
-              font-size: 10px;
-              font-weight: bold;
-              margin-bottom: 0;
-            }
-
-            h1 {
-              span {
-                font-size: 15px;
-              }
-            }
-          }
-
-          .image {
-            img {
-              border-radius: 1.5rem;
-            }
-
-            @include breakpoint(desktop) {
-              img {
-                width: 401px !important;
-                height: 540px !important;
-              }
-            }
-          }
-        }
-
-        .image2 {
-          img {
-            width: 100%;
-            height: auto;
-          }
-
-          @include breakpoint(desktop) {
-            img {
-              width: 120px;
-            }
-          }
-        }
-
-        @include breakpoint(desktop) {
-          .rightLinks {
-            max-width: 200px;
-          }
-        }
-
-        .textDesc {
-          font-size: 11px;
-
-          div {
-            margin-top: 0.5rem;
-          }
-        }
-
-        .linkIcon {
-          font-size: 20px;
-        }
+      img {
+        width: 20px;
       }
     }
+  }
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    img {
+      height: 64px;
+    }
+  }
+
+  .menu {
+    padding-right: 50px;
+    display: flex;
+    justify-content: flex-end;
+    ul {
+      display: flex;
+
+      li {
+        margin-left: 30px;
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+.headerSmall {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 98;
+  width: 100%;
+  height: 40px;
+  background-color: white;
+
+  .container {
+    padding: 0 10px;
+    position: relative;
+    height: 100%;
+    img {
+      width: auto;
+      height: 20px;
+    }
+
+    > div {
+      transition: all 0.2s ease;
+    }
+
+    .iconSearch {
+      margin-left: 20px;
+      transform: translateY(100%);
+      opacity: 0;
+
+      img {
+        height: 1rem;
+      }
+    }
+
+    .iconMenu {
+      margin-right: 20px;
+      opacity: 0;
+      transform: translateY(100%);
+      cursor: pointer;
+    }
+    .logo {
+      position: absolute;
+      left: 50%;
+      top: 60%;
+      transform: translate(-50%, -150%);
+      img {
+        height: 38px;
+      }
+    }
+  }
+
+  @include breakpoint(untilTablet) {
+    .container {
+      .iconMenu,
+      .iconSearch {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .logo {
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+  &.active {
+    .container {
+      .iconMenu,
+      .iconSearch {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .logo {
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
+
+.gnav {
+  position: fixed;
+  top: 0;
+  right: -210px;
+  bottom: 0;
+  z-index: 100;
+  width: 200px;
+  -webkit-box-shadow: -2px 0 4px 2px rgb(0 0 0 / 20%);
+  box-shadow: -2px 0 4px 2px rgb(0 0 0 / 20%);
+  background-color: #fff;
+  margin-right: 0;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 0;
+  transition: all 0.2s ease;
+  overflow: auto;
+
+  .item_list {
+    > a {
+      font-weight: 400;
+      font-size: 1.13em;
+      display: block;
+      margin-top: 25px;
+      border-bottom: 1px solid #efefef;
+      padding: 0 20px;
+      padding-bottom: 5px;
+    }
+  }
+
+  .item_sublist {
+    padding: 11px 20px;
   }
 }
