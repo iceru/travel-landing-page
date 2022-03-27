@@ -30,6 +30,10 @@ a {
   text-decoration: none;
 }
 
+.btn-primary {
+  color: white;
+}
+
 .translate {
   display: flex;
   justify-content: flex-end;
@@ -39,16 +43,16 @@ a {
     margin-top: 3rem;
   }
   .content {
-    background-color: $secondary;
-    padding: 0.5rem 2rem;
+    padding: 0.25rem 1rem;
     display: inline-flex;
     align-items: center;
-    border-radius: 0 0 1.25rem 1.25rem;
+    border: 1px solid lightgray;
     .fa-language {
       margin-right: 1rem;
     }
     .btn {
       border-radius: 0;
+      font-size: 0.85rem;
       position: relative;
 
       &:focus {
