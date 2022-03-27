@@ -6,6 +6,35 @@
   background-color: white;
   height: 70px;
   display: block;
+  font-size: 1rem;
+
+  .nav-link {
+    color: inherit;
+    padding: 0;
+    padding-left: 1.5rem;
+
+    &:after {
+      display: none;
+    }
+  }
+
+  .dropdown-item {
+    color: inherit;
+    text-align: center;
+    padding: 11px;
+
+    &:focus,
+    &:hover,
+    &:active {
+      color: inherit;
+      background-color: rgba(250, 250, 250, 0.95);
+    }
+  }
+
+  .dropdown-menu.show {
+    transform: translate3d(0px, 44px, 0px) !important;
+    padding: 0;
+  }
 
   @include breakpoint(untilTablet) {
     display: none;
@@ -17,7 +46,6 @@
 
   .container {
     padding: 0;
-    padding-top: 0.5rem;
   }
 
   .row {
@@ -25,7 +53,7 @@
   }
 
   .search {
-    padding-left: 50px;
+    padding-left: 90px;
     position: relative;
 
     .form-control {
@@ -35,7 +63,7 @@
 
     .icon {
       position: absolute;
-      left: 3rem;
+      left: 5.5rem;
       top: 50%;
       transform: translateY(-50%);
 
@@ -48,13 +76,15 @@
   .logo {
     display: flex;
     justify-content: center;
+    padding-top: 10px;
+    height: 64px;
     img {
       height: 64px;
     }
   }
 
   .menu {
-    padding-right: 50px;
+    padding-right: 90px;
     display: flex;
     justify-content: flex-end;
     ul {

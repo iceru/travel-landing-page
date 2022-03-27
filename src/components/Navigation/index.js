@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
+import { Row, Col, Form, Dropdown, NavItem, NavLink } from "react-bootstrap";
 
 import Logo from "../../assets/images/visit-nara/logo.svg";
 import Search from "../../assets/images/visit-nara/search.svg";
@@ -31,7 +31,6 @@ const Navigation = () => {
   const [sidebar, setSidebar] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [scrollTop, setScrollTop] = useState(30);
-
   let domNode = useClickOutside(() => {
     setSidebar(false);
   });
@@ -40,7 +39,6 @@ const Navigation = () => {
     let currentPosition = window.pageYOffset; // or use document.documentElement.scrollTop;
     function onScroll() {
       if (currentPosition > scrollTop) {
-        // downscroll code
         setScrolling(true);
       } else if (currentPosition === 0) {
         setScrolling(false);
@@ -79,9 +77,112 @@ const Navigation = () => {
             <Col xs={5}>
               <div className="menu">
                 <ul>
-                  <li>Discover</li>
-                  <li>Things to Do</li>
-                  <li>Plan Your Trip</li>
+                  <Dropdown as={NavItem}>
+                    <Dropdown.Toggle as={NavLink}>Discover</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item>
+                        <a href="/destinations/" id="head_destination">
+                          Destinations
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/world-heritage/" id="head_world_heritage">
+                          World Heritage
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/seasons/" id="head_seasons">
+                          Seasons
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/history/" id="head_history">
+                          History
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/buddhist-statues/" id="head_buddhist_statues">
+                          Buddhist Statues
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/travel-directory/" id="head_travel_directory">
+                          Travel Directory
+                        </a>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Dropdown as={NavItem}>
+                    <Dropdown.Toggle as={NavLink}>Things to Do</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item>
+                        <a href="/see-and-do/" id="head_see_and_do">
+                          See &amp; Do
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/eat-and-drink/" id="head_eat_and_drink">
+                          Eat &amp; Drink
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/shopping/" id="head_shopping">
+                          Shopping
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/event-calendar/" id="head_event_calendar">
+                          Event Calendar
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a
+                          href="/lists-and-stories/"
+                          id="head_lists_and_stories"
+                        >
+                          Lists &amp; Stories
+                        </a>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Dropdown as={NavItem}>
+                    <Dropdown.Toggle as={NavLink}>
+                      Plan Your Trip
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item>
+                        <a
+                          href="/for-first-time-visitor/"
+                          id="head_for_first_time_visitor"
+                        >
+                          For First-Time Visitors
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/travel-to-nara/" id="head_travel_to_nara">
+                          Travel to Nara
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a
+                          href="/getting-around-nara/"
+                          id="head_getting_around_nara"
+                        >
+                          Getting Around Nara
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/accommodation/" id="head_accommodation">
+                          Accommodation
+                        </a>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <a href="/travel-tips/" id="head_travel_tips">
+                          Travel Tips
+                        </a>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </ul>
               </div>
             </Col>
