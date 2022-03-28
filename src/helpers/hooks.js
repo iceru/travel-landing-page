@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 export default function OutsideClick(ref) {
-  debugger; //eslint-disable-line
   const [isClicked, setIsClicked] = useState(false);
   useEffect(() => {
     function handleClickOutside(event) {

@@ -36,95 +36,6 @@ const Invoice = () => {
       });
   }, []);
 
-  useEffect(() => {
-    const data = {
-      session: {
-        id: "cs_test_c15JdQcLst7hINujhpoPUdRgi6A766aCeXHIJEwwdxRkLXN1dedWP0fCZF",
-        object: "checkout.session",
-        after_expiration: null,
-        allow_promotion_codes: null,
-        amount_subtotal: null,
-        amount_total: null,
-        automatic_tax: {
-          enabled: false,
-          status: null,
-        },
-        billing_address_collection: null,
-        cancel_url:
-          "https://alfred.txi.co.id/nara/?lang=en&page=form&id=de817cc9-e4a0-4263-9e2b-bd468fffdbd2",
-        client_reference_id: null,
-        consent: null,
-        consent_collection: null,
-        currency: null,
-        customer: "cus_LOZhd4ktKCxCm1",
-        customer_creation: "always",
-        customer_details: null,
-        customer_email: "hafiz@mail.com",
-        expires_at: 1648354402,
-        livemode: false,
-        locale: "en",
-        metadata: {
-          CustomerDetails_address: "hafiz@mail.com",
-          CustomerDetails_business: "",
-          CustomerDetails_city: "test",
-          CustomerDetails_country: "31_Azerbaijan",
-          CustomerDetails_email: "hafiz@mail.com",
-          CustomerDetails_firstName: "Muhamad",
-          CustomerDetails_lastName: "Hafiz",
-          CustomerDetails_marketing: "",
-          CustomerDetails_mobile: "081231321321",
-          CustomerDetails_phone: "081321321321321",
-          CustomerDetails_state: "test",
-          CustomerDetails_zipcode: "21321321",
-          CustomerDetails_specialRequest: "",
-          ProductDetails_Adults: "2",
-          ProductDetails_CommencementDate: "2022-03-27T14:00:00",
-          ProductDetails_ConcludeDate: "2022-03-28T12:00:00",
-          ProductDetails_Duration: "1",
-          ProductDetails_CurrentCurrency: "JPY",
-          ProductDetails_IndustryCategoryGroup: "Accommodation",
-          ProductDetails_Language: "en",
-          ProductDetails_ProductId: "5f2302c6-e9f6-458f-beca-9595a7343dad",
-          ProductDetails_ProductName: "Accommodation OR Product ONE",
-          ProductDetails_Price: "5000",
-          ProductDetails_SupplierName: "Accommodation OR test ONE",
-          ProductDetails_SupplierPhone: "46245234",
-          ProductDetails_SupplierEmail: "rharsana@v3leisure.com",
-          ProductDetails_SupplierWebsite: "www.web.com",
-          ProductDetails_SupplierId: "de817cc9-e4a0-4263-9e2b-bd468fffdbd2",
-          ProductDetails_SupplierAddress: "address line 1, Nara, 123123",
-          TotalPrice: "5000",
-        },
-        mode: "setup",
-        payment_intent: null,
-        payment_link: null,
-        payment_method_options: [],
-        payment_method_types: ["card"],
-        payment_status: "no_payment_required",
-        phone_number_collection: {
-          enabled: false,
-        },
-        recovered_from: null,
-        setup_intent: "seti_1KhmXfLTLhrkiGGNOnuhKM4d",
-        shipping: null,
-        shipping_address_collection: null,
-        shipping_options: [],
-        shipping_rate: null,
-        status: "complete",
-        submit_type: null,
-        subscription: null,
-        success_url:
-          "https://alfred.txi.co.id/nara?page=thankyou&&session_id={CHECKOUT_SESSION_ID}&lang=en",
-        total_details: null,
-        url: null,
-      },
-      product_extras: "[]",
-      status: "Pending",
-      requested_at: "2022-03-27T03:14:14.000000Z",
-    };
-    setBookingDetails(data);
-  }, []);
-
   const handleClick = () => {
     console.log("click");
   };
@@ -287,9 +198,10 @@ const Invoice = () => {
                         bookingDetails.session.metadata
                           .ProductDetails_CurrentCurrency
                       }
-                      {formatMoney(
-                        bookingDetails.session.metadata.ProductDetails_Price
-                      )}
+                      {bookingDetails.session.metadata.ProductDetails_Price &&
+                        formatMoney(
+                          bookingDetails.session.metadata.ProductDetails_Price
+                        )}
                     </h6>
                   </div>
                 </div>

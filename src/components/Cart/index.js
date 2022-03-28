@@ -127,10 +127,10 @@ const Cart = ({ language }) => {
                         )}
                       </>
                     )}
-                    <h5 className="price">
+                    <div className="price fw-bold">
                       {item.TxCurrencyCode === "JPY" ? "¥" : ""}
                       {formatMoney(item.price)}
-                    </h5>
+                    </div>
                   </div>
                   <div
                     className="col-1 remove"

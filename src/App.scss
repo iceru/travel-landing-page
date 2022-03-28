@@ -32,6 +32,10 @@ a {
 
 .btn-primary {
   color: white;
+
+  &:hover {
+    color: white;
+  }
 }
 
 .translate {
