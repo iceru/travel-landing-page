@@ -41,7 +41,7 @@ a {
   padding-right: 2rem;
 
   @include breakpoint(untilTablet) {
-    margin-top: 3rem;
+    margin-top: 4rem;
     padding-right: 0;
   }
   .content {

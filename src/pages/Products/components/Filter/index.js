@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -14,11 +14,18 @@ const propTypes = {
 const Filter = ({ filter, selectedCategory }) => {
   const { t } = useTranslation();
 
+  const [category, setCategory] = useState();
+
+  useEffect(() => {
+    setCategory(selectedCategory)
+  }, [selectedCategory])
+  
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
       date: event.target[0].value ? new Date(event.target[0].value) : null,
-      category: event.target[1].value,
+      category: category,
       minRange: event.target[2].value.includes("-")
         ? event.target[2].value.split("-")[0]
         : null,
@@ -45,7 +52,8 @@ const Filter = ({ filter, selectedCategory }) => {
             />
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
-            <Form.Select value={selectedCategory}>
+            <Form.Select onChange={(event) => setCategory(event.target.value)}
+        value={category}>
               <option value="all">{t("all_categories")}</option>
               <option value="0">{t("accommodation")}</option>
               <option value="1">{t("activity")}</option>
