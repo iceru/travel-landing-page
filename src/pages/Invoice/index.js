@@ -319,7 +319,7 @@ const Invoice = () => {
             <SkeletonItems />
           )
         ) : (
-          <h5 className="text-center">Not Found</h5>
+          <h5 className="text-center">{t("not_found_page")}</h5>
         )}
       </div>
     </>

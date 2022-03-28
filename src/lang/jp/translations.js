@@ -72,4 +72,5 @@ export const TRANSLATIONS_JP = {
   adult: "大人",
   check_in: "チェックイン",
   check_out: "チェックアウト",
+  not_found_page: "見つかりません",
 };
