@@ -125,8 +125,8 @@ const MapComponent = compose(
       defaultCenter={
         Array.isArray(props.markers)
           ? {
-              lat: props.markers[0].Geocodes[0].Geocode.Latitude,
-              lng: props.markers[0].Geocodes[0].Geocode.Longitude,
+              lat: props.markers && props.markers[0].Geocodes && props.markers[0].Geocodes[0].Geocode.Latitude,
+              lng: props.markers && props.markers[0].Geocodes && props.markers[0].Geocodes[0].Geocode.Longitude,
             }
           : {
               lat: props.markers.Geocodes[0].Geocode.Latitude,

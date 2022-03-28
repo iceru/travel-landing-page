@@ -48,6 +48,7 @@ const Products = () => {
   const [geocodes, setGeoCodes] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const [language] = useOutletContext();
   const navigate = useNavigate();
@@ -65,6 +66,19 @@ const Products = () => {
     setPage(1);
     productsRequest.request.Paging.PageNumber = 1;
   }, []);
+
+  useEffect(() => {
+    debugger; //eslint-disable-line
+    const category = searchParams.get("category");
+
+    if(category) {
+      productsRequest.request.Filter.TagCriteria = {
+        IndustryCategoryGroups: [category],
+      };
+      setSelectedCategory(category);
+      getData();
+    }
+  }, [])
 
   useEffect(() => {
     delete productsRequest.request.Filter.Ids;
@@ -213,7 +227,7 @@ const Products = () => {
     <div className="container products">
       <div className="productsWrapper" style={{ display: productsShow }}>
         <div className="titlePage">{t("search")}</div>
-        <Filter lang={language} filter={filterData} />
+        <Filter lang={language} filter={filterData} selectedCategory={selectedCategory} />
         <div className="d-flex flex-wrap justify-content-between productsOption mb-4">
           <div className="mb-3 mb-lg-0">
             <Button

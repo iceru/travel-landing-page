@@ -8,9 +8,10 @@ import "./style.scss";
 
 const propTypes = {
   filter: PropTypes.func,
+  selectedCategory: PropTypes.string,
 };
 
-const Filter = ({ filter }) => {
+const Filter = ({ filter, selectedCategory }) => {
   const { t } = useTranslation();
 
   const handleSubmit = (event) => {
@@ -44,7 +45,7 @@ const Filter = ({ filter }) => {
             />
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
-            <Form.Select>
+            <Form.Select value={selectedCategory}>
               <option value="all">{t("all_categories")}</option>
               <option value="0">{t("accommodation")}</option>
               <option value="1">{t("activity")}</option>
