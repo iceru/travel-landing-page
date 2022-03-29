@@ -86,7 +86,7 @@ const Items = ({ services, goToDetail, loadMore, totalPage, currentPage }) => {
         {totalPage > 1 && totalPage > currentPage && (
           <Button
             variant="secondary"
-            className="w-100 fw-bold py-3"
+            className="w-100 fw-bold py-2"
             onClick={() => loadMore()}
           >
             {t("load_more")}

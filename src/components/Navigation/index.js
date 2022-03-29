@@ -86,7 +86,9 @@ const Navigation = () => {
             </Col>
             <Col xs={2}>
               <div className="logo">
-                <img src={Logo} />
+                <a href="https://visitnara.jp">
+                  <img src={Logo} />
+                </a>
               </div>
             </Col>
             <Col xs={5}>

@@ -38,43 +38,46 @@ a {
   }
 }
 
-.translate {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 !important;
-  padding-right: 2rem;
+.container.padded {
+  padding: 0 1rem;
+  .translate {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 !important;
+    padding-right: 2rem;
 
-  @include breakpoint(untilTablet) {
-    margin-top: 4rem;
-    padding-right: 0;
-  }
-  .content {
-    padding: 0.25rem 1rem;
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid lightgray;
-    .fa-language {
-      margin-right: 1rem;
+    @include breakpoint(untilTablet) {
+      margin-top: 4rem;
+      padding-right: 0;
     }
-    .btn {
-      border-radius: 0;
-      font-size: 0.85rem;
-      position: relative;
-
-      &:focus {
-        box-shadow: none;
+    .content {
+      padding: 0.25rem 1rem;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid lightgray;
+      .fa-language {
+        margin-right: 1rem;
       }
-      &.active {
-        font-weight: bold;
-        &:after {
-          content: "";
-          width: 70%;
-          position: absolute;
-          bottom: 0;
-          height: 2px;
-          background-color: black;
-          left: 50%;
-          transform: translateX(-50%);
+      .btn {
+        border-radius: 0;
+        font-size: 0.85rem;
+        position: relative;
+
+        &:focus {
+          box-shadow: none;
+        }
+        &.active {
+          font-weight: bold;
+          &:after {
+            content: "";
+            width: 70%;
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background-color: black;
+            left: 50%;
+            transform: translateX(-50%);
+          }
         }
       }
     }

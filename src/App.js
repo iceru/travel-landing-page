@@ -31,23 +31,25 @@ function App() {
   return (
     <div className="App">
       <Navigation />
-      <div className="translate container">
-        <div className="content">
-          <FontAwesomeIcon icon={faLanguage} />
-          <button
-            className={`btn ${langSelected === "en" ? "active" : ""}`}
-            value="en"
-            onClick={handleOnclick}
-          >
-            English
-          </button>
-          <button
-            className={`btn ${langSelected === "jp" ? "active" : ""}`}
-            value="jp"
-            onClick={handleOnclick}
-          >
-            日本語
-          </button>
+      <div className="container padded">
+        <div className="translate ">
+          <div className="content">
+            <FontAwesomeIcon icon={faLanguage} />
+            <button
+              className={`btn ${langSelected === "en" ? "active" : ""}`}
+              value="en"
+              onClick={handleOnclick}
+            >
+              English
+            </button>
+            <button
+              className={`btn ${langSelected === "jp" ? "active" : ""}`}
+              value="jp"
+              onClick={handleOnclick}
+            >
+              日本語
+            </button>
+          </div>
         </div>
       </div>
       <Outlet context={[language]} />

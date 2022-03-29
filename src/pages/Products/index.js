@@ -68,12 +68,23 @@ const Products = () => {
 
   useEffect(() => {
     const category = searchParams.get("category");
+    const sort = searchParams.get("sort");
 
     if (category && category !== "all") {
       productsRequest.request.Filter.TagCriteria = {
         IndustryCategoryGroups: [category],
       };
       setSelectedCategory(category);
+    }
+    if (sort) {
+      productsRequest.request.Sorting = [
+        {
+          By: `${sort.split("-")[0]}`,
+          Direction: `${sort.split("-")[1]}`,
+        },
+      ];
+    }
+    if (sort || (category && category !== "all")) {
       getData();
     }
   }, []);
@@ -195,6 +206,8 @@ const Products = () => {
 
   const onSort = (value) => {
     setSelectedOption(value);
+    searchParams.set("sort", value);
+    setSearchParams(searchParams);
     productsRequest.request.Sorting = [
       {
         By: `${value.split("-")[0]}`,
