@@ -20,7 +20,7 @@ ReactDOM.render(
             <Route path="/" element={<Products />} />
             <Route exact path="product" element={<ProductDetail />} />
             <Route path="request-book" element={<RequestBook />} />
-            <Route path="invoice" element={<Invoice />} />
+            <Route path="success" element={<Invoice />} />
           </Route>
         </Routes>
       </BrowserRouter>

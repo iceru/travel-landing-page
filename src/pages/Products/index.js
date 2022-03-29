@@ -45,9 +45,9 @@ const Products = () => {
   const [itemsShow, setitemsShow] = useState(true);
   const [stateButton, setStateButton] = useState("quick");
   const [selectedOption, setSelectedOption] = useState(options[0].value);
-  const [geocodes, setGeoCodes] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const [language] = useOutletContext();
   const navigate = useNavigate();
@@ -64,6 +64,18 @@ const Products = () => {
 
     setPage(1);
     productsRequest.request.Paging.PageNumber = 1;
+  }, []);
+
+  useEffect(() => {
+    const category = searchParams.get("category");
+
+    if (category && category !== "all") {
+      productsRequest.request.Filter.TagCriteria = {
+        IndustryCategoryGroups: [category],
+      };
+      setSelectedCategory(category);
+      getData();
+    }
   }, []);
 
   useEffect(() => {
@@ -95,6 +107,7 @@ const Products = () => {
       searchParams.get("page", page);
     } else {
       setProductsShow("none");
+      productsRequest.request.Paging.PageNumber = 1;
     }
 
     axios
@@ -111,12 +124,6 @@ const Products = () => {
           setStateServices(response.data.Entities);
           setTotalPage(response.data.Paging.NumberOfPages);
           setProductsShow("block");
-
-          response.data.Entities.map((item) => {
-            if (item.Geocodes) {
-              setGeoCodes((data) => [...data, ...item.Geocodes]);
-            }
-          });
         }
         setSkeletonShow("none");
       });
@@ -145,6 +152,7 @@ const Products = () => {
 
     if (values.category === "all") {
       delete productsRequest.request.Filter.TagCriteria;
+      searchParams.set("category", "all");
     } else {
       productsRequest.request.Filter.TagCriteria = {
         IndustryCategoryGroups: [values.category],
@@ -157,6 +165,7 @@ const Products = () => {
       searchParams.set("keyword", values.keyword);
     } else {
       delete productsRequest.request.Filter.Names;
+      searchParams.delete("keyword");
     }
 
     setSearchParams(searchParams);
@@ -213,7 +222,11 @@ const Products = () => {
     <div className="container products">
       <div className="productsWrapper" style={{ display: productsShow }}>
         <div className="titlePage">{t("search")}</div>
-        <Filter lang={language} filter={filterData} />
+        <Filter
+          lang={language}
+          filter={filterData}
+          selectedCategory={selectedCategory}
+        />
         <div className="d-flex flex-wrap justify-content-between productsOption mb-4">
           <div className="mb-3 mb-lg-0">
             <Button
@@ -268,12 +281,14 @@ const Products = () => {
           className="productsMap"
           style={{ display: itemsShow === true ? "none" : "block" }}
         >
-          {geocodes.length > 0 && <Map positions={stateServices} zoom={9} />}
+          {stateServices.length > 0 && (
+            <Map positions={stateServices} zoom={9} />
+          )}
         </div>
       </div>
 
       <div className="skeletonWrapper" style={{ display: skeletonShow }}>
-        <SkeletonProducts />
+        <SkeletonProducts currentPage={page} />
       </div>
     </div>
   );

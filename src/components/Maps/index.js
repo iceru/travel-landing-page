@@ -10,6 +10,11 @@ const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
 import PropTypes from "prop-types";
 import { compose, withProps, withStateHandlers, withHandlers } from "recompose";
 
+import Accomodation from "../../assets/images/accomodation.svg";
+import Activity from "../../assets/images/activity.svg";
+import Restaurants from "../../assets/images/restaurants.svg";
+import Produce from "../../assets/images/shopping.svg";
+
 import "./style.scss";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +34,35 @@ const MarkerWithInfo = ({ item }) => {
     setIsOpen(!isOpen);
   };
 
+  const icon = () => {
+    let serviceType = Accomodation;
+    switch (item.IndustryCategoryGroups[0]) {
+      case 0:
+        serviceType = Accomodation;
+        break;
+      case 1:
+        serviceType = Activity;
+        break;
+      case 2:
+        serviceType = Restaurants;
+        break;
+      case 3:
+        serviceType = Produce;
+        break;
+      default:
+        return Accomodation;
+    }
+
+    return serviceType;
+  };
+  let iconMarker = new window.google.maps.MarkerImage(
+    icon(),
+    null /* size is determined at runtime */,
+    null /* origin is 0,0 */,
+    null /* anchor is bottom center of the scaled image */,
+    new window.google.maps.Size(48, 48)
+  );
+
   return (
     <Marker
       position={{
@@ -37,6 +71,7 @@ const MarkerWithInfo = ({ item }) => {
       }}
       key={item.id}
       onClick={onToggleOpen}
+      icon={iconMarker}
     >
       {isOpen && (
         <InfoBox
@@ -98,10 +133,8 @@ const MapComponent = compose(
   }),
   withHandlers({
     onMarkerClustererClick: () => (markerClusterer) => {
-      debugger;
       const clickedMarkers = markerClusterer.getMarkers();
       console.log(`Current clicked markers length: ${clickedMarkers.length}`);
-      console.log(clickedMarkers);
     },
   }),
   withStateHandlers(
@@ -125,8 +158,14 @@ const MapComponent = compose(
       defaultCenter={
         Array.isArray(props.markers)
           ? {
-              lat: props.markers[0].Geocodes[0].Geocode.Latitude,
-              lng: props.markers[0].Geocodes[0].Geocode.Longitude,
+              lat:
+                props.markers &&
+                props.markers[0].Geocodes &&
+                props.markers[0].Geocodes[0].Geocode.Latitude,
+              lng:
+                props.markers &&
+                props.markers[0].Geocodes &&
+                props.markers[0].Geocodes[0].Geocode.Longitude,
             }
           : {
               lat: props.markers.Geocodes[0].Geocode.Latitude,
@@ -142,6 +181,23 @@ const MapComponent = compose(
           }}
           key={props.markers.id}
           onClick={props.onToggleOpen}
+          icon={
+            new window.google.maps.MarkerImage(
+              props.markers.IndustryCategoryGroups[0] === 0
+                ? Accomodation
+                : props.markers.IndustryCategoryGroups[0] === 1
+                ? Activity
+                : props.markers.IndustryCategoryGroups[0] === 2
+                ? Restaurants
+                : props.markers.IndustryCategoryGroups[0] === 3
+                ? Produce
+                : "",
+              null /* size is determined at runtime */,
+              null /* origin is 0,0 */,
+              null /* anchor is bottom center of the scaled image */,
+              new window.google.maps.Size(54, 54)
+            )
+          }
         >
           {props.isOpen && (
             <InfoBox
@@ -195,7 +251,6 @@ const MapComponent = compose(
 });
 
 const Map = ({ positions, zoom }) => {
-  console.log(positions);
   // const [zoomMap, setZoomMap] = useState(10);
   // const [bounds, setBounds] = useState(null);
 

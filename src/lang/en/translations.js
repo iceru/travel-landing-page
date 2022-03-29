@@ -73,4 +73,5 @@ export const TRANSLATIONS_EN = {
   adult: "Adult(s)",
   check_in: "Check In",
   check_out: "Check Out",
+  not_found_page: "Not Found",
 };

@@ -76,7 +76,6 @@ const RequestBook = () => {
   };
 
   const handleSubmit = (values) => {
-    debugger; //eslint-disable-line
     const request = {
       ProductDetails: JSON.stringify(booking),
       CustomerDetails: JSON.stringify(values),
