@@ -32,6 +32,7 @@ const ProductDetail = () => {
   const [productItemShow, setProductItemShow] = useState("none");
   const [skeletonItemShow, setSkeletonItemShow] = useState("none");
   const [onRequest, setOnRequest] = useState("true");
+  const [quotesInfo, setQuotesInfo] = useState({});
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -146,6 +147,7 @@ const ProductDetail = () => {
         duration: e.target[1] ? e.target[1].value : 1,
         pax: e.target[2] ? e.target[2].value : 2,
       };
+      setQuotesInfo(values);
     }
 
     getQuote(values);
@@ -250,6 +252,9 @@ const ProductDetail = () => {
                   bookingQuotes={bookingQuotes}
                   changeQuantity={changeQuantity}
                   onRequest={onRequest}
+                  language={language}
+                  service={service}
+                  quotesInfo={quotesInfo}
                 />
               </div>
               <SkeletonItems skeletonItemShow={skeletonItemShow} />

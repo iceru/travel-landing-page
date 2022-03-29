@@ -73,4 +73,5 @@ export const TRANSLATIONS_JP = {
   check_in: "チェックイン",
   check_out: "チェックアウト",
   not_found_page: "見つかりません",
+  booking_date: "予約日",
 };

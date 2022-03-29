@@ -53,7 +53,7 @@ const Invoice = () => {
                 <div className="grey p-3">
                   <div className="row">
                     <div className="col-3">
-                      <b>{t("booking_reference")}</b>
+                      <b>{t("booking_date")}</b>
                     </div>
                     <div className="col-9 border-start">
                       {moment(bookingDetails.requested_at).format("ll")}
@@ -175,6 +175,7 @@ const Invoice = () => {
                       </div>
                       <div className="d-flex flex-column">
                         {bookingDetails.session.metadata.ProductDetails_Adults}
+                        &nbsp;
                         {t("adult")}
                       </div>
                     </div>
@@ -271,7 +272,6 @@ const Invoice = () => {
                           bookingDetails.session.metadata
                             .ProductDetails_CurrentCurrency
                         }
-                        0
                       </h6>
                     </div>
                     <div className="col-9 border-end border-top border-bottom">

@@ -74,4 +74,5 @@ export const TRANSLATIONS_EN = {
   check_in: "Check In",
   check_out: "Check Out",
   not_found_page: "Not Found",
+  booking_date: "Booking Date",
 };

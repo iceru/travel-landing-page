@@ -52,11 +52,13 @@ const RequestBook = () => {
   const { state } = useLocation();
   const { t } = useTranslation();
   const [booking, setBooking] = useState();
+  const [request, setRequest] = useState();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    if (state && state.booking) {
+    if (state && state.booking && state.request) {
       setBooking(state.booking);
+      setRequest(state.request);
     }
   }, []);
 
@@ -76,8 +78,8 @@ const RequestBook = () => {
   };
 
   const handleSubmit = (values) => {
-    const request = {
-      ProductDetails: JSON.stringify(booking),
+    const requestData = {
+      ProductDetails: JSON.stringify(request),
       CustomerDetails: JSON.stringify(values),
       TotalPrice: getTotalPrice(booking),
       ReturnUrl: window.location.href,
@@ -87,7 +89,7 @@ const RequestBook = () => {
       .post(
         OREndpoint + "/checkout",
         {
-          ...request,
+          ...requestData,
         },
         {
           headers: {
@@ -97,9 +99,10 @@ const RequestBook = () => {
         }
       )
       .then(function (response) {
-        if (response.data) {
-          window.location.replace(response.data.url);
-        }
+        // if (response.data) {
+        //   window.location.replace(response.data.url);
+        // }
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);

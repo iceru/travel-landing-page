@@ -16,9 +16,19 @@ const propTypes = {
   bookingQuotes: PropTypes.array,
   changeQuantity: PropTypes.func,
   onRequest: PropTypes.string,
+  language: PropTypes.string,
+  service: PropTypes.object,
+  quotesInfo: PropTypes.object,
 };
 
-const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
+const ProductItems = ({
+  bookingQuotes,
+  changeQuantity,
+  onRequest,
+  language,
+  service,
+  quotesInfo,
+}) => {
   const { addItem } = useCart();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -44,8 +54,33 @@ const ProductItems = ({ bookingQuotes, changeQuantity, onRequest }) => {
       return item.ParentId === selectedBooking.Id;
     });
     selectedBooking.selectedExtras = selectedItems;
+    debugger; //eslint-disable-line
+    const request = {
+      ProductId: selectedBooking.Id,
+      ProductName: selectedBooking.Name,
+      ProductExtras: selectedItems,
+      ProductCode: selectedBooking.Code,
+      Price: selectedBooking.Configurations[0].Quotes[0].TotalPrice,
+      CurrentCurrency: "JPY",
+      Language: language,
+      IndustryCategoryGroup: selectedBooking.IndustryCategoryGroups[0],
+      CommencementDate: selectedBooking.Configurations[0].Quotes[0].Commence,
+      ConcludeDate: selectedBooking.Configurations[0].Quotes[0].Conclude,
+      Duration:
+        selectedBooking.IndustryCategoryGroups[0] === 0
+          ? quotesInfo.duration
+          : null,
+      Adults: quotesInfo.pax,
+      SupplierName: service.Name,
+      SupplierAddress: service.Address,
+      SupplierEmail: service.PublicEmail,
+      SupplierPhone: service.Phone,
+      SupplierWebsite: service.Website,
+      SupplierId: service.Id,
+      SupplierCode: service.Code,
+    };
     navigate(`/request-book?id=${selectedBooking.Id}`, {
-      state: { booking: selectedBooking },
+      state: { booking: selectedBooking, request: request },
     });
   };
 
