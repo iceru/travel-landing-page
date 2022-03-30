@@ -15,6 +15,13 @@
     padding-top: 10vh;
     background: rgb(242, 245, 4);
 
+    .linkStatic {
+      color: rgba(var(--blk), 0.7);
+      &:hover {
+        color: black;
+      }
+    }
+
     @include breakpoint(desktop) {
       padding: 12vh 4rem;
     }
@@ -91,7 +98,7 @@
             border-bottom: 0.8rem solid rgba(242, 245, 4, 0.8);
             top: 0;
             right: 0;
-            padding: 12px;
+            padding: 1.5rem;
             border-bottom-left-radius: 1.5rem;
             border-top-right-radius: 1.5rem;
 

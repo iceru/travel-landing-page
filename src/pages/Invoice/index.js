@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from "axios";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
@@ -15,6 +15,7 @@ const Invoice = () => {
   const [bookingDetails, setBookingDetails] = useState(null);
   const [error, setError] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const { t } = useTranslation();
 
   const handleClose = () => {
     setShowPrivacy(false);

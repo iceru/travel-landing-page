@@ -20,6 +20,21 @@
       margin: 0 0.5rem;
       font-size: 24px;
       color: rgba($color: #000000, $alpha: 0.7);
+      transition: all 0.2s ease;
+
+      &.twitter {
+        &:hover {
+          transition: all 0.2s ease;
+          color: #1da1f2;
+        }
+      }
+
+      &.facebook {
+        &:hover {
+          transition: all 0.2s ease;
+          color: #4267b2;
+        }
+      }
     }
 
     .bottomFooter {
@@ -41,7 +56,7 @@
     .topRight {
       top: 0;
       right: 0;
-      text-align: end;
+      text-align: center;
       padding: 12px;
       border-bottom-left-radius: 10px;
       background-color: rgba($color: #fff, $alpha: 0.5);
@@ -50,8 +65,9 @@
       border-bottom: 0.8rem solid white;
       font-weight: bold;
       position: relative;
+      width: 10rem;
 
-      span,
+      div,
       p {
         z-index: 3;
         position: relative;
@@ -78,6 +94,7 @@
         transition: transform 0.3s ease;
         transform: scaleX(0);
         transform-origin: bottom right;
+        border-top-right-radius: 1.25rem;
       }
 
       p {

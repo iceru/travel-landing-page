@@ -101,32 +101,46 @@ const Navigation = () => {
                   <hr className="dashed" />
                   <Row className="justify-content-between">
                     <Col xs={6} md={12}>
-                      <div className="row align-items-center flex-nowrap">
-                        <div className="linkIcon col-auto px-1">
-                          <FontAwesomeIcon icon={faMapMarkerAlt} />
+                      <a
+                        href="https://goo.gl/maps/UbgosbgZ6UggFYiYA"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="linkStatic"
+                      >
+                        <div className="row align-items-center flex-nowrap">
+                          <div className="linkIcon col-auto px-1">
+                            <FontAwesomeIcon icon={faMapMarkerAlt} />
+                          </div>
+                          <div className="f-11px col-auto px-1">
+                            牡蠣小屋 りょうちゃん <br />
+                            <small>
+                              Google maps &nbsp;
+                              <FontAwesomeIcon icon={faExternalLink} />
+                            </small>
+                          </div>
                         </div>
-                        <div className="f-11px col-auto px-1">
-                          牡蠣小屋 りょうちゃん <br />
-                          <small>
-                            Google maps &nbsp;
-                            <FontAwesomeIcon icon={faExternalLink} />
-                          </small>
-                        </div>
-                      </div>
+                      </a>
                     </Col>
                     <Col xs={6} md={12}>
-                      <div className="row mt-lg-3 align-items-center linkRight">
-                        <div className="linkIcon col-auto px-1">
-                          <FontAwesomeIcon icon={faSuitcaseRolling} />
+                      <a
+                        href="https://www.ako-mag.jp/hokaru/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="linkStatic"
+                      >
+                        <div className="row mt-lg-3 align-items-center linkRight">
+                          <div className="linkIcon col-auto px-1">
+                            <FontAwesomeIcon icon={faSuitcaseRolling} />
+                          </div>
+                          <div className="f-11px col-auto px-1">
+                            [観光]ほかる赤穂 <br />
+                            <small>
+                              Website &nbsp;
+                              <FontAwesomeIcon icon={faExternalLink} />
+                            </small>
+                          </div>
                         </div>
-                        <div className="f-11px col-auto px-1">
-                          [観光]ほかる赤穂 <br />
-                          <small>
-                            Website &nbsp;
-                            <FontAwesomeIcon icon={faExternalLink} />
-                          </small>
-                        </div>
-                      </div>
+                      </a>
                     </Col>
                   </Row>
                 </Col>
