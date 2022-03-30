@@ -3,6 +3,7 @@ import axios from "axios";
 import { t } from "i18next";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 
 import { OREndpoint } from "../../helpers/endpoints";
 import { getUrlParam, formatMoney } from "../../helpers/formatters";
@@ -13,6 +14,12 @@ import "./style.scss";
 const Invoice = () => {
   const [bookingDetails, setBookingDetails] = useState(null);
   const [error, setError] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+
+  const handleClose = () => {
+    setShowPrivacy(false);
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     axios
@@ -306,7 +313,12 @@ const Invoice = () => {
                   </div>
                   <div className="border-bottom mt-3">
                     <h6 className="font-weight-bold">TXJ Privacy Policy</h6>
-                    <p onClick={handleClick}>Click to view more</p>
+                    <p
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setShowPrivacy(true)}
+                    >
+                      Click to view more
+                    </p>
                   </div>
                 </div>
               </div>
@@ -318,6 +330,18 @@ const Invoice = () => {
           <h5 className="text-center">{t("not_found_page")}</h5>
         )}
       </div>
+
+      <Modal show={showPrivacy} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>TXJ Privacy Policy</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Privacy Text</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            {t("close")}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
