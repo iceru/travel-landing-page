@@ -33,6 +33,7 @@ const ProductDetail = () => {
   const [skeletonItemShow, setSkeletonItemShow] = useState("none");
   const [onRequest, setOnRequest] = useState("true");
   const [quotesInfo, setQuotesInfo] = useState({});
+  const [errorItems, setErrorItems] = useState(false);
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -84,8 +85,9 @@ const ProductDetail = () => {
         },
       },
     };
-    if (onRequest === "true")
-      detailRequest.request.ShortName = "TestDistributorOA";
+
+    const onReq = searchParams.get("on_req");
+    if (onReq === "true") detailRequest.request.ShortName = "TestDistributorOA";
     else detailRequest.request.ShortName = "TestDistributor";
 
     axios
@@ -135,6 +137,12 @@ const ProductDetail = () => {
               : null;
             setBookingQuotes((data) => [...data, mergeData]);
 
+            setProductItemShow("block");
+            setSkeletonItemShow("none");
+          })
+          .catch((error) => {
+            console.log(error);
+            setErrorItems(true);
             setProductItemShow("block");
             setSkeletonItemShow("none");
           });
@@ -259,6 +267,7 @@ const ProductDetail = () => {
                   language={language}
                   service={service}
                   quotesInfo={quotesInfo}
+                  error={errorItems}
                 />
               </div>
               <SkeletonItems skeletonItemShow={skeletonItemShow} />

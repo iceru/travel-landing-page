@@ -38,16 +38,23 @@ const Products = () => {
     },
   ];
 
+  const [quickBooking, setQuickBooking] = useState([]);
+  const [onRequest, setOnRequest] = useState([]);
   const [services, setServices] = useState([]);
   const [stateServices, setStateServices] = useState([]);
+
   const [skeletonShow, setSkeletonShow] = useState("none");
   const [productsShow, setProductsShow] = useState("block");
   const [itemsShow, setitemsShow] = useState(true);
   const [stateButton, setStateButton] = useState("quick");
-  const [selectedOption, setSelectedOption] = useState(options[0].value);
+
   const [page, setPage] = useState(1);
+  const [pageRequest, setPageRequest] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  const [totalPageOnRequest, setTotalPageOnRequest] = useState(1);
+
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedOption, setSelectedOption] = useState(options[0].value);
 
   const [language] = useOutletContext();
   const navigate = useNavigate();
@@ -60,6 +67,7 @@ const Products = () => {
 
   useEffect(() => {
     searchParams.delete("pages");
+    searchParams.delete("pages_request");
     setSearchParams(searchParams);
 
     setPage(1);
@@ -91,7 +99,59 @@ const Products = () => {
     getData();
   }, [language]);
 
-  const getData = (page) => {
+  const dispatchQuick = (page) => {
+    productsRequest.request.ShortName = "TestDistributor";
+
+    axios
+      .post(endpoints.search, productsRequest, { headers: headers })
+      .then((response) => {
+        if (page && page > 1) {
+          setServices((data) => [...data, ...response.data.Entities]);
+          setQuickBooking((data) => [...data, ...response.data.Entities]);
+          setStateServices((stateServices) => [
+            ...stateServices,
+            ...response.data.Entities,
+          ]);
+        } else {
+          setQuickBooking(response.data.Entities);
+          setServices(response.data.Entities);
+          setStateServices((stateServices) => [
+            ...stateServices,
+            ...response.data.Entities,
+          ]);
+          setTotalPage(response.data.Paging.NumberOfPages);
+        }
+        setProductsShow("block");
+        setSkeletonShow("none");
+      });
+  };
+
+  const dispatchRequest = (pageRequest) => {
+    productsRequest.request.ShortName = "TestDistributorOA";
+
+    axios
+      .post(endpoints.search, productsRequest, { headers: headers })
+      .then((response) => {
+        if (pageRequest && pageRequest > 1) {
+          setServices((data) => [...data, ...response.data.Entities]);
+          setOnRequest((data) => [...data, ...response.data.Entities]);
+          setStateServices((stateServices) => [
+            ...stateServices,
+            ...response.data.Entities,
+          ]);
+          setSkeletonShow("none");
+        } else {
+          setOnRequest(response.data.Entities);
+          setStateServices((stateServices) => [
+            ...stateServices,
+            ...response.data.Entities,
+          ]);
+          setTotalPageOnRequest(response.data.Paging.NumberOfPages);
+        }
+      });
+  };
+
+  const getData = (payload) => {
     setSkeletonShow("block");
 
     productsRequest.request.Availability = {
@@ -102,31 +162,19 @@ const Products = () => {
       },
     };
 
-    if (page && page > 1) {
-      productsRequest.request.Paging.PageNumber = page;
+    if (payload?.page && payload?.page > 1) {
+      productsRequest.request.Paging.PageNumber = payload?.page;
       searchParams.get("page", page);
+      dispatchQuick(payload?.page);
+    } else if (payload?.pageRequest && payload?.pageRequest > 1) {
+      productsRequest.request.Paging.PageNumber = payload?.pageRequest;
+      dispatchRequest(payload?.pageRequest);
     } else {
       setProductsShow("none");
       productsRequest.request.Paging.PageNumber = 1;
+      dispatchQuick();
+      dispatchRequest();
     }
-
-    axios
-      .post(endpoints.search, productsRequest, { headers: headers })
-      .then((response) => {
-        if (page && page > 1) {
-          setServices((data) => [...data, ...response.data.Entities]);
-          setStateServices((stateServices) => [
-            ...stateServices,
-            ...response.data.Entities,
-          ]);
-        } else {
-          setServices(response.data.Entities);
-          setStateServices(response.data.Entities);
-          setTotalPage(response.data.Paging.NumberOfPages);
-          setProductsShow("block");
-        }
-        setSkeletonShow("none");
-      });
   };
 
   const filterData = (values) => {
@@ -174,17 +222,14 @@ const Products = () => {
   };
 
   const changeToRequest = () => {
-    const requestBook = stateServices.filter((service) => {
-      return service.OnRequestOnly === true;
-    });
     setitemsShow(true);
-    setServices(requestBook);
+    setServices(onRequest);
     setStateButton("request");
   };
 
   const changeToQuick = () => {
     setitemsShow(true);
-    setServices(stateServices);
+    setServices(quickBooking);
     setStateButton("quick");
   };
 
@@ -209,13 +254,23 @@ const Products = () => {
   };
 
   const loadMore = () => {
-    const paging = page + 1;
+    if (stateButton === "quick") {
+      const paging = page + 1;
+      searchParams.set("pages", paging);
+      searchParams.delete("pages_request");
+      setSearchParams(searchParams);
 
-    searchParams.set("pages", paging);
-    setSearchParams(searchParams);
+      setPage(paging);
+      getData({ page: paging });
+    } else if (stateButton === "request") {
+      const paging = pageRequest + 1;
+      searchParams.delete("pages");
+      searchParams.set("pages_request", paging);
+      setSearchParams(searchParams);
 
-    setPage(paging);
-    getData(paging);
+      setPageRequest(paging);
+      getData({ pageRequest: paging });
+    }
   };
 
   return (
@@ -279,6 +334,9 @@ const Products = () => {
               loadMore={loadMore}
               totalPage={totalPage}
               currentPage={page}
+              currentPageOnRequest={pageRequest}
+              totalPageOnRequest={totalPageOnRequest}
+              state={stateButton}
             />
           </div>
           <div

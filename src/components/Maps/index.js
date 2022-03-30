@@ -18,6 +18,8 @@ import Produce from "../../assets/images/shopping.svg";
 import "./style.scss";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 /* eslint-disable */
 
@@ -90,6 +92,13 @@ const MarkerWithInfo = ({ item }) => {
               className="infoBox"
               style={{ fontSize: `14px`, fontColor: `#08233B` }}
             >
+              <div className="text-end">
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  onClick={onToggleOpen}
+                  style={{ cursor: "pointer", marginBottom: "8px" }}
+                />
+              </div>
               <div className="image">
                 <img
                   className="mb-2"
@@ -219,6 +228,12 @@ const MapComponent = compose(
                   className="infoBox"
                   style={{ fontSize: `14px`, fontColor: `#08233B` }}
                 >
+                  <div className="text-end">
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      onClick={props.onToggleOpen}
+                    />
+                  </div>
                   <div className="image">
                     <img
                       className="mb-2"

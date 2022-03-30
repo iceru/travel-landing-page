@@ -11,10 +11,22 @@ const propTypes = {
   goToDetail: PropTypes.func,
   loadMore: PropTypes.func,
   totalPage: PropTypes.number,
+  totalPageOnRequest: PropTypes.number,
   currentPage: PropTypes.number,
+  currentPageOnRequest: PropTypes.number,
+  state: PropTypes.string,
 };
 
-const Items = ({ services, goToDetail, loadMore, totalPage, currentPage }) => {
+const Items = ({
+  services,
+  goToDetail,
+  loadMore,
+  totalPage,
+  totalPageOnRequest,
+  state,
+  currentPage,
+  currentPageOnRequest,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -83,7 +95,7 @@ const Items = ({ services, goToDetail, loadMore, totalPage, currentPage }) => {
       )}
 
       <div className="loadMore">
-        {totalPage > 1 && totalPage > currentPage && (
+        {totalPage > 1 && totalPage > currentPage && state === "quick" && (
           <Button
             variant="secondary"
             className="w-100 fw-bold py-2"
@@ -92,6 +104,19 @@ const Items = ({ services, goToDetail, loadMore, totalPage, currentPage }) => {
             {t("load_more")}
           </Button>
         )}
+      </div>
+      <div className="loadMoreRequest">
+        {totalPageOnRequest > 1 &&
+          totalPageOnRequest > currentPageOnRequest &&
+          state === "request" && (
+            <Button
+              variant="secondary"
+              className="w-100 fw-bold py-2"
+              onClick={() => loadMore()}
+            >
+              {t("load_more")}
+            </Button>
+          )}
       </div>
     </Row>
   );

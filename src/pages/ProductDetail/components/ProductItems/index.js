@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as _ from "lodash";
 import PropTypes from "prop-types";
 import { Button, Form, Modal } from "react-bootstrap";
@@ -19,6 +19,7 @@ const propTypes = {
   language: PropTypes.string,
   service: PropTypes.object,
   quotesInfo: PropTypes.object,
+  error: PropTypes.bool,
 };
 
 const ProductItems = ({
@@ -28,6 +29,7 @@ const ProductItems = ({
   language,
   service,
   quotesInfo,
+  error,
 }) => {
   const { addItem } = useCart();
   const { t } = useTranslation();
@@ -36,8 +38,15 @@ const ProductItems = ({
   const [extras, setExtras] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState();
+  const [errorItems, setErrorItems] = useState(false);
 
   const handleClose = () => setShow(false);
+
+  useEffect(() => {
+    if (error) {
+      setErrorItems(true);
+    }
+  }, [error]);
 
   const submitBooking = (booking) => {
     if (onRequest === "true") {
@@ -109,6 +118,8 @@ const ProductItems = ({
     });
   };
 
+  debugger; //eslint-disable-line
+
   const seeMore = () => {
     setDescMore(!descMore);
   };
@@ -136,122 +147,128 @@ const ProductItems = ({
 
   return (
     <>
-      <div className="items">
-        {_.sortBy(bookingQuotes, "Name").map((booking, i) => (
-          <div key={i} className="productItem row align-items-center">
-            <div className=" col-12 col-lg-10">
-              <div className="info">
-                <div className="name">{booking.Configurations[0].Name}</div>
-                <div className="image">
-                  <img
-                    width={100}
-                    height="auto"
-                    src={booking.Images ? booking.Images[0].Url : DefaultImg}
-                  />
-                </div>
-                {booking.IndustryCategoryGroups[0] === 3 ? (
-                  <div className="qty d-flex">
-                    <Form.Label>{t("quantity")}: &nbsp;</Form.Label>
-                    <Form.Control
-                      onChange={(e) =>
-                        changeQuantity(e.target.value, booking.id)
-                      }
-                      type="number"
-                      defaultValue={2}
+      {!errorItems || bookingQuotes.length > 1 ? (
+        <div className="items">
+          {_.sortBy(bookingQuotes, "Name").map((booking, i) => (
+            <div key={i} className="productItem row align-items-center">
+              <div className=" col-12 col-lg-10">
+                <div className="info">
+                  <div className="name">{booking.Configurations[0].Name}</div>
+                  <div className="image">
+                    <img
+                      width={100}
+                      height="auto"
+                      src={booking.Images ? booking.Images[0].Url : DefaultImg}
                     />
                   </div>
-                ) : (
-                  booking.Configurations[0].Quotes && (
-                    <div className="time qty d-flex">
-                      <Form.Label>
-                        {t("start_time", {
-                          time: moment(
-                            booking.Configurations[0].Quotes[0].Commence
-                          ).format("hh:mm"),
-                        })}{" "}
-                        &nbsp;
-                      </Form.Label>
-                      <Form.Select>
-                        <option>
-                          {moment(
-                            booking.Configurations[0].Quotes[0].Commence
-                          ).format("hh:mm")}
-                        </option>
-                      </Form.Select>
+                  {booking.IndustryCategoryGroups[0] === 3 ? (
+                    <div className="qty d-flex">
+                      <Form.Label>{t("quantity")}: &nbsp;</Form.Label>
+                      <Form.Control
+                        onChange={(e) =>
+                          changeQuantity(e.target.value, booking.id)
+                        }
+                        type="number"
+                        defaultValue={2}
+                      />
                     </div>
-                  )
-                )}
-                {booking.Configurations[0].Quotes && (
-                  <div className="price">
-                    {t("price")}: &nbsp;
-                    {booking.TxCurrencyCode === "JPY" ? "¥" : ""}
-                    {booking.Configurations[0].Quotes &&
-                      formatMoney(
-                        booking.Configurations[0].Quotes[0].TotalPrice
-                      )}
-                  </div>
-                )}
-                {booking.Extras &&
-                  booking.IndustryCategoryGroups[0] !== 3 &&
-                  booking.Extras.length > 0 && (
-                    <div className="extras">
-                      <Form.Label>Extras: &nbsp;</Form.Label>
-                      {booking.Extras.map((extra, i) => {
-                        return (
-                          <div className="extraItem" key={i}>
-                            <Form.Check
-                              type="checkbox"
-                              label={`${extra.Name} ¥${extra.TotalCost}`}
-                              onChange={() =>
-                                selectedExtras(
-                                  extra,
-                                  booking,
-                                  event.target.checked
-                                )
-                              }
-                            />
-                          </div>
-                        );
-                      })}
+                  ) : (
+                    booking.Configurations[0].Quotes && (
+                      <div className="time qty d-flex">
+                        <Form.Label>
+                          {t("start_time", {
+                            time: moment(
+                              booking.Configurations[0].Quotes[0].Commence
+                            ).format("hh:mm"),
+                          })}{" "}
+                          &nbsp;
+                        </Form.Label>
+                        <Form.Select>
+                          <option>
+                            {moment(
+                              booking.Configurations[0].Quotes[0].Commence
+                            ).format("hh:mm")}
+                          </option>
+                        </Form.Select>
+                      </div>
+                    )
+                  )}
+                  {booking.Configurations[0].Quotes && (
+                    <div className="price">
+                      {t("price")}: &nbsp;
+                      {booking.TxCurrencyCode === "JPY" ? "¥" : ""}
+                      {booking.Configurations[0].Quotes &&
+                        formatMoney(
+                          booking.Configurations[0].Quotes[0].TotalPrice
+                        )}
                     </div>
                   )}
-                {booking.LongDescription && (
-                  <>
-                    <div
-                      className={`desc ${descMore ? "active" : ""}`}
-                      dangerouslySetInnerHTML={{
-                        __html: booking.LongDescription,
-                      }}
-                    ></div>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        seeMore();
-                      }}
-                      className="seeMore"
-                    >
-                      + {t("see_more")}
-                    </a>
-                  </>
+                  {booking.Extras &&
+                    booking.IndustryCategoryGroups[0] !== 3 &&
+                    booking.Extras.length > 0 && (
+                      <div className="extras">
+                        <Form.Label>Extras: &nbsp;</Form.Label>
+                        {booking.Extras.map((extra, i) => {
+                          return (
+                            <div className="extraItem" key={i}>
+                              <Form.Check
+                                type="checkbox"
+                                label={`${extra.Name} ¥${extra.TotalCost}`}
+                                onChange={() =>
+                                  selectedExtras(
+                                    extra,
+                                    booking,
+                                    event.target.checked
+                                  )
+                                }
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  {booking.LongDescription && (
+                    <>
+                      <div
+                        className={`desc ${descMore ? "active" : ""}`}
+                        dangerouslySetInnerHTML={{
+                          __html: booking.LongDescription,
+                        }}
+                      ></div>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          seeMore();
+                        }}
+                        className="seeMore"
+                      >
+                        + {t("see_more")}
+                      </a>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="action col-12 col-lg-2">
+                {booking.Configurations[0].Quotes ? (
+                  <Button
+                    variant="primary"
+                    onClick={() => submitBooking(booking)}
+                  >
+                    {onRequest === "true"
+                      ? t("request_to_book")
+                      : t("book_now")}
+                  </Button>
+                ) : (
+                  <p>Not Available</p>
                 )}
               </div>
             </div>
-            <div className="action col-12 col-lg-2">
-              {booking.Configurations[0].Quotes ? (
-                <Button
-                  variant="primary"
-                  onClick={() => submitBooking(booking)}
-                >
-                  {onRequest === "true" ? t("request_to_book") : t("book_now")}
-                </Button>
-              ) : (
-                <p>Not Available</p>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <h5 className="text-center">Not Available</h5>
+      )}
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
