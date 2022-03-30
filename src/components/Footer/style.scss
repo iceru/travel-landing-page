@@ -11,7 +11,7 @@
     .socialShare {
       margin-top: 3rem;
 
-      @include breakpoint(desktop) {
+      @include breakpoint(laptop) {
         margin-top: 5rem;
       }
     }
@@ -26,7 +26,7 @@
       padding-top: 10vh;
     }
 
-    @include breakpoint(desktop) {
+    @include breakpoint(laptop) {
       .footerLogo {
         img {
           width: 280px;
@@ -90,7 +90,7 @@
         width: 100%;
         border-radius: 1rem;
       }
-      @include breakpoint(desktop) {
+      @include breakpoint(laptop) {
         img {
           width: 400px;
         }

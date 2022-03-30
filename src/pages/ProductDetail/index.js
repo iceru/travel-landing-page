@@ -84,6 +84,10 @@ const ProductDetail = () => {
         },
       },
     };
+    if (onRequest === "true")
+      detailRequest.request.ShortName = "TestDistributorOA";
+    else detailRequest.request.ShortName = "TestDistributor";
+
     axios
       .post(endpoints.search, detailRequest, { headers: headers })
       .then((response) => {

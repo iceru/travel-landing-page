@@ -78,7 +78,6 @@ const ProductItems = ({
       return item.ParentId === selectedBooking.Id;
     });
     selectedBooking.selectedExtras = selectedItems;
-    debugger; //eslint-disable-line
     const request = {
       ProductId: selectedBooking.Id,
       ProductName: selectedBooking.Name,
