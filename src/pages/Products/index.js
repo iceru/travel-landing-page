@@ -219,76 +219,81 @@ const Products = () => {
   };
 
   return (
-    <div className="container products">
-      <div className="productsWrapper" style={{ display: productsShow }}>
-        <div className="titlePage">{t("search")}</div>
-        <Filter
-          lang={language}
-          filter={filterData}
-          selectedCategory={selectedCategory}
-        />
-        <div className="d-flex flex-wrap justify-content-between productsOption mb-4">
-          <div className="mb-3 mb-lg-0">
-            <Button
-              variant={stateButton === "quick" ? "primary" : "secondary"}
-              onClick={() => changeToQuick()}
-              className="me-2 me-lg-3 fw-bold"
-            >
-              {t("quick_booking")}
-            </Button>
-            <Button
-              variant={stateButton === "request" ? "primary" : "secondary"}
-              onClick={() => changeToRequest()}
-              className="fw-bold me-2 me-lg-3"
-            >
-              {t("request_book")}
-            </Button>
-            <Button
-              variant={stateButton === "map" ? "primary" : "secondary"}
-              onClick={() => changeToMap()}
-              className="fw-bold"
-            >
-              {t("map")}
-            </Button>
-          </div>
-          <div className="d-flex sort">
-            <div className="text">Sort by:</div>
-            <Form.Select
-              value={selectedOption}
-              onChange={(e) => onSort(e.target.value)}
-            >
-              {options.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </Form.Select>
-          </div>
-        </div>
-        <div
-          className="productItems"
-          style={{ display: itemsShow === true ? "block" : "none" }}
-        >
-          <Items
-            services={services}
-            goToDetail={goToDetail}
-            loadMore={loadMore}
-            totalPage={totalPage}
-            currentPage={page}
-          />
-        </div>
-        <div
-          className="productsMap"
-          style={{ display: itemsShow === true ? "none" : "block" }}
-        >
-          {stateServices.length > 0 && (
-            <Map positions={stateServices} zoom={9} />
-          )}
-        </div>
+    <div className="products">
+      <div className="floatingText">
+        <div className="text">{t("booking")}</div>
       </div>
+      <div className="container">
+        <div className="productsWrapper" style={{ display: productsShow }}>
+          <div className="titlePage">{t("search")}</div>
+          <Filter
+            lang={language}
+            filter={filterData}
+            selectedCategory={selectedCategory}
+          />
+          <div className="d-flex flex-wrap justify-content-between productsOption mb-4">
+            <div className="mb-3 mb-lg-0">
+              <Button
+                variant={stateButton === "quick" ? "primary" : "secondary"}
+                onClick={() => changeToQuick()}
+                className="me-2 me-lg-3 fw-bold"
+              >
+                {t("quick_booking")}
+              </Button>
+              <Button
+                variant={stateButton === "request" ? "primary" : "secondary"}
+                onClick={() => changeToRequest()}
+                className="fw-bold me-2 me-lg-3"
+              >
+                {t("request_book")}
+              </Button>
+              <Button
+                variant={stateButton === "map" ? "primary" : "secondary"}
+                onClick={() => changeToMap()}
+                className="fw-bold"
+              >
+                {t("map")}
+              </Button>
+            </div>
+            <div className="d-flex sort">
+              <div className="text">Sort by:</div>
+              <Form.Select
+                value={selectedOption}
+                onChange={(e) => onSort(e.target.value)}
+              >
+                {options.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </Form.Select>
+            </div>
+          </div>
+          <div
+            className="productItems"
+            style={{ display: itemsShow === true ? "block" : "none" }}
+          >
+            <Items
+              services={services}
+              goToDetail={goToDetail}
+              loadMore={loadMore}
+              totalPage={totalPage}
+              currentPage={page}
+            />
+          </div>
+          <div
+            className="productsMap"
+            style={{ display: itemsShow === true ? "none" : "block" }}
+          >
+            {stateServices.length > 0 && (
+              <Map positions={stateServices} zoom={9} />
+            )}
+          </div>
+        </div>
 
-      <div className="skeletonWrapper" style={{ display: skeletonShow }}>
-        <SkeletonProducts currentPage={page} />
+        <div className="skeletonWrapper" style={{ display: skeletonShow }}>
+          <SkeletonProducts currentPage={page} />
+        </div>
       </div>
     </div>
   );

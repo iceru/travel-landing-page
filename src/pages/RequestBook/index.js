@@ -99,10 +99,9 @@ const RequestBook = () => {
         }
       )
       .then(function (response) {
-        // if (response.data) {
-        //   window.location.replace(response.data.url);
-        // }
-        console.log(response);
+        if (response.data) {
+          window.location.replace(response.data.url);
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -324,7 +323,10 @@ const RequestBook = () => {
                   <SelectInput label={t("country")} name="country">
                     <option value="">Select Country</option>
                     {countries.map((country, i) => (
-                      <option value={country.name} key={i}>
+                      <option
+                        value={`${country.number}_${country.name}`}
+                        key={i}
+                      >
                         {country.name}
                       </option>
                     ))}

@@ -1,6 +1,45 @@
 @import "../../assets/styles/variables";
 
 .products {
+  position: relative;
+  margin-top: -3.5rem;
+
+  .floatingText {
+    position: sticky;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 60px;
+
+    .text {
+      padding: 2.5rem 0.5rem;
+      background-color: $primary;
+      font-weight: bold;
+      writing-mode: vertical-rl;
+      border-bottom-right-radius: 1.25rem;
+      font-size: 1.8rem;
+    }
+
+    @include breakpoint(untilTablet) {
+      position: static;
+      width: max-content;
+
+      .text {
+        writing-mode: horizontal-tb;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .productsWrapper {
+    width: 90%;
+    margin: auto;
+
+    @include breakpoint(untilTablet) {
+      width: 100%;
+    }
+  }
   .titlePage {
     text-align: center;
     padding: 0.5rem 1rem;
@@ -35,7 +74,7 @@
         margin-bottom: 0.5rem;
         img {
           width: 100%;
-          height: 220px;
+          height: 180px;
           object-fit: cover;
           border-top-left-radius: 1.25rem;
         }

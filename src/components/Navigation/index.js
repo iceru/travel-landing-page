@@ -28,11 +28,11 @@ const Navigation = () => {
                   <img src={Logo} className="logo" alt="AKO MAG." />
                   <Row className="items g-0 mt-2 mt-md-3 ">
                     <Col className="itemLink">
-                      <Link to="/test">いこう.</Link>
+                      <Link to="#">いこう.</Link>
                     </Col>
                     <Col className="itemLink gray">かおう.</Col>
                     <Col className="itemLink">
-                      <Link to="/test">すもう.</Link>
+                      <Link to="#">すもう.</Link>
                     </Col>
                     <Col className="itemLink gray">お便り.</Col>
                     <Col className="itemLink">

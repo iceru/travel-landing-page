@@ -1,5 +1,6 @@
 export const TRANSLATIONS_JP = {
   search: "探す",
+  booking: "予約",
   not_found: "現在商品を登録中です。またのご利用をお待ちしております。 😉",
   all_categories: "すべてのカテゴリ",
   accommodation: "宿泊施設",

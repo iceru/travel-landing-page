@@ -42,7 +42,7 @@
           }
         }
 
-        @include breakpoint(desktop) {
+        @include breakpoint(laptop) {
           width: 25rem;
           padding: 0 4rem;
           .leftTop {
@@ -62,7 +62,7 @@
           border-top: 0.1rem dashed rgba($color: #000000, $alpha: 0.7);
         }
 
-        @include breakpoint(desktop) {
+        @include breakpoint(laptop) {
           padding-right: 4rem !important;
           padding-left: 4rem !important;
           padding-top: 0;
@@ -114,7 +114,7 @@
               border-radius: 1.5rem;
             }
 
-            @include breakpoint(desktop) {
+            @include breakpoint(laptop) {
               img {
                 width: 401px !important;
                 height: 540px !important;
@@ -129,14 +129,14 @@
             height: auto;
           }
 
-          @include breakpoint(desktop) {
+          @include breakpoint(laptop) {
             img {
               width: 120px;
             }
           }
         }
 
-        @include breakpoint(desktop) {
+        @include breakpoint(laptop) {
           .rightLinks {
             max-width: 200px;
           }

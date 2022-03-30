@@ -17,9 +17,15 @@ const CheckPrice = ({ service, handleSubmit }) => {
   const { t } = useTranslation();
 
   const setMinDate = () => {
+    debugger; //eslint-disable-line
     const today = new Date();
-    let dd = today.getDate() + 2;
-    let mm = today.getMonth() + 1;
+    let dd =
+      today.getDate() < 30
+        ? today.getDate() + 2
+        : today.getDate() === 30
+        ? 1
+        : 2;
+    let mm = today.getDate() < 30 ? today.getMonth() + 1 : today.getMonth() + 2;
     const yyyy = today.getFullYear();
     if (dd < 10) {
       dd = "0" + dd;

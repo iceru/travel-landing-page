@@ -49,6 +49,30 @@ const ProductItems = ({
     }
   };
 
+  const serviceType = () => {
+    let serviceType = "Accommodation";
+    if (service && service.IndustryCategoryGroups) {
+      switch (service.IndustryCategoryGroups[0]) {
+        case 0:
+          serviceType = "Accommodation";
+          break;
+        case 1:
+          serviceType = "Activity";
+          break;
+        case 2:
+          serviceType = "Restaurant";
+          break;
+        case 3:
+          serviceType = "Produce";
+          break;
+        default:
+          return "Accommodation";
+      }
+    }
+
+    return serviceType;
+  };
+
   const goToRequestBook = () => {
     const selectedItems = extras.filter((item) => {
       return item.ParentId === selectedBooking.Id;
@@ -63,7 +87,9 @@ const ProductItems = ({
       Price: selectedBooking.Configurations[0].Quotes[0].TotalPrice,
       CurrentCurrency: "JPY",
       Language: language,
-      IndustryCategoryGroup: selectedBooking.IndustryCategoryGroups[0],
+      IndustryCategoryGroup: serviceType(
+        selectedBooking.IndustryCategoryGroups[0]
+      ),
       CommencementDate: selectedBooking.Configurations[0].Quotes[0].Commence,
       ConcludeDate: selectedBooking.Configurations[0].Quotes[0].Conclude,
       Duration:

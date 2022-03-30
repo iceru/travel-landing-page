@@ -13,7 +13,6 @@ import "./style.scss";
 const Invoice = () => {
   const [bookingDetails, setBookingDetails] = useState(null);
   const [error, setError] = useState(false);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     axios
@@ -29,7 +28,6 @@ const Invoice = () => {
       .then(function (response) {
         if (response.data) {
           setBookingDetails(response.data);
-          console.log(response.data);
         }
       })
       .catch(function (error) {
@@ -232,9 +230,7 @@ const Invoice = () => {
                       JSON.parse(bookingDetails.product_extras).map((extra) => {
                         return (
                           <>
-                            <div className="col-3 border-top">
-                              {JSON.parse(extra).Name}
-                            </div>
+                            <div className="col-3 border-top">{extra.Name}</div>
                             <div className="col-3 border-top" />
                             <div className="col-3 border-top" />
                             <div className="col-3 border-top border-left">
@@ -243,7 +239,7 @@ const Invoice = () => {
                                   bookingDetails.session.metadata
                                     .ProductDetails_CurrentCurrency
                                 }
-                                {formatMoney(JSON.parse(extra).TotalCost)}
+                                {formatMoney(extra.TotalCost)}
                               </h6>
                             </div>
                           </>
