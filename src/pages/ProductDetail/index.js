@@ -11,7 +11,13 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-import { bodyRequest, headers, quoteRequest } from "../../helpers/utils";
+import {
+  bodyRequest,
+  headers,
+  quoteRequest,
+  distributorQuick,
+  distributorRequest,
+} from "../../helpers/utils";
 import DefaultImg from "../../assets/images/no_image.png";
 import { endpoints } from "../../helpers/endpoints";
 
@@ -87,8 +93,8 @@ const ProductDetail = () => {
     };
 
     const onReq = searchParams.get("on_req");
-    if (onReq === "true") detailRequest.request.ShortName = "TestDistributorOA";
-    else detailRequest.request.ShortName = "TestDistributor";
+    if (onReq === "true") detailRequest.request.ShortName = distributorRequest;
+    else detailRequest.request.ShortName = distributorQuick;
 
     axios
       .post(endpoints.search, detailRequest, { headers: headers })
@@ -119,6 +125,10 @@ const ProductDetail = () => {
 
     if (service && service.Children.length > 0) {
       setBookingQuotes([]);
+      debugger; //eslint-disable-line
+      const onReq = searchParams.get("on_req");
+      if (onReq === "true") quoteRequest.request.ShortName = distributorRequest;
+      else quoteRequest.request.ShortName = distributorQuick;
       service.Children.map((children, i) => {
         quoteRequest.request.IndustryCategoryGroup =
           children.IndustryCategoryGroups[0];
