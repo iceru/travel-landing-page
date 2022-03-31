@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 
 import {
   bodyRequest,
-  headers,
   distributorQuick,
   distributorRequest,
 } from "../../helpers/utils";
@@ -47,6 +46,7 @@ const Products = () => {
   const [onRequest, setOnRequest] = useState([]);
   const [services, setServices] = useState([]);
   const [stateServices, setStateServices] = useState([]);
+  const [geocodes, setGeocodes] = useState(false);
 
   const [skeletonShow, setSkeletonShow] = useState("none");
   const [productsShow, setProductsShow] = useState("block");
@@ -104,56 +104,61 @@ const Products = () => {
     getData();
   }, [language]);
 
+  useEffect(() => {
+    stateServices &&
+      stateServices.map((item) => {
+        if (item.HasGeocodes) {
+          setGeocodes(true);
+        }
+      });
+  }, [stateServices]);
+
   const dispatchQuick = (page) => {
     productsRequest.request.ShortName = distributorQuick;
 
-    axios
-      .post(endpoints.search, productsRequest, { headers: headers })
-      .then((response) => {
-        if (page && page > 1) {
-          setServices((data) => [...data, ...response.data.Entities]);
-          setQuickBooking((data) => [...data, ...response.data.Entities]);
-          setStateServices((stateServices) => [
-            ...stateServices,
-            ...response.data.Entities,
-          ]);
-        } else {
-          setQuickBooking(response.data.Entities);
-          setServices(response.data.Entities);
-          setStateServices((stateServices) => [
-            ...stateServices,
-            ...response.data.Entities,
-          ]);
-          setTotalPage(response.data.Paging.NumberOfPages);
-        }
-        setProductsShow("block");
-        setSkeletonShow("none");
-      });
+    axios.post(endpoints.search, productsRequest).then((response) => {
+      if (page && page > 1) {
+        setServices((data) => [...data, ...response.data.Entities]);
+        setQuickBooking((data) => [...data, ...response.data.Entities]);
+        setStateServices((stateServices) => [
+          ...stateServices,
+          ...response.data.Entities,
+        ]);
+      } else {
+        setQuickBooking(response.data.Entities);
+        setServices(response.data.Entities);
+        setStateServices((stateServices) => [
+          ...stateServices,
+          ...response.data.Entities,
+        ]);
+        setTotalPage(response.data.Paging.NumberOfPages);
+      }
+      setProductsShow("block");
+      setSkeletonShow("none");
+    });
   };
 
   const dispatchRequest = (pageRequest) => {
     productsRequest.request.ShortName = distributorRequest;
 
-    axios
-      .post(endpoints.search, productsRequest, { headers: headers })
-      .then((response) => {
-        if (pageRequest && pageRequest > 1) {
-          setServices((data) => [...data, ...response.data.Entities]);
-          setOnRequest((data) => [...data, ...response.data.Entities]);
-          setStateServices((stateServices) => [
-            ...stateServices,
-            ...response.data.Entities,
-          ]);
-          setSkeletonShow("none");
-        } else {
-          setOnRequest(response.data.Entities);
-          setStateServices((stateServices) => [
-            ...stateServices,
-            ...response.data.Entities,
-          ]);
-          setTotalPageOnRequest(response.data.Paging.NumberOfPages);
-        }
-      });
+    axios.post(endpoints.search, productsRequest).then((response) => {
+      if (pageRequest && pageRequest > 1) {
+        setServices((data) => [...data, ...response.data.Entities]);
+        setOnRequest((data) => [...data, ...response.data.Entities]);
+        setStateServices((stateServices) => [
+          ...stateServices,
+          ...response.data.Entities,
+        ]);
+        setSkeletonShow("none");
+      } else {
+        setOnRequest(response.data.Entities);
+        setStateServices((stateServices) => [
+          ...stateServices,
+          ...response.data.Entities,
+        ]);
+        setTotalPageOnRequest(response.data.Paging.NumberOfPages);
+      }
+    });
   };
 
   const getData = (payload) => {
@@ -348,7 +353,7 @@ const Products = () => {
             className="productsMap"
             style={{ display: itemsShow === true ? "none" : "block" }}
           >
-            {stateServices.length > 0 && (
+            {geocodes && stateServices.length > 0 && (
               <Map positions={stateServices} zoom={9} />
             )}
           </div>

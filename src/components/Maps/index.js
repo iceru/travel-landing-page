@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   withGoogleMap,
   withScriptjs,
@@ -162,14 +162,8 @@ const MapComponent = compose(
       defaultCenter={
         Array.isArray(props.markers)
           ? {
-              lat:
-                props.markers &&
-                props.markers[0].Geocodes &&
-                props.markers[0].Geocodes[0].Geocode.Latitude,
-              lng:
-                props.markers &&
-                props.markers[0].Geocodes &&
-                props.markers[0].Geocodes[0].Geocode.Longitude,
+              lat: props.markers[props.number].Geocodes[0].Geocode.Latitude,
+              lng: props.markers[props.number].Geocodes[0].Geocode.Longitude,
             }
           : {
               lat: props.markers.Geocodes[0].Geocode.Latitude,
@@ -277,9 +271,24 @@ const Map = ({ positions, zoom }) => {
   //   zoom,
   //   options: { radius: 75, maxZoom: 20 },
   // });
+  const [numberPositions, setNumberPositions] = useState(0);
+
+  useEffect(() => {
+    Array.isArray(positions) &&
+      positions.map((item, i) => {
+        if (item.HasGeocodes) {
+          setNumberPositions(i);
+        }
+      });
+  }, [positions]);
   return (
     <>
-      <MapComponent isMarkerShown markers={positions} zoom={zoom || 12} />
+      <MapComponent
+        isMarkerShown
+        markers={positions}
+        number={numberPositions}
+        zoom={zoom || 12}
+      />
     </>
   );
 };
