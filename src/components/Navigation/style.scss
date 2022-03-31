@@ -11,8 +11,7 @@
   }
 
   .container-fluid {
-    padding-bottom: 13vh;
-    padding-top: 13vh;
+    padding: 13vh 4rem;
     background: rgb(242, 245, 4);
 
     @include breakpoint(untilTablet) {
@@ -31,7 +30,7 @@
     > .row {
       justify-content: center;
 
-      @include breakpoint(desktop) {
+      @include breakpoint(laptop) {
         flex-wrap: nowrap;
       }
 
@@ -56,7 +55,7 @@
         }
 
         @include breakpoint(tablet) {
-          width: 29rem;
+          width: 27rem;
           padding: 0 4rem;
           .leftTop {
             height: 14rem;
@@ -68,6 +67,10 @@
           .left-desc {
             font-size: 1.1rem;
           }
+        }
+
+        @include breakpoint(desktop) {
+          width: 29rem;
         }
       }
 
@@ -147,8 +150,15 @@
 
             @include breakpoint(laptop) {
               img {
-                width: 420px !important;
-                height: 540px !important;
+                width: 412px !important;
+                height: 522px !important;
+              }
+            }
+
+            @include breakpoint(desktop) {
+              img {
+                width: 451px !important;
+                height: 571px !important;
               }
             }
           }

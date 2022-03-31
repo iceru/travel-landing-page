@@ -58,7 +58,7 @@
       right: 0;
       text-align: center;
       padding: 12px;
-      border-bottom-left-radius: 10px;
+      border-bottom-left-radius: 0.8rem;
       background-color: rgba($color: #fff, $alpha: 0.5);
       font-size: 13px;
       border-left: 0.8rem solid white;
@@ -66,6 +66,16 @@
       font-weight: bold;
       position: relative;
       width: 10rem;
+
+      @include breakpoint(laptop) {
+        padding: 30px;
+        width: 195px;
+
+        div,
+        p {
+          font-size: 15px;
+        }
+      }
 
       div,
       p {
@@ -109,7 +119,14 @@
       }
       @include breakpoint(laptop) {
         img {
-          width: 400px;
+          width: 412px;
+          height: 522px;
+        }
+      }
+      @include breakpoint(desktop) {
+        img {
+          width: 451px;
+          height: 571x;
         }
       }
     }
