@@ -76,4 +76,5 @@ export const TRANSLATIONS_EN = {
   check_out: "Check Out",
   not_found_page: "Not Found",
   booking_date: "Booking Date",
+  back_to_booking: "Back to Booking Page",
 };

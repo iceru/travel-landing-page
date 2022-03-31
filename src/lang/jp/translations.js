@@ -75,4 +75,5 @@ export const TRANSLATIONS_JP = {
   check_out: "チェックアウト",
   not_found_page: "見つかりません",
   booking_date: "予約日",
+  back_to_booking: "予約ページに戻る",
 };

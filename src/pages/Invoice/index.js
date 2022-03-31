@@ -50,6 +50,12 @@ const Invoice = () => {
   return (
     <>
       <div className="container">
+        <a
+          href="https://book.ako-mag.jp"
+          className="btn btn-secondary fw-bold mb-4"
+        >
+          {t("back_to_booking")}
+        </a>
         {!error ? (
           bookingDetails ? (
             <div className="wrapper">
