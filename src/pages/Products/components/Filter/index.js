@@ -33,7 +33,8 @@ const Filter = ({ filter, selectedCategory }) => {
         event.target[2].value.includes("-")
           ? event.target[2].value.split("-")[1]
           : null,
-      keyword: event.target[3].value,
+      keyword: category !== "3" ? event.target[3].value : null,
+      typeShop: category === "3" ? event.target[3].value : null,
     };
     filter(data);
   };
@@ -71,13 +72,21 @@ const Filter = ({ filter, selectedCategory }) => {
               <option value="20000-">¥20.000 +</option>
             </Form.Select>
           </Col>
-          <Col xs={6} className="col-lg mb-3 mb-lg-0">
-            <Form.Control
-              type="text"
-              name="keyword"
-              placeholder={t("keyword")}
-            />
-          </Col>
+          {category !== "3" ? (
+            <Col xs={6} className="col-lg mb-3 mb-lg-0">
+              <Form.Control
+                type="text"
+                name="keyword"
+                placeholder={t("keyword")}
+              />
+            </Col>
+          ) : (
+            <Col xs={6} className="col-lg mb-3 mb-lg-0">
+              <Form.Select type="text">
+                <option value="all-shop">All Categories</option>
+              </Form.Select>
+            </Col>
+          )}
           <Col xs={12} className="col-lg mb-3 mb-lg-0">
             <Button className="w-100" variant="secondary" type="submit">
               {t("search")}

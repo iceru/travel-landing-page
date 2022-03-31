@@ -118,8 +118,6 @@ const ProductItems = ({
     });
   };
 
-  debugger; //eslint-disable-line
-
   const seeMore = () => {
     setDescMore(!descMore);
   };

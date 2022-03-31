@@ -44,8 +44,6 @@ const CheckPrice = ({ service, handleSubmit }) => {
                 </div>
                 <Form.Select>
                   <option>All Categories</option>
-                  <option>Dairy</option>
-                  <option>Wine</option>
                 </Form.Select>
               </div>
             )}

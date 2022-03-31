@@ -14,7 +14,7 @@ import moment from "moment";
 
 import DefaultImg from "../../assets/images/no_image.png";
 
-import { distributor } from "../../helpers/utils";
+import { distributorQuick } from "../../helpers/utils";
 import { endpoints } from "../../helpers/endpoints";
 import { formatMoney } from "../../helpers/formatters";
 
@@ -48,11 +48,11 @@ const Cart = ({ language }) => {
       Products: products,
     };
 
-    const brandingStyle = distributor;
+    const brandingStyle = distributorQuick;
     const formData = [
       { name: "type", value: "BookingInjection" },
       { name: "data", value: JSON.stringify(favourites) },
-      { name: "exl_dn", value: distributor },
+      { name: "exl_dn", value: distributorQuick },
       { name: "exl_bs", value: brandingStyle },
       { name: "exl_lng", value: language + "-JP" },
       { name: "exl_cur", value: "JPY" },

@@ -8,7 +8,12 @@ import {
 } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { bodyRequest, headers } from "../../helpers/utils";
+import {
+  bodyRequest,
+  headers,
+  distributorQuick,
+  distributorRequest,
+} from "../../helpers/utils";
 import { endpoints } from "../../helpers/endpoints";
 import SkeletonProducts from "./components/SkeletonProducts";
 import Filter from "./components/Filter";
@@ -100,7 +105,7 @@ const Products = () => {
   }, [language]);
 
   const dispatchQuick = (page) => {
-    productsRequest.request.ShortName = "TestDistributor";
+    productsRequest.request.ShortName = distributorQuick;
 
     axios
       .post(endpoints.search, productsRequest, { headers: headers })
@@ -127,7 +132,7 @@ const Products = () => {
   };
 
   const dispatchRequest = (pageRequest) => {
-    productsRequest.request.ShortName = "TestDistributorOA";
+    productsRequest.request.ShortName = distributorRequest;
 
     axios
       .post(endpoints.search, productsRequest, { headers: headers })
