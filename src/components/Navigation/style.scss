@@ -56,7 +56,7 @@
         }
 
         @include breakpoint(tablet) {
-          width: 27rem;
+          width: 29rem;
           padding: 0 4rem;
           .leftTop {
             height: 14rem;
@@ -128,7 +128,7 @@
 
             h1,
             p {
-              font-size: 10px;
+              font-size: 12px;
               font-weight: bold;
               margin-bottom: 0;
             }
