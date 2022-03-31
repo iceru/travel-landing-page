@@ -11,19 +11,21 @@
   }
 
   .container-fluid {
-    padding-bottom: 10vh;
-    padding-top: 10vh;
+    padding-bottom: 13vh;
+    padding-top: 13vh;
     background: rgb(242, 245, 4);
+
+    @include breakpoint(untilTablet) {
+      padding-bottom: 10vh;
+      padding-top: 10vh;
+    }
 
     .linkStatic {
       color: rgba(var(--blk), 0.7);
+      font-weight: bold;
       &:hover {
         color: black;
       }
-    }
-
-    @include breakpoint(desktop) {
-      padding: 12vh 4rem;
     }
 
     > .row {
@@ -42,15 +44,19 @@
         }
         .itemLink {
           white-space: nowrap;
-          font-weight: bold;
+          font-weight: bolder;
 
           &.gray {
             color: rgba(90, 90, 90, 0.5);
           }
         }
 
-        @include breakpoint(laptop) {
-          width: 25rem;
+        .left-desc {
+          font-weight: bold;
+        }
+
+        @include breakpoint(tablet) {
+          width: 27rem;
           padding: 0 4rem;
           .leftTop {
             height: 14rem;
@@ -58,6 +64,9 @@
 
           .itemLink {
             font-size: 15px;
+          }
+          .left-desc {
+            font-size: 1.1rem;
           }
         }
       }
@@ -79,8 +88,13 @@
           margin-top: -4rem !important;
           margin-left: -1.5rem !important;
           margin-bottom: 3rem !important;
-          font-size: 10px;
+          font-size: 12px;
           line-height: 1.7;
+          font-weight: bold;
+
+          @include breakpoint(untilTablet) {
+            margin-bottom: 2rem !important;
+          }
         }
 
         .linkRight {
@@ -101,6 +115,16 @@
             padding: 1.5rem;
             border-bottom-left-radius: 1.5rem;
             border-top-right-radius: 1.5rem;
+
+            @include breakpoint(untilTablet) {
+              padding: 12px;
+              width: 70%;
+
+              h1,
+              p {
+                text-align: end;
+              }
+            }
 
             h1,
             p {
@@ -123,7 +147,7 @@
 
             @include breakpoint(laptop) {
               img {
-                width: 401px !important;
+                width: 420px !important;
                 height: 540px !important;
               }
             }
@@ -138,7 +162,7 @@
 
           @include breakpoint(laptop) {
             img {
-              width: 120px;
+              width: 140px;
             }
           }
         }
@@ -151,6 +175,7 @@
 
         .textDesc {
           font-size: 11px;
+          font-weight: bold;
 
           div {
             margin-top: 0.5rem;

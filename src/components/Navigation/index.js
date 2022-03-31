@@ -23,31 +23,35 @@ const Navigation = () => {
         <div className="container-fluid">
           <Row>
             <Col className="navLeft" xs={9} sm={5} md={"auto"}>
-              <div className="leftTop">
-                <div className="position-sticky">
-                  <img src={Logo} className="logo" alt="AKO MAG." />
-                  <Row className="items g-0 mt-2 mt-md-3 ">
-                    <Col className="itemLink">
-                      <Link to="#">いこう.</Link>
-                    </Col>
-                    <Col className="itemLink gray">かおう.</Col>
-                    <Col className="itemLink">
-                      <Link to="#">すもう.</Link>
-                    </Col>
-                    <Col className="itemLink gray">お便り.</Col>
-                    <Col className="itemLink">
-                      <a href="https://ako-mag.jp/about/">わたしたち.</a>
-                    </Col>
-                  </Row>
+              <div className="ms-0 ms-lg-3">
+                <div className="leftTop">
+                  <div className="position-sticky">
+                    <img src={Logo} className="logo" alt="AKO MAG." />
+                    <Row className="items g-0 mt-2 mt-md-3 ">
+                      <Col className="itemLink">
+                        <Link to="#">いこう.</Link>
+                      </Col>
+                      <Col className="itemLink gray">かおう.</Col>
+                      <Col className="itemLink">
+                        <Link to="#">すもう.</Link>
+                      </Col>
+                      <Col className="itemLink gray">お便り.</Col>
+                      <Col className="itemLink">
+                        <a href="https://ako-mag.jp/about/">わたしたち.</a>
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+                <div className="mt-3 mt-lg-4 left-desc">
+                  温泉やスイーツといったカルチャーと塩田や赤穂浪士といった伝統が溶け合った｢新しい赤穂｣が､今注目を浴びています｡
+                </div>
+                <div className="mt-3 mt-lg-4 left-desc">
+                  この溢れる｢赤穂｣の魅力を､｢観光｣｢物産｣｢移住｣のカテゴリで発信｡あなたにとってイイ感じの赤穂､見つけてください♪
+                </div>
+                <div className="text-end mt-3 mt-md-5 left-desc">
+                  赤穂マガジン.
                 </div>
               </div>
-              <div className="mt-3 mt-lg-4">
-                温泉やスイーツといったカルチャーと塩田や赤穂浪士といった伝統が溶け合った｢新しい赤穂｣が､今注目を浴びています｡
-              </div>
-              <div className="mt-3 mt-lg-4">
-                この溢れる｢赤穂｣の魅力を､｢観光｣｢物産｣｢移住｣のカテゴリで発信｡あなたにとってイイ感じの赤穂､見つけてください♪
-              </div>
-              <div className="text-end mt-3 mt-md-5">赤穂マガジン.</div>
             </Col>
             <Col xs={9} sm={5} md={"auto"} className="navRight">
               <Row className="align-items-end ">
