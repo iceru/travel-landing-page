@@ -10,13 +10,12 @@ import DefaultImg from "../../../../assets/images/no_image.png";
 import { formatMoney } from "../../../../helpers/formatters";
 
 import "./style.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const propTypes = {
   bookingQuotes: PropTypes.array,
   changeQuantity: PropTypes.func,
   onRequest: PropTypes.string,
-  language: PropTypes.string,
   service: PropTypes.object,
   quotesInfo: PropTypes.object,
   error: PropTypes.bool,
@@ -26,7 +25,6 @@ const ProductItems = ({
   bookingQuotes,
   changeQuantity,
   onRequest,
-  language,
   service,
   quotesInfo,
   error,
@@ -39,6 +37,8 @@ const ProductItems = ({
   const [show, setShow] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState();
   const [errorItems, setErrorItems] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [lang, setLang] = useState('en');
 
   const handleClose = () => setShow(false);
 
@@ -47,6 +47,11 @@ const ProductItems = ({
       setErrorItems(true);
     }
   }, [error]);
+
+  useEffect(() => {
+    const language = searchParams.get('lang')
+    setLang(language);
+  }, [searchParams])
 
   const submitBooking = (booking) => {
     if (onRequest === "true") {
@@ -86,7 +91,9 @@ const ProductItems = ({
     const selectedItems = extras.filter((item) => {
       return item.ParentId === selectedBooking.Id;
     });
+    
     selectedBooking.selectedExtras = selectedItems;
+    debugger; //eslint-disable-line
     const address = `${service.PhysicalAddress.Line1}, ${service.PhysicalAddress.City}, ${service.PhysicalAddress.PostCode}, ${service.PhysicalAddress.State}`;
     const request = {
       ProductId: selectedBooking.Id,
@@ -95,7 +102,7 @@ const ProductItems = ({
       ProductCode: selectedBooking.Code,
       Price: selectedBooking.Configurations[0].Quotes[0].TotalPrice,
       CurrentCurrency: "JPY",
-      Language: language,
+      Language: lang === 'jp' ? 'ja' : lang,
       IndustryCategoryGroup: serviceType(
         selectedBooking.IndustryCategoryGroups[0]
       ),

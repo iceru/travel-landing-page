@@ -35,15 +35,15 @@ const BasicInfo = ({ service }) => {
         </tr>
         <tr>
           <td>{t("phone")}</td>
-          <td>{service.MainPhone.FullPhoneNumberLocalised}</td>
+          <td>{service.MainPhone.FullPhoneNumberLocalised || "-"}</td>
         </tr>
         <tr>
           <td>{t("website")}</td>
-          <td>{service.Website || "No Public Website"}</td>
+          <td>{(<a style={{textDecoration: 'underline'}} target="_blank" href={service.Website.includes('https') ? service.Website : `https://${service.Website}`} rel="noreferrer">{service.Website}</a>) || "No Public Website"}</td>
         </tr>
         <tr>
           <td>{t("email")}</td>
-          <td>{service.PublicEmail}</td>
+          <td>{service.PublicEmail ? (<a style={{textDecoration: 'underline'}} href={`mailto:${service.PublicEmail}`}>{service.PublicEmail}</a>) : "-"}</td>
         </tr>
       </tbody>
     </Table>
