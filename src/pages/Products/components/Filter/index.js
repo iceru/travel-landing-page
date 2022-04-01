@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -17,9 +17,8 @@ const Filter = ({ filter, selectedCategory }) => {
   const [category, setCategory] = useState();
 
   useEffect(() => {
-    setCategory(selectedCategory)
-  }, [selectedCategory])
-  
+    setCategory(selectedCategory);
+  }, [selectedCategory]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,7 +33,8 @@ const Filter = ({ filter, selectedCategory }) => {
         event.target[2].value.includes("-")
           ? event.target[2].value.split("-")[1]
           : null,
-      keyword: event.target[3].value,
+      keyword: category !== "3" ? event.target[3].value : null,
+      typeShop: category === "3" ? event.target[3].value : null,
     };
     filter(data);
   };
@@ -52,8 +52,10 @@ const Filter = ({ filter, selectedCategory }) => {
             />
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
-            <Form.Select onChange={(event) => setCategory(event.target.value)}
-        value={category}>
+            <Form.Select
+              onChange={(event) => setCategory(event.target.value)}
+              value={category}
+            >
               <option value="all">{t("all_categories")}</option>
               <option value="0">{t("accommodation")}</option>
               <option value="1">{t("activity")}</option>
@@ -70,13 +72,21 @@ const Filter = ({ filter, selectedCategory }) => {
               <option value="20000-">¥20.000 +</option>
             </Form.Select>
           </Col>
-          <Col xs={6} className="col-lg mb-3 mb-lg-0">
-            <Form.Control
-              type="text"
-              name="keyword"
-              placeholder={t("keyword")}
-            />
-          </Col>
+          {category !== "3" ? (
+            <Col xs={6} className="col-lg mb-3 mb-lg-0">
+              <Form.Control
+                type="text"
+                name="keyword"
+                placeholder={t("keyword")}
+              />
+            </Col>
+          ) : (
+            <Col xs={6} className="col-lg mb-3 mb-lg-0">
+              <Form.Select type="text">
+                <option value="all-shop">All Categories</option>
+              </Form.Select>
+            </Col>
+          )}
           <Col xs={12} className="col-lg mb-3 mb-lg-0">
             <Button className="w-100" variant="secondary" type="submit">
               {t("search")}

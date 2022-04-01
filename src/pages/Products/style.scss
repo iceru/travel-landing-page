@@ -1,12 +1,58 @@
 @import "../../assets/styles/variables";
 
 .products {
+  position: relative;
+  margin-top: -3.5rem;
+
+  .floatingText {
+    position: sticky;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 60px;
+
+    .text {
+      padding: 2.5rem 0.5rem;
+      background-color: $primary;
+      font-weight: bold;
+      writing-mode: vertical-rl;
+      border-bottom-right-radius: 1.25rem;
+      font-size: 1.75rem;
+    }
+
+    @include breakpoint(untilTablet) {
+      position: static;
+      width: max-content;
+
+      .text {
+        writing-mode: horizontal-tb;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .productsWrapper,
+  .skeletonWrapper {
+    width: 90%;
+    margin: auto;
+    margin-top: -4rem;
+
+    @include breakpoint(untilTablet) {
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }
   .titlePage {
     text-align: center;
     font-size: 2rem;
     font-family: "Crimson Pro", serif;
     margin-bottom: 2rem;
     border-radius: 1.25rem 1.25rem 0 0;
+
+    @include breakpoint(untilTablet) {
+      font-size: 1.25rem;
+    }
   }
 
   .btn-primary {
@@ -93,6 +139,18 @@
       .title {
         -webkit-line-clamp: 1;
         font-size: 1.25rem;
+      }
+      .desc {
+        div,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p {
+          font-size: 14px !important;
+        }
       }
 
       .buttonWrapper {

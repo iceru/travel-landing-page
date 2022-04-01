@@ -52,11 +52,13 @@ const RequestBook = () => {
   const { state } = useLocation();
   const { t } = useTranslation();
   const [booking, setBooking] = useState();
+  const [request, setRequest] = useState();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    if (state && state.booking) {
+    if (state && state.booking && state.request) {
       setBooking(state.booking);
+      setRequest(state.request);
     }
   }, []);
 
@@ -76,18 +78,17 @@ const RequestBook = () => {
   };
 
   const handleSubmit = (values) => {
-    const request = {
-      ProductDetails: JSON.stringify(booking),
+    const requestData = {
+      ProductDetails: JSON.stringify(request),
       CustomerDetails: JSON.stringify(values),
       TotalPrice: getTotalPrice(booking),
       ReturnUrl: window.location.href,
     };
-
     axios
       .post(
         OREndpoint + "/checkout",
         {
-          ...request,
+          ...requestData,
         },
         {
           headers: {
@@ -321,7 +322,10 @@ const RequestBook = () => {
                   <SelectInput label={t("country")} name="country">
                     <option value="">Select Country</option>
                     {countries.map((country, i) => (
-                      <option value={country.name} key={i}>
+                      <option
+                        value={`${country.number}_${country.name}`}
+                        key={i}
+                      >
                         {country.name}
                       </option>
                     ))}

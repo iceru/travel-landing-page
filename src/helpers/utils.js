@@ -6,7 +6,8 @@ const disablePastDate = () => {
   return yyyy + "-" + mm + "-" + dd;
 };
 
-const distributor = "NaratabiA";
+const distributorQuick = "ako_mag";
+const distributorRequest = "TestDistributorOA";
 
 const bodyRequest = {
   request: {
@@ -51,7 +52,7 @@ const bodyRequest = {
       PageNumber: 1,
       PageSize: 12,
     },
-    ShortName: distributor,
+    ShortName: distributorQuick,
   },
 };
 
@@ -76,7 +77,7 @@ const quoteRequest = {
         },
       },
     ],
-    Shortname: distributor,
+    Shortname: distributorQuick,
   },
 };
 
@@ -84,4 +85,11 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export { bodyRequest, headers, quoteRequest, disablePastDate, distributor };
+export {
+  bodyRequest,
+  headers,
+  quoteRequest,
+  disablePastDate,
+  distributorQuick,
+  distributorRequest,
+};

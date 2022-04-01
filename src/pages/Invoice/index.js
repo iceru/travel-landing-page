@@ -1,8 +1,9 @@
 /* eslint-disable */
 import axios from "axios";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 
 import { OREndpoint } from "../../helpers/endpoints";
 import { getUrlParam, formatMoney } from "../../helpers/formatters";
@@ -13,6 +14,12 @@ import "./style.scss";
 const Invoice = () => {
   const [bookingDetails, setBookingDetails] = useState(null);
   const [error, setError] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const { t } = useTranslation();
+
+  const handleClose = () => {
+    setShowPrivacy(false);
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -29,7 +36,6 @@ const Invoice = () => {
       .then(function (response) {
         if (response.data) {
           setBookingDetails(response.data);
-          console.log(response.data);
         }
       })
       .catch(function (error) {
@@ -44,6 +50,12 @@ const Invoice = () => {
   return (
     <>
       <div className="container">
+        <a
+          href="https://book.ako-mag.jp"
+          className="btn btn-secondary fw-bold mb-4"
+        >
+          {t("back_to_booking")}
+        </a>
         {!error ? (
           bookingDetails ? (
             <div className="wrapper">
@@ -53,10 +65,10 @@ const Invoice = () => {
                 <div className="grey p-3">
                   <div className="row">
                     <div className="col-3">
-                      <b>{t("booking_reference")}</b>
+                      <b>{t("booking_date")}</b>
                     </div>
                     <div className="col-9 border-start">
-                      {moment(bookingDetails.requested_at).format("ll")}
+                      {moment(bookingDetails.requested_at).format("LLL")}
                     </div>
                   </div>
                   <div className="row border-top">
@@ -134,7 +146,7 @@ const Invoice = () => {
                           <b>{t("phone")}:</b>&nbsp;
                           {
                             bookingDetails.session.metadata
-                              .ProductDetails_SupplierPhone
+                              .productDetails_SupplierPhone
                           }
                         </span>
                         <span>
@@ -175,6 +187,7 @@ const Invoice = () => {
                       </div>
                       <div className="d-flex flex-column">
                         {bookingDetails.session.metadata.ProductDetails_Adults}
+                        &nbsp;
                         {t("adult")}
                       </div>
                     </div>
@@ -191,7 +204,7 @@ const Invoice = () => {
                             {moment(
                               bookingDetails.session.metadata
                                 .ProductDetails_CommencementDate
-                            ).format("ll")}
+                            ).format("LLL")}
                           </p>
                         </div>
                         <div className="mb-3">
@@ -202,7 +215,7 @@ const Invoice = () => {
                             {moment(
                               bookingDetails.session.metadata
                                 .ProductDetails_ConcludeDate
-                            ).format("ll")}
+                            ).format("LLL")}
                           </p>
                         </div>
                       </div>
@@ -231,9 +244,7 @@ const Invoice = () => {
                       JSON.parse(bookingDetails.product_extras).map((extra) => {
                         return (
                           <>
-                            <div className="col-3 border-top">
-                              {JSON.parse(extra).Name}
-                            </div>
+                            <div className="col-3 border-top">{extra.Name}</div>
                             <div className="col-3 border-top" />
                             <div className="col-3 border-top" />
                             <div className="col-3 border-top border-left">
@@ -242,7 +253,7 @@ const Invoice = () => {
                                   bookingDetails.session.metadata
                                     .ProductDetails_CurrentCurrency
                                 }
-                                {formatMoney(JSON.parse(extra).TotalCost)}
+                                {formatMoney(extra.TotalCost)}
                               </h6>
                             </div>
                           </>
@@ -253,16 +264,19 @@ const Invoice = () => {
                     </div>
                     <div className="col-3 border-top">
                       <h6 className="text-end">
-                        {
-                          bookingDetails.session.metadata
-                            .ProductDetails_CurrentCurrency
-                        }
-                        {formatMoney(
-                          bookingDetails.session.metadata.TotalPrice
+                        {bookingDetails.session.metadata.TotalPrice ? (
+                          `${
+                            bookingDetails.session.metadata
+                              .ProductDetails_CurrentCurrency
+                          }${formatMoney(
+                            bookingDetails.session.metadata.TotalPrice
+                          )}`
+                        ) : (
+                          <p>-</p>
                         )}
                       </h6>
                     </div>
-                    <div className="col-9 border-end border-top">
+                    {/* <div className="col-9 border-end border-top">
                       <h6 className="text-end">{t("amount_paid")}</h6>
                     </div>
                     <div className="col-3 border-top">
@@ -271,31 +285,36 @@ const Invoice = () => {
                           bookingDetails.session.metadata
                             .ProductDetails_CurrentCurrency
                         }
-                        0
                       </h6>
-                    </div>
+                    </div> */}
                     <div className="col-9 border-end border-top border-bottom">
                       <h6 className="text-end">{t("amount_owing")}</h6>
                     </div>
                     <div className="col-3 border-top border-bottom">
                       <h6 className="text-end">
-                        {
-                          bookingDetails.session.metadata
-                            .ProductDetails_CurrentCurrency
-                        }
-                        {formatMoney(
-                          bookingDetails.session.metadata.TotalPrice
+                        {bookingDetails.session.metadata.TotalPrice ? (
+                          `${
+                            bookingDetails.session.metadata
+                              .ProductDetails_CurrentCurrency
+                          }${formatMoney(
+                            bookingDetails.session.metadata.TotalPrice
+                          )}`
+                        ) : (
+                          <p>-</p>
                         )}
                       </h6>
                     </div>
                   </div>
                   <b>{t("special_requests")}</b>
                   <br />
-                  <p>
-                    {
+                  <p className="mb-0">
+                    {bookingDetails.session.metadata
+                      .CustomerDetails_specialRequest ? (
                       bookingDetails.session.metadata
                         .CustomerDetails_specialRequest
-                    }
+                    ) : (
+                      <span>-</span>
+                    )}
                   </p>
                 </div>
 
@@ -310,7 +329,12 @@ const Invoice = () => {
                   </div>
                   <div className="border-bottom mt-3">
                     <h6 className="font-weight-bold">TXJ Privacy Policy</h6>
-                    <p onClick={handleClick}>Click to view more</p>
+                    <p
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setShowPrivacy(true)}
+                    >
+                      Click to view more
+                    </p>
                   </div>
                 </div>
               </div>
@@ -322,6 +346,18 @@ const Invoice = () => {
           <h5 className="text-center">{t("not_found_page")}</h5>
         )}
       </div>
+
+      <Modal show={showPrivacy} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>TXJ Privacy Policy</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Privacy Text</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            {t("close")}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

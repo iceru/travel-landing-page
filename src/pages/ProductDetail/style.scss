@@ -37,6 +37,14 @@
         display: inline-block;
       }
 
+      @include breakpoint(untilTablet) {
+        .serviceType {
+          font-size: 1rem;
+          margin-left: -1rem;
+          padding-left: 1rem;
+        }
+      }
+
       .title {
         text-align: center;
       }
@@ -96,7 +104,7 @@
         .formIcon {
           position: relative;
           margin-right: 0.5rem;
-          max-width: 100px;
+          max-width: 102px;
 
           .icon {
             position: absolute;
@@ -109,6 +117,10 @@
               height: 20px;
               width: auto;
             }
+          }
+
+          @include breakpoint(untilTablet) {
+            margin-bottom: 0 !important;
           }
 
           input {

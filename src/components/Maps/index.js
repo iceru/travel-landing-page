@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   withGoogleMap,
   withScriptjs,
@@ -6,9 +6,8 @@ import {
   Marker,
 } from "react-google-maps";
 const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
-// import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import PropTypes from "prop-types";
-import { compose, withProps, withStateHandlers, withHandlers } from "recompose";
+import { compose, withProps, withStateHandlers } from "recompose";
 
 import Accomodation from "../../assets/images/accomodation.svg";
 import Activity from "../../assets/images/activity.svg";
@@ -18,6 +17,8 @@ import Produce from "../../assets/images/shopping.svg";
 import "./style.scss";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 /* eslint-disable */
 
@@ -64,62 +65,71 @@ const MarkerWithInfo = ({ item }) => {
   );
 
   return (
-    <Marker
-      position={{
-        lat: item.Geocodes && item.Geocodes[0].Geocode.Latitude,
-        lng: item.Geocodes && item.Geocodes[0].Geocode.Longitude,
-      }}
-      key={item.id}
-      onClick={onToggleOpen}
-      icon={iconMarker}
-    >
-      {isOpen && (
-        <InfoBox
-          onCloseClick={onToggleOpen}
-          options={{ closeBoxURL: ``, enableEventPropagation: true }}
-        >
-          <div
-            style={{
-              backgroundColor: `white`,
-              opacity: 1,
-              padding: `12px`,
-              borderRadius: "8px",
-            }}
+    item.Geocodes && (
+      <Marker
+        position={{
+          lat: item.Geocodes[0].Geocode.Latitude,
+          lng: item.Geocodes[0].Geocode.Longitude,
+        }}
+        key={item.id}
+        onClick={onToggleOpen}
+        icon={iconMarker}
+      >
+        {isOpen && (
+          <InfoBox
+            onCloseClick={onToggleOpen}
+            options={{ closeBoxURL: ``, enableEventPropagation: true }}
           >
             <div
-              className="infoBox"
-              style={{ fontSize: `14px`, fontColor: `#08233B` }}
+              style={{
+                backgroundColor: `white`,
+                opacity: 1,
+                padding: `12px`,
+                borderRadius: "8px",
+              }}
             >
-              <div className="image">
-                <img
-                  className="mb-2"
-                  src={item.Images && item.Images[0].Url}
-                ></img>
-                <div className="name mb-2">{item.Name}</div>
-                <div className="address mb-2">
-                  {item.PhysicalAddress.Line1}, {item.PhysicalAddress.City},{" "}
-                  {item.PhysicalAddress.PostCode}
+              <div
+                className="infoBox"
+                style={{ fontSize: `14px`, fontColor: `#08233B` }}
+              >
+                <div className="text-end">
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    onClick={onToggleOpen}
+                    style={{ cursor: "pointer", marginBottom: "8px" }}
+                  />
                 </div>
-                <div className="address mb-2">
-                  {item.Availability.Calendar.LowestRate &&
-                    `From ¥ ${item.Availability.Calendar.LowestRate}`}
-                </div>
-                <div
-                  className="btn btn-primary w-100"
-                  onClick={() =>
-                    navigate(
-                      `/product?id=${item.Id}&on_req=${item.OnRequestOnly}`
-                    )
-                  }
-                >
-                  {t("view_details")}
+                <div className="image">
+                  <img
+                    className="mb-2"
+                    src={item.Images && item.Images[0].Url}
+                  ></img>
+                  <div className="name mb-2">{item.Name}</div>
+                  <div className="address mb-2">
+                    {item.PhysicalAddress.Line1}, {item.PhysicalAddress.City},{" "}
+                    {item.PhysicalAddress.PostCode}
+                  </div>
+                  <div className="address mb-2">
+                    {item.Availability.Calendar.LowestRate &&
+                      `From ¥ ${item.Availability.Calendar.LowestRate}`}
+                  </div>
+                  <div
+                    className="btn btn-primary w-100"
+                    onClick={() =>
+                      navigate(
+                        `/product?id=${item.Id}&on_req=${item.OnRequestOnly}`
+                      )
+                    }
+                  >
+                    {t("view_details")}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </InfoBox>
-      )}
-    </Marker>
+          </InfoBox>
+        )}
+      </Marker>
+    )
   );
 };
 
@@ -130,12 +140,6 @@ const MapComponent = compose(
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `600px` }} />,
     mapElement: <div style={{ height: `100%` }} />,
-  }),
-  withHandlers({
-    onMarkerClustererClick: () => (markerClusterer) => {
-      const clickedMarkers = markerClusterer.getMarkers();
-      console.log(`Current clicked markers length: ${clickedMarkers.length}`);
-    },
   }),
   withStateHandlers(
     () => ({
@@ -158,14 +162,8 @@ const MapComponent = compose(
       defaultCenter={
         Array.isArray(props.markers)
           ? {
-              lat:
-                props.markers &&
-                props.markers[0].Geocodes &&
-                props.markers[0].Geocodes[0].Geocode.Latitude,
-              lng:
-                props.markers &&
-                props.markers[0].Geocodes &&
-                props.markers[0].Geocodes[0].Geocode.Longitude,
+              lat: props.markers[props.number].Geocodes[0].Geocode.Latitude,
+              lng: props.markers[props.number].Geocodes[0].Geocode.Longitude,
             }
           : {
               lat: props.markers.Geocodes[0].Geocode.Latitude,
@@ -220,6 +218,12 @@ const MapComponent = compose(
                   className="infoBox"
                   style={{ fontSize: `14px`, fontColor: `#08233B` }}
                 >
+                  <div className="text-end">
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      onClick={props.onToggleOpen}
+                    />
+                  </div>
                   <div className="image">
                     <img
                       className="mb-2"
@@ -242,8 +246,8 @@ const MapComponent = compose(
           )}
         </Marker>
       ) : (
-        props.markers.map((item) => {
-          return <MarkerWithInfo item={item} />;
+        props.markers.map((item, i) => {
+          return <MarkerWithInfo key={i} item={item} />;
         })
       )}
     </GoogleMap>
@@ -267,9 +271,24 @@ const Map = ({ positions, zoom }) => {
   //   zoom,
   //   options: { radius: 75, maxZoom: 20 },
   // });
+  const [numberPositions, setNumberPositions] = useState(0);
+
+  useEffect(() => {
+    Array.isArray(positions) &&
+      positions.map((item, i) => {
+        if (item.HasGeocodes) {
+          setNumberPositions(i);
+        }
+      });
+  }, [positions]);
   return (
     <>
-      <MapComponent isMarkerShown markers={positions} zoom={zoom || 12} />
+      <MapComponent
+        isMarkerShown
+        markers={positions}
+        number={numberPositions}
+        zoom={zoom || 12}
+      />
     </>
   );
 };

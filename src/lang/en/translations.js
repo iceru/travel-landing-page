@@ -1,5 +1,6 @@
 export const TRANSLATIONS_EN = {
   search: "Search",
+  booking: "Booking",
   not_found:
     "Sorry, there are no products to display. Please revisit this page again soon. 😉",
   all_categories: "All Categories",
@@ -44,7 +45,7 @@ export const TRANSLATIONS_EN = {
   totals: "Totals",
   special_requests: "Special Requests",
   quick_booking: "Quick Booking",
-  request_book: "Request on Book",
+  request_book: "Request to Book",
   customer_detail: "Customer Detail",
   load_more: "Load More",
   request_to_book: "Request to Book",
@@ -74,4 +75,6 @@ export const TRANSLATIONS_EN = {
   check_in: "Check In",
   check_out: "Check Out",
   not_found_page: "Not Found",
+  booking_date: "Booking Date",
+  back_to_booking: "Back to Booking Page",
 };

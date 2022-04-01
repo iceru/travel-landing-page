@@ -11,8 +11,8 @@ const SkeletonItems = ({ skeletonItemShow }) => {
     <div className="productSkeleton mb-4" style={{ display: skeletonItemShow }}>
       <Skeleton height={30} width="30%" className="mb-3" />
 
-      {[...Array(2)].map((i) => (
-        <div key={i} className="row align-items-center mb-3">
+      {[...Array(2)].map((data, i) => (
+        <div key={i} id={data} className="row align-items-center mb-3">
           <div className="col-4">
             <Skeleton height={20} width="50%" className="mb-2" />
             <Skeleton height={80} width="30%" className="mb-2" />

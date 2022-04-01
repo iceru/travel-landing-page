@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListDots } from "@fortawesome/free-solid-svg-icons";
 import { Form, Button } from "react-bootstrap";
+import moment from "moment";
 import { useTranslation } from "react-i18next";
 
 import Guest from "../../../../assets/images/guest.png";
@@ -17,20 +18,8 @@ const CheckPrice = ({ service, handleSubmit }) => {
   const { t } = useTranslation();
 
   const setMinDate = () => {
-    const today = new Date();
-    let dd = today.getDate() + 2;
-    let mm = today.getMonth() + 1;
-    const yyyy = today.getFullYear();
-    if (dd < 10) {
-      dd = "0" + dd;
-    }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-
-    return yyyy + "-" + mm + "-" + dd;
+    return moment(moment(), "MM-DD-YYYY").add(2, "days").format("YYYY-MM-DD");
   };
-
   return (
     <div className="checkPrice mb-4">
       <h4>{t("check_price")}</h4>
@@ -55,8 +44,6 @@ const CheckPrice = ({ service, handleSubmit }) => {
                 </div>
                 <Form.Select>
                   <option>All Categories</option>
-                  <option>Dairy</option>
-                  <option>Wine</option>
                 </Form.Select>
               </div>
             )}

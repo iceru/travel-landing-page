@@ -11,7 +11,13 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-import { bodyRequest, headers, quoteRequest } from "../../helpers/utils";
+import {
+  bodyRequest,
+  headers,
+  quoteRequest,
+  distributorQuick,
+  distributorRequest,
+} from "../../helpers/utils";
 import DefaultImg from "../../assets/images/no_image.png";
 import { endpoints } from "../../helpers/endpoints";
 
@@ -32,6 +38,8 @@ const ProductDetail = () => {
   const [productItemShow, setProductItemShow] = useState("none");
   const [skeletonItemShow, setSkeletonItemShow] = useState("none");
   const [onRequest, setOnRequest] = useState("true");
+  const [quotesInfo, setQuotesInfo] = useState({});
+  const [errorItems, setErrorItems] = useState(false);
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -83,6 +91,11 @@ const ProductDetail = () => {
         },
       },
     };
+
+    const onReq = searchParams.get("on_req");
+    if (onReq === "true") detailRequest.request.ShortName = distributorRequest;
+    else detailRequest.request.ShortName = distributorQuick;
+
     axios
       .post(endpoints.search, detailRequest, { headers: headers })
       .then((response) => {
@@ -112,6 +125,10 @@ const ProductDetail = () => {
 
     if (service && service.Children.length > 0) {
       setBookingQuotes([]);
+      debugger; //eslint-disable-line
+      const onReq = searchParams.get("on_req");
+      if (onReq === "true") quoteRequest.request.ShortName = distributorRequest;
+      else quoteRequest.request.ShortName = distributorQuick;
       service.Children.map((children, i) => {
         quoteRequest.request.IndustryCategoryGroup =
           children.IndustryCategoryGroups[0];
@@ -132,6 +149,12 @@ const ProductDetail = () => {
 
             setProductItemShow("block");
             setSkeletonItemShow("none");
+          })
+          .catch((error) => {
+            console.log(error);
+            setErrorItems(true);
+            setProductItemShow("block");
+            setSkeletonItemShow("none");
           });
       });
     }
@@ -146,6 +169,7 @@ const ProductDetail = () => {
         duration: e.target[1] ? e.target[1].value : 1,
         pax: e.target[2] ? e.target[2].value : 2,
       };
+      setQuotesInfo(values);
     }
 
     getQuote(values);
@@ -250,6 +274,10 @@ const ProductDetail = () => {
                   bookingQuotes={bookingQuotes}
                   changeQuantity={changeQuantity}
                   onRequest={onRequest}
+                  language={language}
+                  service={service}
+                  quotesInfo={quotesInfo}
+                  error={errorItems}
                 />
               </div>
               <SkeletonItems skeletonItemShow={skeletonItemShow} />
