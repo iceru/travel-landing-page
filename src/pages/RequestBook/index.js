@@ -84,7 +84,6 @@ const RequestBook = () => {
       TotalPrice: getTotalPrice(booking),
       ReturnUrl: window.location.href,
     };
-
     axios
       .post(
         OREndpoint + "/checkout",

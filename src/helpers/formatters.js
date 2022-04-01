@@ -12,6 +12,19 @@ export function getUrlParam(name = "", url = "") {
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-export function formatMoney(value, thousandSeparator = ",") {
-  return value.toLocaleString("en").replace(/,/g, thousandSeparator);
+const defaultOptions = {
+  thousandsSeparator: ",",
+  symbol: "",
+};
+
+export function formatMoney(value, options) {
+  if (typeof value !== "number") value = parseInt(value);
+  options = { ...defaultOptions, ...options };
+  value = value.toFixed(options.significantDigits);
+
+  const [currency] = value.split(".");
+  return `${options.symbol} ${currency.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    options.thousandsSeparator
+  )}`;
 }

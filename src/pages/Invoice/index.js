@@ -68,7 +68,7 @@ const Invoice = () => {
                       <b>{t("booking_date")}</b>
                     </div>
                     <div className="col-9 border-start">
-                      {moment(bookingDetails.requested_at).format("ll")}
+                      {moment(bookingDetails.requested_at).format("LLL")}
                     </div>
                   </div>
                   <div className="row border-top">
@@ -146,7 +146,7 @@ const Invoice = () => {
                           <b>{t("phone")}:</b>&nbsp;
                           {
                             bookingDetails.session.metadata
-                              .ProductDetails_SupplierPhone
+                              .productDetails_SupplierPhone
                           }
                         </span>
                         <span>
@@ -204,7 +204,7 @@ const Invoice = () => {
                             {moment(
                               bookingDetails.session.metadata
                                 .ProductDetails_CommencementDate
-                            ).format("ll")}
+                            ).format("LLL")}
                           </p>
                         </div>
                         <div className="mb-3">
@@ -215,7 +215,7 @@ const Invoice = () => {
                             {moment(
                               bookingDetails.session.metadata
                                 .ProductDetails_ConcludeDate
-                            ).format("ll")}
+                            ).format("LLL")}
                           </p>
                         </div>
                       </div>
@@ -264,16 +264,19 @@ const Invoice = () => {
                     </div>
                     <div className="col-3 border-top">
                       <h6 className="text-end">
-                        {
-                          bookingDetails.session.metadata
-                            .ProductDetails_CurrentCurrency
-                        }
-                        {formatMoney(
-                          bookingDetails.session.metadata.TotalPrice
+                        {bookingDetails.session.metadata.TotalPrice ? (
+                          `${
+                            bookingDetails.session.metadata
+                              .ProductDetails_CurrentCurrency
+                          }${formatMoney(
+                            bookingDetails.session.metadata.TotalPrice
+                          )}`
+                        ) : (
+                          <p>-</p>
                         )}
                       </h6>
                     </div>
-                    <div className="col-9 border-end border-top">
+                    {/* <div className="col-9 border-end border-top">
                       <h6 className="text-end">{t("amount_paid")}</h6>
                     </div>
                     <div className="col-3 border-top">
@@ -283,29 +286,35 @@ const Invoice = () => {
                             .ProductDetails_CurrentCurrency
                         }
                       </h6>
-                    </div>
+                    </div> */}
                     <div className="col-9 border-end border-top border-bottom">
                       <h6 className="text-end">{t("amount_owing")}</h6>
                     </div>
                     <div className="col-3 border-top border-bottom">
                       <h6 className="text-end">
-                        {
-                          bookingDetails.session.metadata
-                            .ProductDetails_CurrentCurrency
-                        }
-                        {formatMoney(
-                          bookingDetails.session.metadata.TotalPrice
+                        {bookingDetails.session.metadata.TotalPrice ? (
+                          `${
+                            bookingDetails.session.metadata
+                              .ProductDetails_CurrentCurrency
+                          }${formatMoney(
+                            bookingDetails.session.metadata.TotalPrice
+                          )}`
+                        ) : (
+                          <p>-</p>
                         )}
                       </h6>
                     </div>
                   </div>
                   <b>{t("special_requests")}</b>
                   <br />
-                  <p>
-                    {
+                  <p className="mb-0">
+                    {bookingDetails.session.metadata
+                      .CustomerDetails_specialRequest ? (
                       bookingDetails.session.metadata
                         .CustomerDetails_specialRequest
-                    }
+                    ) : (
+                      <span>-</span>
+                    )}
                   </p>
                 </div>
 

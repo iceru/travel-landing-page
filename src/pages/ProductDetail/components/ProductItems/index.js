@@ -87,6 +87,7 @@ const ProductItems = ({
       return item.ParentId === selectedBooking.Id;
     });
     selectedBooking.selectedExtras = selectedItems;
+    const address = `${service.PhysicalAddress.Line1}, ${service.PhysicalAddress.City}, ${service.PhysicalAddress.PostCode}, ${service.PhysicalAddress.State}`;
     const request = {
       ProductId: selectedBooking.Id,
       ProductName: selectedBooking.Name,
@@ -106,9 +107,9 @@ const ProductItems = ({
           : null,
       Adults: quotesInfo.pax,
       SupplierName: service.Name,
-      SupplierAddress: service.Address,
+      SupplierAddress: address,
       SupplierEmail: service.PublicEmail,
-      SupplierPhone: service.Phone,
+      SupplierPhone: service.MainPhone.FullPhoneNumberLocalised,
       SupplierWebsite: service.Website,
       SupplierId: service.Id,
       SupplierCode: service.Code,
