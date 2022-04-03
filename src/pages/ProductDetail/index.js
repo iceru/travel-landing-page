@@ -41,7 +41,7 @@ const ProductDetail = () => {
   const [quotesInfo, setQuotesInfo] = useState({});
   const [errorItems, setErrorItems] = useState(false);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [language] = useOutletContext();
   const { t } = useTranslation();
@@ -91,7 +91,6 @@ const ProductDetail = () => {
         },
       },
     };
-
     const onReq = searchParams.get("on_req");
     if (onReq === "true") detailRequest.request.ShortName = distributorRequest;
     else detailRequest.request.ShortName = distributorQuick;
@@ -102,7 +101,12 @@ const ProductDetail = () => {
         setService(response.data.Entities[0]);
         setDetailShow(true);
       });
-  }, [searchParams, location]);
+  }, [searchParams, location]);  
+
+  useEffect(() => {
+    searchParams.set('lang', language);
+    setSearchParams(searchParams);
+  }, [language])
 
   useEffect(() => {
     const onReq = searchParams.get("on_req");
