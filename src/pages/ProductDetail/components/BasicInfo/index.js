@@ -22,8 +22,11 @@ const BasicInfo = ({ service }) => {
         <tr>
           <td>{t("price")}</td>
           <td>
-            {service.Availability.Calendar.LowestRate &&
-              `¥${formatMoney(service.Availability.Calendar.LowestRate)}`}
+            {service.Availability.Calendar.LowestRate ? (
+              `¥${formatMoney(service.Availability.Calendar.LowestRate)}`
+            ) : (
+              <span>-</span>
+            )}
           </td>
         </tr>
         <tr>

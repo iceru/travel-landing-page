@@ -54,6 +54,12 @@
         margin: 2rem 0;
         margin-bottom: 4rem;
 
+        @include breakpoint(untilTablet) {
+          > img {
+            width: 100%;
+          }
+        }
+
         .slick-dots {
           bottom: -40px;
         }

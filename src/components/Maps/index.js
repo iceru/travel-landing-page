@@ -162,8 +162,8 @@ const MapComponent = compose(
       defaultCenter={
         Array.isArray(props.markers)
           ? {
-              lat: props.markers[props.number].Geocodes[0].Geocode.Latitude,
-              lng: props.markers[props.number].Geocodes[0].Geocode.Longitude,
+              lat: props.markers[props.number]?.Geocodes[0].Geocode.Latitude,
+              lng: props.markers[props.number]?.Geocodes[0].Geocode.Longitude,
             }
           : {
               lat: props.markers.Geocodes[0].Geocode.Latitude,
@@ -271,7 +271,9 @@ const Map = ({ positions, zoom }) => {
   //   zoom,
   //   options: { radius: 75, maxZoom: 20 },
   // });
-  const [numberPositions, setNumberPositions] = useState(0);
+  const [numberPositions, setNumberPositions] = useState(null);
+
+  console.log(numberPositions);
 
   useEffect(() => {
     Array.isArray(positions) &&
@@ -281,15 +283,15 @@ const Map = ({ positions, zoom }) => {
         }
       });
   }, [positions]);
-  return (
-    <>
-      <MapComponent
-        isMarkerShown
-        markers={positions}
-        number={numberPositions}
-        zoom={zoom || 12}
-      />
-    </>
+  return Array.isArray(positions) && numberPositions ? (
+    <MapComponent
+      isMarkerShown
+      markers={positions}
+      number={numberPositions}
+      zoom={zoom || 12}
+    />
+  ) : (
+    <MapComponent isMarkerShown markers={positions} zoom={zoom || 12} />
   );
 };
 

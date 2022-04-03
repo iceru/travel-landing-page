@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Form, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import {
   useNavigate,
   useOutletContext,
@@ -23,30 +23,29 @@ import "./style.scss";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Products = () => {
-  const options = [
-    {
-      value: "Name-Ascending",
-      label: "Name - Ascending",
-    },
-    {
-      value: "Name-Descending",
-      label: "Name - Descending",
-    },
-    {
-      value: "Rate-Ascending",
-      label: "Rate - Ascending",
-    },
-    {
-      value: "Rate-Descending",
-      label: "Rate - Descending",
-    },
-  ];
+  // const options = [
+  //   {
+  //     value: "Name-Ascending",
+  //     label: "Name - Ascending",
+  //   },
+  //   {
+  //     value: "Name-Descending",
+  //     label: "Name - Descending",
+  //   },
+  //   {
+  //     value: "Rate-Ascending",
+  //     label: "Rate - Ascending",
+  //   },
+  //   {
+  //     value: "Rate-Descending",
+  //     label: "Rate - Descending",
+  //   },
+  // ];
 
   const [quickBooking, setQuickBooking] = useState([]);
   const [onRequest, setOnRequest] = useState([]);
   const [services, setServices] = useState([]);
   const [stateServices, setStateServices] = useState([]);
-  const [geocodes, setGeocodes] = useState(false);
 
   const [skeletonShow, setSkeletonShow] = useState("none");
   const [productsShow, setProductsShow] = useState("block");
@@ -59,7 +58,6 @@ const Products = () => {
   const [totalPageOnRequest, setTotalPageOnRequest] = useState(1);
 
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedOption, setSelectedOption] = useState(options[0].value);
 
   const [language] = useOutletContext();
   const navigate = useNavigate();
@@ -88,15 +86,7 @@ const Products = () => {
       };
       setSelectedCategory(category);
     }
-    if (sort) {
-      productsRequest.request.Sorting = [
-        {
-          By: `${sort.split("-")[0]}`,
-          Direction: `${sort.split("-")[1]}`,
-        },
-      ];
-    }
-    if (sort || (category && category !== "all")) {
+    if (category && category !== "all") {
       getData();
     }
   }, []);
@@ -113,15 +103,6 @@ const Products = () => {
     ];
     getData();
   }, [language]);
-
-  useEffect(() => {
-    stateServices &&
-      stateServices.map((item) => {
-        if (item.HasGeocodes) {
-          setGeocodes(true);
-        }
-      });
-  }, [stateServices]);
 
   const dispatchQuick = (page) => {
     productsRequest.request.ShortName = distributorQuick;
@@ -258,18 +239,6 @@ const Products = () => {
     setStateButton("map");
   };
 
-  const onSort = (value) => {
-    setSelectedOption(value);
-    searchParams.set("sort", value);
-    setSearchParams(searchParams);
-    productsRequest.request.Sorting = [
-      {
-        By: `${value.split("-")[0]}`,
-        Direction: `${value.split("-")[1]}`,
-      },
-    ];
-    getData();
-  };
 
   const goToDetail = (id, onReq) => {
     navigate(`/product?id=${id}&on_req=${onReq}`);
@@ -328,7 +297,10 @@ const Products = () => {
               {t("map")}
             </Button>
           </div>
-          <div
+        </div>
+        <div>
+          
+        <div
             className="productItems"
             style={{ display: itemsShow === true ? "block" : "none" }}
           >
@@ -347,30 +319,10 @@ const Products = () => {
             className="productsMap"
             style={{ display: itemsShow === true ? "none" : "block" }}
           >
-            {geocodes && stateServices.length > 0 && (
-              <Map positions={stateServices} zoom={9} />
-            )}
-          </div>
-        </div>
-        <div
-          className="productItems"
-          style={{ display: itemsShow === true ? "block" : "none" }}
-        >
-          <Items
-            services={services}
-            goToDetail={goToDetail}
-            loadMore={loadMore}
-            totalPage={totalPage}
-            currentPage={page}
-          />
-        </div>
-        <div
-          className="productsMap"
-          style={{ display: itemsShow === true ? "none" : "block" }}
-        >
-          {stateServices.length > 0 && (
+           {stateServices.length > 0 && (
             <Map positions={stateServices} zoom={9} />
           )}
+          </div>
         </div>
       </div>
 
