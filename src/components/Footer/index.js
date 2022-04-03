@@ -43,7 +43,7 @@ const Footer = () => {
         </Col>
         <Col xs={12} sm={5} md="auto" className="bottomFooter">
           <div className="position-relative">
-            <a href="#">
+            <a href="https://ako-mag.jp/about/">
               <div className="position-absolute topRight">
                 <div className="mb-2">あこう魅力発信基地が運営🙆‍♂️🙆‍♀️</div>
                 <p>

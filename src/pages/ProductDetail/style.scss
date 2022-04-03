@@ -59,6 +59,10 @@
         margin: 2rem 0;
         margin-bottom: 4rem;
 
+        > img {
+          width: 100%;
+        }
+
         .slick-dots {
           bottom: -40px;
         }
@@ -149,6 +153,7 @@
 
           @include breakpoint(untilTablet) {
             margin-bottom: 0 !important;
+            max-width: 85px;
           }
 
           input {

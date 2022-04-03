@@ -13,12 +13,12 @@ const SkeletonItems = ({ skeletonItemShow }) => {
 
       {[...Array(2)].map((data, i) => (
         <div key={i} id={data} className="row align-items-center mb-3">
-          <div className="col-4">
+          <div className="col-12 col-lg-4">
             <Skeleton height={20} width="50%" className="mb-2" />
             <Skeleton height={80} width="30%" className="mb-2" />
             <Skeleton height={15} count={3} width="70%" className="mb-2" />
           </div>
-          <div className="col-1 ms-auto">
+          <div className="col-12 col-lg-1 ms-auto">
             <Skeleton height={35} width="100%" />
           </div>
         </div>

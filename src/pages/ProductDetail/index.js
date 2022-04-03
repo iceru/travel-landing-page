@@ -125,7 +125,6 @@ const ProductDetail = () => {
 
     if (service && service.Children.length > 0) {
       setBookingQuotes([]);
-      debugger; //eslint-disable-line
       const onReq = searchParams.get("on_req");
       if (onReq === "true") quoteRequest.request.ShortName = distributorRequest;
       else quoteRequest.request.ShortName = distributorQuick;

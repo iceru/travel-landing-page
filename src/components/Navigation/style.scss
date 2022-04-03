@@ -15,14 +15,13 @@
     background: rgb(242, 245, 4);
 
     @include breakpoint(untilTablet) {
-      padding-bottom: 10vh;
-      padding-top: 10vh;
+      padding: 10vh .5rem;
     }
 
     .linkStatic {
       color: rgba(var(--blk), 0.7);
       font-weight: bold;
-      &:hover {
+      &:hover { 
         color: black;
       }
     }
