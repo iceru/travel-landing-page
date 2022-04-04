@@ -42,11 +42,30 @@ const BasicInfo = ({ service }) => {
         </tr>
         <tr>
           <td>{t("website")}</td>
-          <td>{service.Website || "No Public Website"}</td>
+          <td>
+            {service.Website ? (
+              <a style={{ textDecoration: "underline" }} href={service.Website}>
+                {service.Website}
+              </a>
+            ) : (
+              "No Public Website"
+            )}
+          </td>
         </tr>
         <tr>
           <td>{t("email")}</td>
-          <td>{service.PublicEmail}</td>
+          <td>
+            {service.PublicEmail ? (
+              <a
+                style={{ textDecoration: "underline" }}
+                href={`mailto:${service.PublicEmail}`}
+              >
+                {service.PublicEmail}
+              </a>
+            ) : (
+              <span>-</span>
+            )}
+          </td>
         </tr>
       </tbody>
     </Table>

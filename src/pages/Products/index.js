@@ -51,7 +51,7 @@ const Products = () => {
   const [productsShow, setProductsShow] = useState("block");
   const [itemsShow, setitemsShow] = useState(true);
   const [stateButton, setStateButton] = useState("quick");
-  
+
   const [page, setPage] = useState(1);
   const [pageRequest, setPageRequest] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -123,9 +123,23 @@ const Products = () => {
           ...response.data.Entities,
         ]);
         setTotalPage(response.data.Paging.NumberOfPages);
+        setProductsShow("block");
+        setSkeletonShow("none");
       }
-      setProductsShow("block");
-      setSkeletonShow("none");
+    });
+    dispatchRestaurant();
+  };
+
+  const dispatchRestaurant = () => {
+    productsRequest.request.ShortName = "NaratabiB";
+
+    axios.post(endpoints.search, productsRequest).then((response) => {
+      setQuickBooking((data) => [...data, ...response.data.Entities]);
+      setServices((data) => [...data, ...response.data.Entities]);
+      setStateServices((stateServices) => [
+        ...stateServices,
+        ...response.data.Entities,
+      ]);
     });
   };
 
@@ -135,7 +149,7 @@ const Products = () => {
     axios.post(endpoints.search, productsRequest).then((response) => {
       if (pageRequest && pageRequest > 1) {
         setServices((data) => [...data, ...response.data.Entities]);
-        setOnRequest((data) => [...data, ...response.data.Entities]);
+        setQuickBooking((data) => [...data, ...response.data.Entities]);
         setStateServices((stateServices) => [
           ...stateServices,
           ...response.data.Entities,
@@ -239,7 +253,6 @@ const Products = () => {
     setStateButton("map");
   };
 
-
   const goToDetail = (id, onReq) => {
     navigate(`/product?id=${id}&on_req=${onReq}`);
   };
@@ -299,8 +312,7 @@ const Products = () => {
           </div>
         </div>
         <div>
-          
-        <div
+          <div
             className="productItems"
             style={{ display: itemsShow === true ? "block" : "none" }}
           >
@@ -319,9 +331,9 @@ const Products = () => {
             className="productsMap"
             style={{ display: itemsShow === true ? "none" : "block" }}
           >
-           {stateServices.length > 0 && (
-            <Map positions={stateServices} zoom={9} />
-          )}
+            {stateServices.length > 0 && (
+              <Map positions={stateServices} zoom={9} />
+            )}
           </div>
         </div>
       </div>
