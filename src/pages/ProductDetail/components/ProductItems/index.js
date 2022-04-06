@@ -30,7 +30,7 @@ const ProductItems = ({
   error,
 }) => {
   const { addItem } = useCart();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [descMore, setDescMore] = useState(false);
   const [extras, setExtras] = useState([]);
@@ -38,7 +38,7 @@ const ProductItems = ({
   const [selectedBooking, setSelectedBooking] = useState();
   const [errorItems, setErrorItems] = useState(false);
   const [searchParams] = useSearchParams();
-  const [lang, setLang] = useState('en');
+  const [lang, setLang] = useState("en");
 
   const handleClose = () => setShow(false);
 
@@ -49,9 +49,8 @@ const ProductItems = ({
   }, [error]);
 
   useEffect(() => {
-    const language = searchParams.get('lang')
-    setLang(language);
-  }, [searchParams])
+    setLang(i18n.language);
+  }, [searchParams]);
 
   const submitBooking = (booking) => {
     if (onRequest === "true") {
@@ -64,14 +63,14 @@ const ProductItems = ({
   };
 
   const serviceType = () => {
-    let serviceType = "Accommodation";
+    let serviceType = "None";
     if (service && service.IndustryCategoryGroups) {
       switch (service.IndustryCategoryGroups[0]) {
         case 0:
           serviceType = "Accommodation";
           break;
         case 1:
-          serviceType = "Activity";
+          serviceType = "Activities";
           break;
         case 2:
           serviceType = "Restaurant";
@@ -80,7 +79,7 @@ const ProductItems = ({
           serviceType = "Produce";
           break;
         default:
-          return "Accommodation";
+          return "None";
       }
     }
 
@@ -91,7 +90,7 @@ const ProductItems = ({
     const selectedItems = extras.filter((item) => {
       return item.ParentId === selectedBooking.Id;
     });
-    
+
     selectedBooking.selectedExtras = selectedItems;
     debugger; //eslint-disable-line
     const address = `${service.PhysicalAddress.Line1}, ${service.PhysicalAddress.City}, ${service.PhysicalAddress.PostCode}, ${service.PhysicalAddress.State}`;
@@ -102,7 +101,7 @@ const ProductItems = ({
       ProductCode: selectedBooking.Code,
       Price: selectedBooking.Configurations[0].Quotes[0].TotalPrice,
       CurrentCurrency: "JPY",
-      Language: lang === 'jp' ? 'ja' : lang,
+      Language: lang === "jp" ? "ja" : lang,
       IndustryCategoryGroup: serviceType(
         selectedBooking.IndustryCategoryGroups[0]
       ),
@@ -121,6 +120,7 @@ const ProductItems = ({
       SupplierId: service.Id,
       SupplierCode: service.Code,
     };
+    debugger; //eslint-disable-line
     navigate(`/request-book?id=${selectedBooking.Id}`, {
       state: { booking: selectedBooking, request: request },
     });
