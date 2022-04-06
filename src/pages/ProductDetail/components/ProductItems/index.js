@@ -10,13 +10,12 @@ import DefaultImg from "../../../../assets/images/no_image.png";
 import { formatMoney } from "../../../../helpers/formatters";
 
 import "./style.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const propTypes = {
   bookingQuotes: PropTypes.array,
   changeQuantity: PropTypes.func,
   onRequest: PropTypes.string,
-  language: PropTypes.string,
   service: PropTypes.object,
   quotesInfo: PropTypes.object,
   error: PropTypes.bool,
@@ -26,19 +25,20 @@ const ProductItems = ({
   bookingQuotes,
   changeQuantity,
   onRequest,
-  language,
   service,
   quotesInfo,
   error,
 }) => {
   const { addItem } = useCart();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [descMore, setDescMore] = useState(false);
   const [extras, setExtras] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState();
   const [errorItems, setErrorItems] = useState(false);
+  const [lang, setLang] = useState("en");
+  const [searchParams] = useSearchParams();
 
   const handleClose = () => setShow(false);
 
@@ -47,6 +47,10 @@ const ProductItems = ({
       setErrorItems(true);
     }
   }, [error]);
+
+  useEffect(() => {
+    setLang(i18n.language);
+  }, [searchParams]);
 
   const submitBooking = (booking) => {
     if (onRequest === "true") {
@@ -59,14 +63,14 @@ const ProductItems = ({
   };
 
   const serviceType = () => {
-    let serviceType = "Accommodation";
+    let serviceType = "None";
     if (service && service.IndustryCategoryGroups) {
       switch (service.IndustryCategoryGroups[0]) {
         case 0:
           serviceType = "Accommodation";
           break;
         case 1:
-          serviceType = "Activity";
+          serviceType = "Activities";
           break;
         case 2:
           serviceType = "Restaurant";
@@ -75,7 +79,7 @@ const ProductItems = ({
           serviceType = "Produce";
           break;
         default:
-          return "Accommodation";
+          return "None";
       }
     }
 
@@ -95,7 +99,7 @@ const ProductItems = ({
       ProductCode: selectedBooking.Code,
       Price: selectedBooking.Configurations[0].Quotes[0].TotalPrice,
       CurrentCurrency: "JPY",
-      Language: language,
+      Language: lang === "jp" ? "ja" : lang,
       IndustryCategoryGroup: serviceType(
         selectedBooking.IndustryCategoryGroups[0]
       ),
@@ -114,6 +118,7 @@ const ProductItems = ({
       SupplierId: service.Id,
       SupplierCode: service.Code,
     };
+    debugger; //eslint-disable-line
     navigate(`/request-book?id=${selectedBooking.Id}`, {
       state: { booking: selectedBooking, request: request },
     });

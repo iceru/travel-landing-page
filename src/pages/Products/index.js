@@ -127,21 +127,21 @@ const Products = () => {
         setSkeletonShow("none");
       }
     });
-    dispatchRestaurant();
+    // dispatchRestaurant();
   };
 
-  const dispatchRestaurant = () => {
-    productsRequest.request.ShortName = "NaratabiB";
+  // const dispatchRestaurant = () => {
+  //   productsRequest.request.ShortName = "NaratabiB";
 
-    axios.post(endpoints.search, productsRequest).then((response) => {
-      setQuickBooking((data) => [...data, ...response.data.Entities]);
-      setServices((data) => [...data, ...response.data.Entities]);
-      setStateServices((stateServices) => [
-        ...stateServices,
-        ...response.data.Entities,
-      ]);
-    });
-  };
+  //   axios.post(endpoints.search, productsRequest).then((response) => {
+  //     setQuickBooking((data) => [...data, ...response.data.Entities]);
+  //     setServices((data) => [...data, ...response.data.Entities]);
+  //     setStateServices((stateServices) => [
+  //       ...stateServices,
+  //       ...response.data.Entities,
+  //     ]);
+  //   });
+  // };
 
   const dispatchRequest = (pageRequest) => {
     productsRequest.request.ShortName = distributorRequest;
