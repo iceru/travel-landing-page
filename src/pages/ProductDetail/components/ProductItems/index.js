@@ -187,13 +187,6 @@ const ProductItems = ({
                           })}{" "}
                           &nbsp;
                         </Form.Label>
-                        <Form.Select>
-                          <option>
-                            {moment(
-                              booking.Configurations[0].Quotes[0].Commence
-                            ).format("hh:mm")}
-                          </option>
-                        </Form.Select>
                       </div>
                     )
                   )}
