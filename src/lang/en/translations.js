@@ -49,7 +49,7 @@ export const TRANSLATIONS_EN = {
   customer_detail: "Customer Detail",
   load_more: "Load More",
   request_to_book: "Request to Book",
-  start_time: "Start time: {{ time }}, or choose a different time",
+  start_time: "Start time: {{ time }}",
   continue_payment: "Continue to Payment",
   close: "Close",
   quantity: "Quantity",

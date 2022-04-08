@@ -10,7 +10,7 @@ import DefaultImg from "../../../../assets/images/no_image.png";
 import { formatMoney } from "../../../../helpers/formatters";
 
 import "./style.scss";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const propTypes = {
   bookingQuotes: PropTypes.array,
@@ -37,7 +37,6 @@ const ProductItems = ({
   const [show, setShow] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState();
   const [errorItems, setErrorItems] = useState(false);
-  const [searchParams] = useSearchParams();
   const [lang, setLang] = useState("en");
 
   const handleClose = () => setShow(false);
@@ -50,7 +49,7 @@ const ProductItems = ({
 
   useEffect(() => {
     setLang(i18n.language);
-  }, [searchParams]);
+  });
 
   const submitBooking = (booking) => {
     if (onRequest === "true") {
@@ -120,7 +119,6 @@ const ProductItems = ({
       SupplierId: service.Id,
       SupplierCode: service.Code,
     };
-    debugger; //eslint-disable-line
     navigate(`/request-book?id=${selectedBooking.Id}`, {
       state: { booking: selectedBooking, request: request },
     });
@@ -189,13 +187,6 @@ const ProductItems = ({
                           })}{" "}
                           &nbsp;
                         </Form.Label>
-                        <Form.Select>
-                          <option>
-                            {moment(
-                              booking.Configurations[0].Quotes[0].Commence
-                            ).format("hh:mm")}
-                          </option>
-                        </Form.Select>
                       </div>
                     )
                   )}

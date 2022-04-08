@@ -41,7 +41,7 @@ const ProductDetail = () => {
   const [quotesInfo, setQuotesInfo] = useState({});
   const [errorItems, setErrorItems] = useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [language] = useOutletContext();
   const { t } = useTranslation();
@@ -102,11 +102,6 @@ const ProductDetail = () => {
         setDetailShow(true);
       });
   }, [searchParams, location]);  
-
-  useEffect(() => {
-    searchParams.set('lang', language);
-    setSearchParams(searchParams);
-  }, [language])
 
   useEffect(() => {
     const onReq = searchParams.get("on_req");
