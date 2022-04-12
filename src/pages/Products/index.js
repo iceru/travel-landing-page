@@ -23,22 +23,27 @@ import "./style.scss";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Products = () => {
+  const [language] = useOutletContext();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const options = [
     {
       value: "Name-Ascending",
-      label: "Name - Ascending",
+      label: t('name_ascending'),
     },
     {
       value: "Name-Descending",
-      label: "Name - Descending",
+      label: t('name_descending'),
     },
     {
       value: "Rate-Ascending",
-      label: "Rate - Ascending",
+      label: t('rate_ascending'),
     },
     {
       value: "Rate-Descending",
-      label: "Rate - Descending",
+      label: t('rate_descending'),
     },
   ];
 
@@ -61,10 +66,6 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
-  const [language] = useOutletContext();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const productsRequest = bodyRequest;
 
@@ -321,7 +322,7 @@ const Products = () => {
               </Button>
             </div>
             <div className="d-flex sort">
-              <div className="text">Sort by:</div>
+              <div className="text">{t('sort_by')}:</div>
               <Form.Select
                 value={selectedOption}
                 onChange={(e) => onSort(e.target.value)}
