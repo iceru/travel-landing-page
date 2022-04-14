@@ -273,8 +273,6 @@ const Map = ({ positions, zoom }) => {
   // });
   const [numberPositions, setNumberPositions] = useState(null);
 
-  console.log(numberPositions);
-
   useEffect(() => {
     Array.isArray(positions) &&
       positions.map((item, i) => {

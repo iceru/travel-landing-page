@@ -77,4 +77,9 @@ export const TRANSLATIONS_EN = {
   not_found_page: "Not Found",
   booking_date: "Booking Date",
   back_to_booking: "Back to Booking Page",
+  sort_by: "Sort by",
+  name_ascending: "Name-Ascending",
+  name_descending: "Name-Descending",
+  rate_ascending: "Rate-Ascending",
+  rate_descending: "Rate-Descending",
 };

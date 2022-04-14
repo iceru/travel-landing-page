@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import {
   useNavigate,
   useOutletContext,
@@ -23,24 +23,29 @@ import "./style.scss";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Products = () => {
-  // const options = [
-  //   {
-  //     value: "Name-Ascending",
-  //     label: "Name - Ascending",
-  //   },
-  //   {
-  //     value: "Name-Descending",
-  //     label: "Name - Descending",
-  //   },
-  //   {
-  //     value: "Rate-Ascending",
-  //     label: "Rate - Ascending",
-  //   },
-  //   {
-  //     value: "Rate-Descending",
-  //     label: "Rate - Descending",
-  //   },
-  // ];
+  const [language] = useOutletContext();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const options = [
+    {
+      value: "Name-Ascending",
+      label: t('name_ascending'),
+    },
+    {
+      value: "Name-Descending",
+      label: t('name_descending'),
+    },
+    {
+      value: "Rate-Ascending",
+      label: t('rate_ascending'),
+    },
+    {
+      value: "Rate-Descending",
+      label: t('rate_descending'),
+    },
+  ];
 
   const [quickBooking, setQuickBooking] = useState([]);
   const [onRequest, setOnRequest] = useState([]);
@@ -51,6 +56,7 @@ const Products = () => {
   const [productsShow, setProductsShow] = useState("block");
   const [itemsShow, setitemsShow] = useState(true);
   const [stateButton, setStateButton] = useState("quick");
+  const [selectedOption, setSelectedOption] = useState(options[0].value);
 
   const [page, setPage] = useState(1);
   const [pageRequest, setPageRequest] = useState(1);
@@ -58,11 +64,6 @@ const Products = () => {
   const [totalPageOnRequest, setTotalPageOnRequest] = useState(1);
 
   const [selectedCategory, setSelectedCategory] = useState("all");
-
-  const [language] = useOutletContext();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const productsRequest = bodyRequest;
 
@@ -192,6 +193,17 @@ const Products = () => {
     }
   };
 
+  const onSort = (value) => {
+    setSelectedOption(value);
+    productsRequest.request.Sorting = [
+      {
+        By: `${value.split("-")[0]}`,
+        Direction: `${value.split("-")[1]}`,
+      },
+    ];
+    getData();
+  };
+
   const filterData = (values) => {
     if (values.minRange) {
       if (values.minRange === "0") {
@@ -310,6 +322,19 @@ const Products = () => {
               {t("map")}
             </Button>
           </div>
+          <div className="d-flex sort">
+              <div className="text">{t('sort_by')}:</div>
+              <Form.Select
+                value={selectedOption}
+                onChange={(e) => onSort(e.target.value)}
+              >
+                {options.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </Form.Select>
+            </div>
         </div>
         <div>
           <div

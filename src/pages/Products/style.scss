@@ -74,6 +74,18 @@
     }
   }
 
+  .sort {
+    .form-select {
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid lightgray;
+  
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
   .productItems {
     .item {
       margin-bottom: 2rem;
