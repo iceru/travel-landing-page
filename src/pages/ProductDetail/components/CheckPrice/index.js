@@ -72,7 +72,7 @@ const CheckPrice = ({ service, handleSubmit }) => {
                   </div>
                   <Form.Control
                     className="me-2"
-                    defaultValue={2}
+                    defaultValue={1}
                     type="number"
                     name="pax"
                   />
