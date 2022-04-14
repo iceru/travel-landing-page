@@ -32,11 +32,18 @@
     }
   }
 
+  > .container {
+    margin-top: -7rem;
+
+    @include breakpoint(untilTablet) {
+      margin-top: 1rem;
+    }
+  }
+
   .productsWrapper,
   .skeletonWrapper {
     width: 90%;
     margin: auto;
-    margin-top: -4rem;
 
     @include breakpoint(untilTablet) {
       width: 100%;

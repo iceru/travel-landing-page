@@ -16,7 +16,7 @@ function App() {
   const [langSelected, setLangSelected] = useState();
 
   useEffect(() => {
-    const lang = searchParams.get("lang");
+    const lang = i18n.language;
     setLangSelected(lang);
   }, [searchParams]);
 
