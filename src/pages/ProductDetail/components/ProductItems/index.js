@@ -254,17 +254,17 @@ const ProductItems = ({
                   >
                     {onRequest === "true"
                       ? t("request_to_book")
-                      : t("book_now")}
+                      : (service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('book_now_activ') : service.IndustryCategoryGroups[0] === 3 ? t('book_now_goods') : t('book_now') )}
                   </Button>
                 ) : (
-                  <p>Not Available</p>
+                  <p>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available') }</p>
                 )}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <h5 className="text-center">Not Available</h5>
+        <h5 className="text-center">{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available') }</h5>
       )}
 
       <Modal show={show} onHide={handleClose} centered>

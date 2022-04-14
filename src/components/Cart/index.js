@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { useCart } from "react-use-cart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,13 +19,14 @@ import { formatMoney } from "../../helpers/formatters";
 
 import "./style.scss";
 
-const propTypes = {
-  language: PropTypes.string,
-};
-
-const Cart = ({ language }) => {
+const Cart = () => {
   const [showCart, setShowCart] = useState("none");
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState('en');
+
+  useEffect(() => {
+    setLang(i18n.language);
+  })
 
   const { items, removeItem, totalUniqueItems, isEmpty } = useCart();
 
@@ -54,7 +54,7 @@ const Cart = ({ language }) => {
       { name: "data", value: JSON.stringify(favourites) },
       { name: "exl_dn", value: distributorQuick },
       { name: "exl_bs", value: brandingStyle },
-      { name: "exl_lng", value: language + "-JP" },
+      { name: "exl_lng", value: lang === 'jp' ? 'ja' : lang + "-JP" },
       { name: "exl_cur", value: "JPY" },
       {
         name: "options",
@@ -74,6 +74,8 @@ const Cart = ({ language }) => {
 
       form.appendChild(input);
     });
+
+    debugger; //eslint-disable-line
 
     document.body.appendChild(form);
 
@@ -175,7 +177,5 @@ const Cart = ({ language }) => {
     </>
   );
 };
-
-Cart.propTypes = propTypes;
 
 export default Cart;

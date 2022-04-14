@@ -6,7 +6,7 @@ const disablePastDate = () => {
   return yyyy + "-" + mm + "-" + dd;
 };
 
-const distributorQuick = "ako_mag";
+const distributorQuick = "TestDistributor";
 const distributorRequest = "TestDistributorOA";
 
 const bodyRequest = {

@@ -22,7 +22,7 @@ const CheckPrice = ({ service, handleSubmit }) => {
   };
   return (
     <div className="checkPrice mb-4">
-      <h4>{t("check_price")}</h4>
+      <h4>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('check_price_activ') : service.IndustryCategoryGroups[0] === 3 ? t('check_price_goods') : t('check_price') }</h4>
       <form onSubmit={handleSubmit}>
         <div className="d-flex justify-content-between">
           <div className="d-flex flex-wrap">
@@ -43,7 +43,7 @@ const CheckPrice = ({ service, handleSubmit }) => {
                   <FontAwesomeIcon icon={faListDots} />
                 </div>
                 <Form.Select>
-                  <option>All Categories</option>
+                  <option>{t('all_categories')}</option>
                 </Form.Select>
               </div>
             )}
