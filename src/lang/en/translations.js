@@ -91,5 +91,6 @@ export const TRANSLATIONS_EN = {
   not_available: "Not Available",
   not_available_activ: "Not Available",
   not_available_goods: "Not Available",
-  price_tax: "Price (tax incl.)"
+  price_tax: "Price (tax incl.)",
+  date_placeholder: "dd/mm/yy",
 };

@@ -18,6 +18,8 @@
       writing-mode: vertical-rl;
       border-bottom-right-radius: 1.25rem;
       font-size: 1.75rem;
+      min-height: 190px;
+      text-align: center;
     }
 
     @include breakpoint(untilTablet) {
@@ -28,6 +30,7 @@
         writing-mode: horizontal-tb;
         padding: 1rem 2rem;
         font-size: 1rem;
+        min-height: 0;
       }
     }
   }
