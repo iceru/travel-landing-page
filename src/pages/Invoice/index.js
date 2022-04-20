@@ -44,9 +44,6 @@ const Invoice = () => {
       });
   }, []);
 
-  const handleClick = () => {
-    console.log("click");
-  };
   return (
     <>
       <div className="container">
@@ -265,9 +262,8 @@ const Invoice = () => {
                     <div className="col-3 border-top">
                       <h6 className="text-end">
                         {bookingDetails.session.metadata.TotalPrice ? (
-                          `${
-                            bookingDetails.session.metadata
-                              .ProductDetails_CurrentCurrency
+                          `${bookingDetails.session.metadata
+                            .ProductDetails_CurrentCurrency
                           }${formatMoney(
                             bookingDetails.session.metadata.TotalPrice
                           )}`
@@ -293,9 +289,8 @@ const Invoice = () => {
                     <div className="col-3 border-top border-bottom">
                       <h6 className="text-end">
                         {bookingDetails.session.metadata.TotalPrice ? (
-                          `${
-                            bookingDetails.session.metadata
-                              .ProductDetails_CurrentCurrency
+                          `${bookingDetails.session.metadata
+                            .ProductDetails_CurrentCurrency
                           }${formatMoney(
                             bookingDetails.session.metadata.TotalPrice
                           )}`

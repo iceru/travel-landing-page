@@ -21,7 +21,6 @@ const Filter = ({ filter, selectedCategory }) => {
   const [showCalendar, setShowCalendar] = useState(false);
 
   const onChange = (value) => {
-    debugger; //eslint-disable-line
     setValue(value);
     setShowCalendar(false);
   }

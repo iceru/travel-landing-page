@@ -75,8 +75,6 @@ const Cart = () => {
       form.appendChild(input);
     });
 
-    debugger; //eslint-disable-line
-
     document.body.appendChild(form);
 
     form.submit();
