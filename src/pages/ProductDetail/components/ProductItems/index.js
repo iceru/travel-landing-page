@@ -11,6 +11,7 @@ import { formatMoney } from "../../../../helpers/formatters";
 
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
+import { isEmpty } from "lodash";
 
 const propTypes = {
   bookingQuotes: PropTypes.array,
@@ -38,6 +39,7 @@ const ProductItems = ({
   const [selectedBooking, setSelectedBooking] = useState();
   const [errorItems, setErrorItems] = useState(false);
   const [lang, setLang] = useState("en");
+  const [available, setAvailable] = useState([]);
 
   const handleClose = () => setShow(false);
 
@@ -91,7 +93,6 @@ const ProductItems = ({
     });
 
     selectedBooking.selectedExtras = selectedItems;
-    debugger; //eslint-disable-line
     const address = `${service.PhysicalAddress.Line1}, ${service.PhysicalAddress.City}, ${service.PhysicalAddress.PostCode}, ${service.PhysicalAddress.State}`;
     const request = {
       ProductId: selectedBooking.Id,
@@ -149,9 +150,16 @@ const ProductItems = ({
     }
   };
 
+  useEffect(() => {
+    if (!isEmpty(bookingQuotes)) {
+      const availableItems = bookingQuotes.find(item => { return item?.Configurations[0]?.Quotes })
+      availableItems && setAvailable(availableItems);
+    }
+  }, [bookingQuotes])
+
   return (
     <>
-      {!errorItems || bookingQuotes.length > 1 ? (
+      {!errorItems && !isEmpty(bookingQuotes) && !isEmpty(available) ? (
         <div className="items">
           {_.sortBy(bookingQuotes, "Name").map((booking, i) => (
             <div key={i} className="productItem row align-items-center">
@@ -254,17 +262,17 @@ const ProductItems = ({
                   >
                     {onRequest === "true"
                       ? t("request_to_book")
-                      : (service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('book_now_activ') : service.IndustryCategoryGroups[0] === 3 ? t('book_now_goods') : t('book_now') )}
+                      : (service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('book_now_activ') : service.IndustryCategoryGroups[0] === 3 ? t('book_now_goods') : t('book_now'))}
                   </Button>
                 ) : (
-                  <p>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available') }</p>
+                  <p>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available')}</p>
                 )}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <h5 className="text-center">{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available') }</h5>
+        <h5 className="text-center">{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available')}</h5>
       )}
 
       <Modal show={show} onHide={handleClose} centered>

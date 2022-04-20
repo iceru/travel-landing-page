@@ -101,7 +101,7 @@ const ProductDetail = () => {
         setService(response.data.Entities[0]);
         setDetailShow(true);
       });
-  }, [searchParams, location]);  
+  }, [searchParams, location]);
 
   useEffect(() => {
     const onReq = searchParams.get("on_req");
@@ -116,6 +116,8 @@ const ProductDetail = () => {
   }, [service]);
 
   const getQuote = (values) => {
+    setProductItemShow("none");
+
     quoteRequest.request.Configurations[0].Pax.Adults =
       parseInt(values && values.pax) || 2;
     quoteRequest.request.CommencementDate =
@@ -254,7 +256,7 @@ const ProductDetail = () => {
               </div>
               <div
                 className="description mb-3"
-              dangerouslySetInnerHTML={{ __html: service.LongDescription }}
+                dangerouslySetInnerHTML={{ __html: service.LongDescription }}
               ></div>
               <CheckPrice
                 date={date}
@@ -266,7 +268,7 @@ const ProductDetail = () => {
                 style={{ display: productItemShow }}
               >
                 <div className="sectionTitle">
-                  <span>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('available_products_activity') : service.IndustryCategoryGroups[0] === 3 ? t('available_products_goods') : t('available_products') }</span>
+                  <span>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('available_products_activity') : service.IndustryCategoryGroups[0] === 3 ? t('available_products_goods') : t('available_products')}</span>
                 </div>
                 <ProductItems
                   bookingQuotes={bookingQuotes}
