@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,13 @@ const Items = ({
   currentPage,
   currentPageOnRequest,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const [lang, setLang] = useState('en');
+
+  useEffect(() => {
+    setLang(i18n.language);
+  }, [i18n.language])
 
   return (
     <Row>
@@ -64,9 +70,12 @@ const Items = ({
                   </div>
                   <div className="price">
                     {service.Availability.Calendar.LowestRate &&
-                      `From ¥ ${formatMoney(
+                      (lang === 'jp' ?  `¥${formatMoney(
                         service.Availability.Calendar.LowestRate
-                      )}`}
+                      )} から` :  `From ¥${formatMoney(
+                        service.Availability.Calendar.LowestRate
+                      )}`)
+                    }
                   </div>
                   <div
                     className="desc"

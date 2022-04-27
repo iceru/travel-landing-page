@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useCart } from "react-use-cart";
 import { useTranslation } from "react-i18next";
+import { isEmpty } from "lodash";
 import moment from "moment";
 
 import DefaultImg from "../../../../assets/images/no_image.png";
@@ -39,6 +40,7 @@ const ProductItems = ({
   const [errorItems, setErrorItems] = useState(false);
   const [lang, setLang] = useState("en");
   const [searchParams] = useSearchParams();
+  const [available, setAvailable] = useState([]);
 
   const handleClose = () => setShow(false);
 
@@ -118,7 +120,7 @@ const ProductItems = ({
       SupplierId: service.Id,
       SupplierCode: service.Code,
     };
-    debugger; //eslint-disable-line
+    
     navigate(`/request-book?id=${selectedBooking.Id}`, {
       state: { booking: selectedBooking, request: request },
     });
@@ -148,10 +150,15 @@ const ProductItems = ({
       setExtras((item) => [...item, extra]);
     }
   };
-
+  useEffect(() => {
+    if (!isEmpty(bookingQuotes)) {
+      const availableItems = bookingQuotes.find(item => { return item?.Configurations[0]?.Quotes })
+      availableItems && setAvailable(availableItems);
+    }
+  }, [bookingQuotes])
   return (
     <>
-      {!errorItems || bookingQuotes.length > 1 ? (
+      {!errorItems && !isEmpty(bookingQuotes) && !isEmpty(available) ? (
         <div className="items">
           {_.sortBy(bookingQuotes, "Name").map((booking, i) => (
             <div key={i} className="productItem row align-items-center">
@@ -254,17 +261,17 @@ const ProductItems = ({
                   >
                     {onRequest === "true"
                       ? t("request_to_book")
-                      : t("book_now")}
+                      : (service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('book_now_activ') : service.IndustryCategoryGroups[0] === 3 ? t('book_now_goods') : t('book_now') )}
                   </Button>
                 ) : (
-                  <p>Not Available</p>
+                  <p>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available') }</p>
                 )}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <h5 className="text-center">Not Available</h5>
+        <h5 className="text-center">{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available') }</h5>
       )}
 
       <Modal show={show} onHide={handleClose} centered>

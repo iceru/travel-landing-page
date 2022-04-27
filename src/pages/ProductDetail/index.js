@@ -117,6 +117,8 @@ const ProductDetail = () => {
   }, [service]);
 
   const getQuote = (values) => {
+    setProductItemShow("none");
+
     quoteRequest.request.Configurations[0].Pax.Adults =
       parseInt(values && values.pax) || 2;
     quoteRequest.request.CommencementDate =
@@ -267,7 +269,7 @@ const ProductDetail = () => {
                 style={{ display: productItemShow }}
               >
                 <div className="sectionTitle">
-                  <span>{t("available_products")}</span>
+                <span>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('available_products_activity') : service.IndustryCategoryGroups[0] === 3 ? t('available_products_goods') : t('available_products') }</span>
                 </div>
                 <ProductItems
                   bookingQuotes={bookingQuotes}

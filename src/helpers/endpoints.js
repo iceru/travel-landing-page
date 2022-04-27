@@ -1,4 +1,4 @@
-const baseEndpoint = "https://devbook.txj.co.jp/v4";
+const baseEndpoint = "https://book.txj.co.jp/v4";
 
 const serviceEndpoint = `${baseEndpoint}/Services`;
 const pageEndpoint = `${baseEndpoint}/Pages`;
@@ -10,6 +10,6 @@ const endpoints = {
   bookingQuote: `${serviceEndpoint}/BookingService.jsws/GetBookingQuote`,
 };
 
-const OREndpoint = "https://bevisitnara.reforsindo.com/api";
+const OREndpoint = "https://api.visitnara.jp/api";
 
 export { endpoints, OREndpoint };

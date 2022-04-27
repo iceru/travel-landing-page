@@ -28,8 +28,14 @@ export const TRANSLATIONS_EN = {
   price_range: "Price Range",
   keyword: "Type Keyword",
   available_products: "Available Products",
+  available_products_activity: "Available Products",
+  available_products_goods: "Available Products",
   book_now: "Book Now",
+  book_now_activ: "Book Now",
+  book_now_goods: "Book Now",
   check_price: "Check Price & Availability",
+  check_price_activ: "Check Price & Availability",
+  check_price_goods: "Check Price & Availability",
   cart_empty: "Cart is Empty",
   first_name: "First Name",
   last_name: "Last Name",
@@ -82,4 +88,8 @@ export const TRANSLATIONS_EN = {
   name_descending: "Name-Descending",
   rate_ascending: "Rate-Ascending",
   rate_descending: "Rate-Descending",
+  not_available: "Not Available",
+  not_available_activ: "Not Available",
+  not_available_goods: "Not Available",
+  price_tax: "Price (tax incl.)"
 };
