@@ -1,34 +1,45 @@
-$primary: #f2f504;
-$secondary: #d2e7f1;
+$primary: #e56b00;
 $light: #fff;
 
 /* BREAKPOINTS */
 @mixin breakpoint($point) {
-  @if $point == desktop {
+  @if $point ==desktop {
     @media (min-width: 80em) {
       @content;
     }
-  } @else if $point == laptop {
+  }
+
+  @else if $point ==laptop {
     @media (min-width: 64em) {
       @content;
     }
-  } @else if $point == largeDesktop {
+  }
+
+  @else if $point ==largeDesktop {
     @media (min-width: 87.5em) {
       @content;
     }
-  } @else if $point == tablet {
+  }
+
+  @else if $point ==tablet {
     @media (min-width: 50em) {
       @content;
     }
-  } @else if $point == phablet {
+  }
+
+  @else if $point ==phablet {
     @media (min-width: 37.5em) {
       @content;
     }
-  } @else if $point == mobileonly {
+  }
+
+  @else if $point ==mobileonly {
     @media (max-width: 37.5em) {
       @content;
     }
-  } @else if $point == untilTablet {
+  }
+
+  @else if $point ==untilTablet {
     @media (max-width: 60em) {
       @content;
     }
