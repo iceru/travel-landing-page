@@ -1,3 +1,44 @@
 @import "../../assets/styles/variables";
 
-.navigation {}
+.navigation {
+    .navbar {
+        padding: 20px 0;
+
+        .logo {
+            padding-left: 30px;
+
+            img {
+                width: 213px;
+                height: auto;
+            }
+        }
+
+        .menu {
+            .sns {
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 20px;
+                margin-bottom: 10px;
+
+                .item {
+                    padding-left: 10px;
+
+                    img {
+                        width: 20px;
+                    }
+                }
+            }
+
+            .gnav {
+                ul {
+                    display: flex;
+                    list-style-type: none;
+
+                    li {
+                        padding: 2px 20px;
+                    }
+                }
+            }
+        }
+    }
+}
