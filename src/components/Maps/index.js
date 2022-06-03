@@ -20,8 +20,6 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-/* eslint-disable */
-
 const propTypes = {
   positions: PropTypes.any,
   zoom: PropTypes.number,
@@ -255,22 +253,6 @@ const MapComponent = compose(
 });
 
 const Map = ({ positions, zoom }) => {
-  // const [zoomMap, setZoomMap] = useState(10);
-  // const [bounds, setBounds] = useState(null);
-
-  // const points = positions.map((position) => ({
-  //   type: "Feature",
-  //   properties: {
-  //     cluster: false,
-  //     id: positions.Id,
-  //   },
-  // }));
-  // const { clusters } = useSupercluster({
-  //   points,
-  //   bounds,
-  //   zoom,
-  //   options: { radius: 75, maxZoom: 20 },
-  // });
   const [numberPositions, setNumberPositions] = useState(null);
 
   useEffect(() => {

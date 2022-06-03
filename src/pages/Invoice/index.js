@@ -1,4 +1,3 @@
-/* eslint-disable */
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
@@ -43,10 +42,7 @@ const Invoice = () => {
         setError(true);
       });
   }, []);
-
-  const handleClick = () => {
-    console.log("click");
-  };
+  
   return (
     <>
       <div className="container">
