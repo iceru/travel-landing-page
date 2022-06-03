@@ -108,7 +108,7 @@ const Filter = ({ filter, selectedCategory }) => {
             </Col>
           )}
           <Col xs={12} className="col-lg mb-3 mb-lg-0">
-            <Button className="w-100" variant="secondary" type="submit">
+            <Button className="w-100" variant="primary" type="submit">
               {t("search")}
             </Button>
           </Col>

@@ -11,7 +11,7 @@ const Footer = () => {
     <div className="footer">
       <div className="container">
         <div className="row">
-          <div className="col-12 col-lg-6">
+          <div className="col-12 col-lg-6 leftFooter">
             <div className="logo">
               <img src={Logo} />
             </div>
@@ -27,9 +27,9 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="col-12 col-lg-6">
+          <div className="col-12 col-lg-6 d-none d-lg-block">
             <div className="row">
-              <div className="col-6">
+              <div className="col-6 firstBox">
                 <div className="list">
                   <h3>content</h3>
                   <nav>
@@ -47,7 +47,7 @@ const Footer = () => {
                   </nav>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-6 lastBox">
                 <div className="list">
                   <h3>category</h3>
                   <nav>

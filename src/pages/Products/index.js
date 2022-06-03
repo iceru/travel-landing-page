@@ -286,12 +286,8 @@ const Products = () => {
 
   return (
     <div className="products">
-      <div className="floatingText">
-        <div className="text">{t("booking")}</div>
-      </div>
       <div className="container">
         <div className="productsWrapper" style={{ display: productsShow }}>
-          <div className="titlePage">{t("search")}</div>
           <Filter
             lang={language}
             filter={filterData}

@@ -24,9 +24,7 @@ ReactDOM.render(
           </Route>
         </Routes>
       </BrowserRouter>
-      ,
     </CartProvider>
-    ,
   </React.StrictMode>,
   document.getElementById("root")
 );

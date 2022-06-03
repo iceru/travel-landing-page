@@ -14,29 +14,31 @@ const Navigation = () => {
         <div className="container-fluid">
           <div className="navbar">
             <div className="logo">
-              <img src={Logo} />
+              <a href="https://local-prime.com/">
+                <img src={Logo} />
+              </a>
             </div>
             <div className="menu">
               <div className="sns">
                 <a href="#" className="item">
                   <img src={SearchIcon} />
                 </a>
-                <a href="#" className="item">
+                <a href="https://twitter.com/localprime_" className="item">
                   <img src={TwitterIcon} />
                 </a>
-                <a href="#" className="item">
+                <a href="https://www.instagram.com/localprime_official" className="item">
                   <img src={InstagramIcon} />
                 </a>
-                <a href="#" className="item">
+                <a href="https://www.facebook.com/localprime.offcial" className="item">
                   <img src={FacebookIcon} />
                 </a>
               </div>
               <div className="gnav">
                 <ul>
-                  <li><a href="/about">Local Primeについて</a></li>
-                  <li><a href="/news">読み物</a></li>
-                  <li><a href="/shopping">買い物</a></li>
-                  <li><a href="/experience">体験・宿泊</a></li>
+                  <li><a href="https://local-prime.com/about">Local Primeについて</a></li>
+                  <li><a href="https://local-prime.com/news">読み物</a></li>
+                  <li><a href="#">買い物</a></li>
+                  <li><a href="https://local-prime.com/experience">体験・宿泊</a></li>
                 </ul>
               </div>
             </div>

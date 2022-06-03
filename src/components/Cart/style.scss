@@ -2,8 +2,8 @@
 
 .cart {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 80px;
+  right: 120px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -15,7 +15,7 @@
   @include breakpoint(untilTablet) {
     width: 90%;
     min-width: 90%;
-    right: 1rem;
+    right: 120px;
   }
 
   .cartWrapper {
@@ -67,14 +67,16 @@
   .cartButton {
     display: inline-block;
     position: relative;
-    background-color: $primary;
+    background-color: #FF9A33;
     padding: 0.5rem;
     border-radius: 50%;
-    font-size: 2rem;
-    height: 4rem;
-    width: 4rem;
+    font-size: 1.75rem;
+    height: 60px;
+    width: 60px;
     text-align: center;
     box-shadow: 0 0 5px 5px rgba($color: #969696, $alpha: 0.2);
+    color: white;
+
     .cartTotal {
       position: absolute;
       font-size: 0.95rem;
@@ -87,7 +89,8 @@
       justify-content: center;
       font-weight: bold;
       border-radius: 50%;
-      background-color: #d2e7f1;
+      background-color: #FFF9E5;
+      color: black;
     }
   }
 }

@@ -40,8 +40,11 @@ const Items = ({
       {services && services.length > 0 ? (
         services.map((service, i) => {
           return (
-            <Col xs={12} lg={4} key={i}>
-              <div className="item">
+            <Col xs={12} lg={3} key={i}>
+              <div className="item" onClick={(e) => {
+                e.preventDefault();
+                goToDetail(service.Id);
+              }}>
                 <div className="image">
                   <img
                     src={
@@ -55,10 +58,7 @@ const Items = ({
                 <div className="info">
                   <a
                     href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      goToDetail(service.Id);
-                    }}
+
                   >
                     <h6 className="title">{service.Name}</h6>
                   </a>
@@ -70,9 +70,9 @@ const Items = ({
                   </div>
                   <div className="price">
                     {service.Availability.Calendar.LowestRate &&
-                      (lang === 'jp' ?  `¥${formatMoney(
+                      (lang === 'jp' ? `¥${formatMoney(
                         service.Availability.Calendar.LowestRate
-                      )} から` :  `From ¥${formatMoney(
+                      )} から` : `From ¥${formatMoney(
                         service.Availability.Calendar.LowestRate
                       )}`)
                     }
@@ -84,7 +84,7 @@ const Items = ({
                     }}
                   ></div>
                 </div>
-                <div className="buttonWrapper">
+                {/* <div className="buttonWrapper">
                   <Button
                     className="w-100"
                     variant="primary"
@@ -94,7 +94,7 @@ const Items = ({
                   >
                     {t("view_details")}
                   </Button>
-                </div>
+                </div> */}
               </div>
             </Col>
           );

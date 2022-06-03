@@ -1,6 +1,11 @@
 @import "../../assets/styles/variables";
 
 .navigation {
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+
     .navbar {
         padding: 20px 0;
 
@@ -8,8 +13,8 @@
             padding-left: 30px;
 
             img {
-                width: 213px;
-                height: auto;
+                width: auto;
+                height: 50px;
             }
         }
 

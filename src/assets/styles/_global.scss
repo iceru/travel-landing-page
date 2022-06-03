@@ -20,3 +20,30 @@
 .modal-footer {
   border-top: none !important;
 }
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.top {
+  position: fixed;
+  bottom: 80px;
+  right: 40px;
+  z-index: 100;
+
+  img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.btn-primary {
+  color: white;
+
+  &:hover,
+  &:focus {
+    color: white;
+  }
+}

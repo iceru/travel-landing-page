@@ -7,6 +7,13 @@
   .container {
     padding: 50px 0;
 
+    .leftFooter {
+      padding: 80px 100px;
+      padding-left: 80px;
+
+
+    }
+
     .logo {
       padding-left: 50px;
       padding-bottom: 20px;
@@ -32,11 +39,57 @@
         }
       }
     }
+
+    @include breakpoint(mobileonly) {
+      padding: 0;
+
+      .leftFooter {
+        padding: 80px 30px 20px 30px;
+      }
+
+      .sns {
+        justify-content: center;
+        padding: 0;
+      }
+    }
+
+    .firstBox .list {
+      border-left: 1px solid white;
+
+      li:nth-child(6) {
+        margin-top: 50px;
+      }
+    }
+
+    .lastBox .list {
+      border-left: 1px solid white;
+      border-right: 1px solid white;
+    }
+
+    .list {
+      padding: 80px 0 100px 40px;
+      height: 100%;
+
+      h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      ul {
+        li {
+          line-height: 180%;
+        }
+      }
+    }
   }
 
   .copyright {
     text-align: center;
     margin-top: -40px;
     padding: 10px;
+
+    @include breakpoint(mobileonly) {
+      margin-top: 0;
+    }
   }
 }

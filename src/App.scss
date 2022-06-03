@@ -1,6 +1,7 @@
-$primary: #f2f504;
+$primary: #e56b00;
+$secondary: rgba(255, 192, 0, 0.1);
+$lightOrange: #FF9A33;
 $light: #fff;
-$secondary: #d2e7f1;
 
 @import "~bootstrap/scss/bootstrap";
 @import "./assets/styles/variables";
@@ -27,15 +28,17 @@ a {
   padding: 0 !important;
   position: relative;
   z-index: 3;
+
   .content {
     background-color: $secondary;
     padding: 0.5rem 2rem;
     display: inline-flex;
     align-items: center;
-    border-radius: 0 0 1.25rem 1.25rem;
+
     .fa-language {
       margin-right: 1rem;
     }
+
     .btn {
       border-radius: 0;
       position: relative;
@@ -43,8 +46,10 @@ a {
       &:focus {
         box-shadow: none;
       }
+
       &.active {
         font-weight: bold;
+
         &:after {
           content: "";
           width: 70%;

@@ -7,6 +7,8 @@ import { faLanguage } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
 
+import buttonTop from './assets/images/btnTop.webp';
+
 import "./App.scss";
 import Cart from "./components/Cart";
 
@@ -52,6 +54,9 @@ function App() {
       </div>
       <Outlet context={[language]} />
       <Cart language={language} />
+      <div className="top">
+        <img src={buttonTop} />
+      </div>
       <Footer />
     </div>
   );
