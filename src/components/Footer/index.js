@@ -29,8 +29,36 @@ const Footer = () => {
           </div>
           <div className="col-12 col-lg-6">
             <div className="row">
-              <div className="col-6"></div>
-              <div className="col-6"></div>
+              <div className="col-6">
+                <div className="list">
+                  <h3>content</h3>
+                  <nav>
+                    <ul>
+                      <li><a href="/about">Local Primeについて</a></li>
+                      <li><a href="/sitemap">サイトマップ</a></li>
+                      <li><a href="/guide">ご利用ガイド</a></li>
+                      <li><a href="/use">利用規約</a></li>
+                      <li><a href="/faq">Q&amp;A</a></li>
+                      <li><a href="/contact">お問い合わせ</a></li>
+                      <li><a href="/company">運営会社</a></li>
+                      <li><a href="/booth">掲載希望の事業者様へ</a></li>
+                      <li><a href="/privacy">プライバシーポリシー</a></li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="list">
+                  <h3>category</h3>
+                  <nav>
+                    <ul>
+                      <li><a href="/news">読み物</a></li>
+                      <li><a href="/shopping">買い物</a></li>
+                      <li><a href="/experience">体験・宿泊</a></li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
             </div>
           </div>
         </div>
