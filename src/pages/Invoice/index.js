@@ -48,7 +48,7 @@ const Invoice = () => {
     <>
       <div className="container">
         <a
-          href="https://book.ako-mag.jp"
+          href="https://localprime.reforsindo.com/"
           className="btn btn-secondary fw-bold mb-4"
         >
           {t("back_to_booking")}
