@@ -12,7 +12,6 @@ const SkeletonProducts = ({ currentPage }) => {
     <SkeletonTheme height={38}>
       {currentPage < 2 && (
         <>
-          <Skeleton className="mb-4" />
 
           <div className="row mb-4">
             <div className="col-6 col-lg mb-3 mb-lg-0">

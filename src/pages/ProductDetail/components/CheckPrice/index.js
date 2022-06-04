@@ -22,13 +22,13 @@ const CheckPrice = ({ service, handleSubmit }) => {
   };
   return (
     <div className="checkPrice mb-4">
-      <h4>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('check_price_activ') : service.IndustryCategoryGroups[0] === 3 ? t('check_price_goods') : t('check_price') }</h4>
+      <h4>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('check_price_activ') : service.IndustryCategoryGroups[0] === 3 ? t('check_price_goods') : t('check_price')}</h4>
       <form onSubmit={handleSubmit}>
         <div className="d-flex justify-content-between">
           <div className="d-flex flex-wrap">
             {service &&
-            service.IndustryCategoryGroups &&
-            service.IndustryCategoryGroups[0] !== 3 ? (
+              service.IndustryCategoryGroups &&
+              service.IndustryCategoryGroups[0] !== 3 ? (
               <div className="formDate mb-3 mb-lg-0">
                 <Form.Control
                   className="me-2"
@@ -80,7 +80,7 @@ const CheckPrice = ({ service, handleSubmit }) => {
               )}
           </div>
           <div>
-            <Button type="submit" variant="secondary" className="fw-bold">
+            <Button type="submit" variant="primary" className="fw-bold">
               {t("search")}
             </Button>
           </div>

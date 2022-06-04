@@ -19,6 +19,7 @@ import Filter from "./components/Filter";
 import Map from "../../components/Maps";
 import Items from "./components/Items";
 
+import headerImg from '../../assets/images/hedImg.webp';
 import "./style.scss";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -286,8 +287,15 @@ const Products = () => {
 
   return (
     <div className="products">
+      <div className="header">
+        <div className="container-fluid">
+          <img src={headerImg} />
+          <div className="text">買い物</div>
+        </div>
+      </div>
       <div className="container">
         <div className="productsWrapper" style={{ display: productsShow }}>
+          <p id="breadcrumbs"><span><span><a href="https://local-prime.com/">ホーム</a> » <span className="breadcrumb_last" aria-current="page">買い物</span></span></span></p>
           <Filter
             lang={language}
             filter={filterData}
@@ -298,21 +306,20 @@ const Products = () => {
               <Button
                 variant={stateButton === "quick" ? "primary" : "secondary"}
                 onClick={() => changeToQuick()}
-                className="me-2 me-lg-3 fw-bold"
+                className="me-2 me-lg-3"
               >
                 {t("quick_booking")}
               </Button>
               <Button
                 variant={stateButton === "request" ? "primary" : "secondary"}
                 onClick={() => changeToRequest()}
-                className="fw-bold me-2 me-lg-3"
+                className="me-2 me-lg-3"
               >
                 {t("request_book")}
               </Button>
               <Button
                 variant={stateButton === "map" ? "primary" : "secondary"}
                 onClick={() => changeToMap()}
-                className="fw-bold"
               >
                 {t("map")}
               </Button>

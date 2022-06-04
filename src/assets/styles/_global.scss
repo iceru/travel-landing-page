@@ -47,3 +47,23 @@ ul {
     color: white;
   }
 }
+
+.btn {
+  border-radius: 0;
+}
+
+#breadcrumbs {
+  font-size: 12px;
+  margin: 0 0 30px;
+
+  a {
+    color: $primary;
+  }
+}
+
+@include breakpoint(tablet) {
+  #breadcrumbs {
+    text-align: right;
+    margin: 0 0 60px;
+  }
+}

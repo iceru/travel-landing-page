@@ -9733,6 +9733,11 @@ y18n@^5.0.5:
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-5.0.8.tgz#7f4934d0f7ca8c56f95314939ddcd2dd91ce1d55"
   integrity sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==
 
+yakuhanjp@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/yakuhanjp/-/yakuhanjp-3.4.1.tgz#3aa6fd904f0e36715fa15a203fd2c83990587f54"
+  integrity sha512-k10oh2d6Xh/I3MCZLsvs0w2Vea2DdARip6AI3OPZPPfwPUM8HygxS/SjpEYd70d3ug/xOWTe1rhlT9xttFP9UA==
+
 yallist@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"

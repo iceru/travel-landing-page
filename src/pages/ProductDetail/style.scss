@@ -6,6 +6,7 @@
   .slick-slide img {
     margin: auto;
   }
+
   .back {
     font-size: 1rem;
     margin-bottom: 1rem;
@@ -18,28 +19,22 @@
   }
 
   .product {
-    border: 8px solid $primary;
-    border-radius: 0 0 1.25rem 1.25rem;
 
     .skeletonWrapper {
       padding: 2rem;
     }
 
     .productWrapper {
-      padding: 2rem;
       padding-top: 0;
 
       .serviceType {
-        margin-left: -2.25rem;
-        margin-top: -0.25rem;
+        display: inline-block;
         padding: 0.5rem 2rem;
         padding-bottom: 0.75rem;
-        font-size: 1.25rem;
         margin-bottom: 1.5rem;
-        border-bottom-right-radius: 1.25rem;
         background-color: $primary;
-        font-weight: bold;
-        display: inline-block;
+        color: white;
+        font-family: 'Noto Serif JP', serif;
       }
 
       @include breakpoint(untilTablet) {
@@ -59,13 +54,13 @@
         margin: 2rem 0;
         margin-bottom: 4rem;
 
-        > img {
+        >img {
           max-height: 400px;
           width: auto;
         }
 
         @include breakpoint(untilTablet) {
-          > img {
+          >img {
             width: 100%;
           }
         }
@@ -83,13 +78,16 @@
           .slick-track {
             justify-content: center;
           }
+
           .slick-slide {
             height: 50px;
             width: 50px !important;
-            > div {
+
+            >div {
               height: 50px;
               width: 50px;
             }
+
             img {
               max-height: 50px;
               width: 50px;
@@ -102,18 +100,21 @@
       .checkPrice {
         padding: 1rem;
         border: 2px solid lightgray;
+
         h4 {
           margin-bottom: 1rem;
         }
 
         .formCategories {
           position: relative;
+
           .icon {
             position: absolute;
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
           }
+
           select {
             padding: 0.75rem 3rem;
             font-weight: bold;
@@ -170,7 +171,7 @@
       }
 
       .sectionTitle {
-        border-bottom: 3px solid $primary;
+        border-bottom: 2px solid $primary;
         margin-bottom: 1rem;
 
         span {
@@ -178,9 +179,9 @@
           padding: 0.5rem 3rem;
           padding-left: 1rem;
           display: inline-block;
-          font-weight: bold;
-          border-top-right-radius: 1.25rem;
-          font-size: 1.25rem;
+          font-size: 1rem;
+          color: white;
+          font-family: 'Noto Serif JP', serif;
         }
       }
 
