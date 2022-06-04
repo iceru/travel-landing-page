@@ -290,7 +290,7 @@ const Products = () => {
       <div className="header">
         <div className="container-fluid">
           <img src={headerImg} />
-          <div className="text">買い物</div>
+          <div className="text">{t('shopping')}</div>
         </div>
       </div>
       <div className="container">

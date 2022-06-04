@@ -103,24 +103,24 @@ const Items = ({
         <h3 className="text-center">{t("not_found")}</h3>
       )}
 
-      <div className="loadMore">
+      <div className="loadMore mb-3">
         {totalPage > 1 && totalPage > currentPage && state === "quick" && (
           <Button
-            variant="secondary"
-            className="w-100 fw-bold py-2"
+            variant="primary"
+            className=" py-2"
             onClick={() => loadMore()}
           >
             {t("load_more")}
           </Button>
         )}
       </div>
-      <div className="loadMoreRequest">
+      <div className="loadMoreRequest mb-3">
         {totalPageOnRequest > 1 &&
           totalPageOnRequest > currentPageOnRequest &&
           state === "request" && (
             <Button
-              variant="secondary"
-              className="w-100 fw-bold py-2"
+              variant="primary"
+              className="py-2"
               onClick={() => loadMore()}
             >
               {t("load_more")}

@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from '../../assets/images/logo.svg';
+import Logo2 from '../../assets/images/logo.webp';
 import SearchIcon from '../../assets/images/icon_search01.svg';
 import TwitterIcon from '../../assets/images/icon_tw01.svg';
 import InstagramIcon from '../../assets/images/icon_ig01.svg';
 import FacebookIcon from '../../assets/images/icon_fb01.svg';
 
 import "./style.scss";
+import { Offcanvas } from "react-bootstrap";
 
 const Navigation = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <>
       <div className="navigation">
@@ -42,9 +48,45 @@ const Navigation = () => {
                 </ul>
               </div>
             </div>
+
+            <div className="spMenu" onClick={handleShow}>
+              <a className="menu-trigger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
+
+      <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <div className="logo">
+            <a href="https://local-prime.com/">
+              <img src={Logo2} />
+            </a>
+          </div>
+          <ul className="firstMenu ofMenu">
+            <li><a href="/about">Local Primeについて</a></li>
+            <li><a href="/news">読み物</a></li>
+            <li><a href="/shopping">買い物</a></li>
+            <li><a href="/experience">体験・宿泊</a></li>
+          </ul>
+          <ul className="ofMenu lastMenu">
+            <li><a href="/sitemap">サイトマップ</a></li>
+            <li><a href="/guide">ご利用ガイド</a></li>
+            <li><a href="/use">利用規約</a></li>
+            <li><a href="/faq">Q&amp;A</a></li>
+            <li><a href="/contact">お問い合わせ</a></li>
+            <li><a href="/booth">掲載希望の事業者様へ</a></li>
+            <li><a href="/company">運営会社</a></li>
+            <li><a href="/privacy">プライバシーポリシー</a></li>
+          </ul>
+        </Offcanvas.Body>
+      </Offcanvas>
     </>
   );
 };

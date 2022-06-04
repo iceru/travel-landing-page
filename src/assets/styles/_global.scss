@@ -37,6 +37,16 @@ ul {
     width: 60px;
     height: 60px;
   }
+
+  @include breakpoint(untilTablet) {
+    bottom: 50px;
+    right: 20px;
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
 }
 
 .btn-primary {

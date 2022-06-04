@@ -6,6 +6,10 @@
   .header {
     margin-top: -4rem;
 
+    @include breakpoint(untilTablet) {
+      margin-top: -3rem;
+    }
+
     .container-fluid {
       padding: 0;
       height: 190px;
@@ -54,6 +58,17 @@
           z-index: 50;
         }
       }
+    }
+  }
+
+  .loadMore {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+      border-radius: 20px;
+      padding: 4px 40px !important;
+      text-transform: uppercase;
     }
   }
 

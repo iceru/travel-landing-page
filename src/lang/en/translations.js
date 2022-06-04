@@ -93,4 +93,5 @@ export const TRANSLATIONS_EN = {
   not_available_goods: "Not Available",
   price_tax: "Price (tax incl.)",
   date_placeholder: "dd/mm/yy",
+  shopping: 'Shopping',
 };
