@@ -28,7 +28,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-12 col-lg-6 d-none d-lg-block">
-            <div className="row">
+            <div className="row secondSection">
               <div className="col-6 firstBox">
                 <div className="list">
                   <h3>content</h3>
