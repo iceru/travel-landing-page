@@ -135,10 +135,29 @@ const Products = () => {
         ]);
         setTotalPage(response.data.Paging.NumberOfPages);
       }
+      debugger; //eslint-disable-line
+      if (response.data.Paging.NumberOfPages <= 1) {
+        dispatchQuick2();
+      } else if (page === response.data.Paging.NumberOfPages) {
+        dispatchQuick2();
+      }
       setProductsShow("block");
       setSkeletonShow("none");
     });
   };
+
+  const dispatchQuick2 = () => {
+    productsRequest.request.ShortName = 'shinkibusco_2';
+
+    axios.post(endpoints.search, productsRequest).then((response) => {
+      setQuickBooking((quickBooking) => [...quickBooking, ...response.data.Entities]);
+      setServices((data) => [...data, ...response.data.Entities]);
+      setStateServices((stateServices) => [
+        ...stateServices,
+        ...response.data.Entities,
+      ]);
+    });
+  }
 
   const dispatchRequest = (pageRequest) => {
     productsRequest.request.ShortName = distributorRequest;
