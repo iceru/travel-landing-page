@@ -40,6 +40,7 @@ const ProductDetail = () => {
   const [onRequest, setOnRequest] = useState("true");
   const [quotesInfo, setQuotesInfo] = useState({});
   const [errorItems, setErrorItems] = useState(false);
+  const [secondDist, setSecondDist] = useState();
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -92,7 +93,10 @@ const ProductDetail = () => {
       },
     };
     const onReq = searchParams.get("on_req");
+    const second_dist = searchParams.get("second_dist");
+    setSecondDist(second_dist);
     if (onReq === "true") detailRequest.request.ShortName = distributorRequest;
+    if (second_dist === "true") detailRequest.request.ShortName = 'shinkibusco_2';
     else detailRequest.request.ShortName = distributorQuick;
 
     axios
@@ -128,7 +132,9 @@ const ProductDetail = () => {
       setBookingQuotes([]);
       const onReq = searchParams.get("on_req");
       if (onReq === "true") quoteRequest.request.ShortName = distributorRequest;
+      if (secondDist === "true") quoteRequest.request.ShortName = 'shinkibusco_2';
       else quoteRequest.request.ShortName = distributorQuick;
+
       service.Children.map((children, i) => {
         quoteRequest.request.IndustryCategoryGroup =
           children.IndustryCategoryGroups[0];
@@ -142,6 +148,7 @@ const ProductDetail = () => {
             const mergeData = { ...service.Children[i], ...response.data };
             mergeData.id = i + 1;
             mergeData.quantity = 2;
+            if (secondDist === "true") mergeData.secondDist = true;
             mergeData.price = response.data.Configurations[0].Quotes
               ? response.data.Configurations[0].Quotes[0].TotalPrice
               : null;
@@ -170,7 +177,6 @@ const ProductDetail = () => {
         pax: service.IndustryCategoryGroups[0] === 0 ? e.target[2].value : e.target[1].value,
       };
       setQuotesInfo(values);
-      console.log(values);
     }
 
     getQuote(values);

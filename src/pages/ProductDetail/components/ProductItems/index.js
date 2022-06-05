@@ -5,6 +5,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useCart } from "react-use-cart";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
+import { toast } from 'react-toastify';
 
 import DefaultImg from "../../../../assets/images/no_image.png";
 import { formatMoney } from "../../../../helpers/formatters";
@@ -30,7 +31,7 @@ const ProductItems = ({
   quotesInfo,
   error,
 }) => {
-  const { addItem } = useCart();
+  const { addItem, items } = useCart();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [descMore, setDescMore] = useState(false);
@@ -42,6 +43,9 @@ const ProductItems = ({
   const [available, setAvailable] = useState([]);
 
   const handleClose = () => setShow(false);
+
+  const failed = () => toast.warn("Please finish your purchase before adding items from another distributor");
+  const success = () => toast.success("Item added to cart!");
 
   useEffect(() => {
     if (error) {
@@ -59,7 +63,22 @@ const ProductItems = ({
       setSelectedBooking(booking);
       setShow(true);
     } else {
-      addItem(booking, parseInt(booking.quantity));
+      const checkItems = items.find((item) => item.secondDist === true);
+      if (checkItems) {
+        if (booking.secondDist === true) {
+          addItem(booking, parseInt(booking.quantity));
+          success();
+        } else {
+          failed();
+        }
+      } else {
+        if (booking.secondDist !== true) {
+          addItem(booking, parseInt(booking.quantity));
+          success();
+        } else {
+          failed();
+        }
+      }
     }
   };
 

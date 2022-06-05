@@ -18,7 +18,7 @@ export const TRANSLATIONS_EN = {
   name: "Name",
   address: "Address",
   phone: "Phone",
-  website: "Webiste",
+  website: "Website",
   email: "Email",
   fax: "Fax",
   from: "From",

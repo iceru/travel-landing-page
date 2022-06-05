@@ -3,6 +3,9 @@ import { Outlet, useSearchParams } from "react-router-dom";
 import { i18n } from "./lang/i18n";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
@@ -57,6 +60,7 @@ function App() {
       <div className="top">
         <img src={buttonTop} />
       </div>
+      <ToastContainer />
       <Footer />
     </div>
   );

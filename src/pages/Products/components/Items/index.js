@@ -43,7 +43,7 @@ const Items = ({
             <Col xs={12} lg={3} key={i}>
               <div className="item" onClick={(e) => {
                 e.preventDefault();
-                goToDetail(service.Id, service.OnRequestOnly);
+                goToDetail(service.Id, service.OnRequestOnly, service.secondDist);
               }}>
                 <div className="image">
                   <img

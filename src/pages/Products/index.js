@@ -135,7 +135,6 @@ const Products = () => {
         ]);
         setTotalPage(response.data.Paging.NumberOfPages);
       }
-      debugger; //eslint-disable-line
       if (response.data.Paging.NumberOfPages <= 1) {
         dispatchQuick2();
       } else if (page === response.data.Paging.NumberOfPages) {
@@ -150,8 +149,9 @@ const Products = () => {
     productsRequest.request.ShortName = 'shinkibusco_2';
 
     axios.post(endpoints.search, productsRequest).then((response) => {
-      setQuickBooking((quickBooking) => [...quickBooking, ...response.data.Entities]);
-      setServices((data) => [...data, ...response.data.Entities]);
+      const newResponse = response.data.Entities.map((item) => ({ ...item, secondDist: true }))
+      setQuickBooking((quickBooking) => [...quickBooking, ...newResponse]);
+      setServices((data) => [...data, ...newResponse]);
       setStateServices((stateServices) => [
         ...stateServices,
         ...response.data.Entities,
@@ -280,8 +280,8 @@ const Products = () => {
     getData();
   };
 
-  const goToDetail = (id, onReq) => {
-    navigate(`/product?id=${id}&on_req=${onReq}`);
+  const goToDetail = (id, onReq, secondDist) => {
+    navigate(`/product?id=${id}&on_req=${onReq}&second_dist=${secondDist}`);
   };
 
   const loadMore = () => {
