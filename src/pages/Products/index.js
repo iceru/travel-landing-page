@@ -67,6 +67,8 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
+  const [pageName, setPageName] = useState('search_page');
+
 
   const productsRequest = bodyRequest;
 
@@ -90,6 +92,7 @@ const Products = () => {
       };
       setSelectedCategory(category);
       getData();
+      pageNames();
     }
   }, []);
 
@@ -248,6 +251,7 @@ const Products = () => {
     }
 
     setSearchParams(searchParams);
+    pageNames();
 
     getData();
   };
@@ -304,12 +308,36 @@ const Products = () => {
     }
   };
 
+  const pageNames = () => {
+    let name = 'search_page';
+    const category = searchParams.get('category');
+    switch (category) {
+      case 'all':
+        name = 'search_page';
+        break;
+      case '0':
+        name = 'accommodation';
+        break;
+      case '1':
+        name = 'activity';
+        break;
+      case '2':
+        name = 'restaurant';
+        break;
+      case '3':
+        name = 'shopping';
+        break;
+    }
+
+    setPageName(name);
+  }
+
   return (
     <div className="products">
       <div className="header">
         <div className="container-fluid">
           <img src={headerImg} />
-          <div className="text">{t('shopping')}</div>
+          <div className="text">{t(pageName)}</div>
         </div>
       </div>
       <div className="container">
