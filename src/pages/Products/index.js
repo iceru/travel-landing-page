@@ -47,9 +47,11 @@ const Products = () => {
       label: t('rate_descending'),
     },
   ];
+  /* eslint-disable */
 
   const [quickBooking, setQuickBooking] = useState([]);
   const [onRequest, setOnRequest] = useState([]);
+  const [stateMap, setStateMap] = useState([]);
   const [services, setServices] = useState([]);
   const [stateServices, setStateServices] = useState([]);
   const [geocodes, setGeocodes] = useState(false);
@@ -68,7 +70,6 @@ const Products = () => {
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
   const [pageName, setPageName] = useState('search_page');
-
 
   const productsRequest = bodyRequest;
 
@@ -98,6 +99,7 @@ const Products = () => {
 
   useEffect(() => {
     delete productsRequest.request.Filter.Ids;
+    const category = searchParams.get("category");
 
     productsRequest.request.Sorting = [
       {
@@ -106,20 +108,24 @@ const Products = () => {
         PositionOfNull: "PreferenceBottom",
       },
     ];
-    getData();
+    if (!category || category === 'all') {
+      getData();
+    }
   }, [language]);
 
   useEffect(() => {
-    stateServices &&
-      stateServices.map((item) => {
+    stateMap &&
+      stateMap.map((item) => {
         if (item.HasGeocodes) {
           setGeocodes(true);
         }
       });
-  }, [stateServices]);
+  }, [stateMap]);
 
   const dispatchQuick = (page) => {
     productsRequest.request.ShortName = distributorQuick;
+    productsRequest.request.Paging.PageNumber = 1;
+    productsRequest.request.Paging.PageSize = 12;
 
     axios.post(endpoints.search, productsRequest).then((response) => {
       if (page && page > 1) {
@@ -147,9 +153,10 @@ const Products = () => {
       setSkeletonShow("none");
     });
   };
-
   const dispatchQuick2 = () => {
     productsRequest.request.ShortName = 'shinkibusco_2';
+    productsRequest.request.Paging.PageNumber = 1;
+    productsRequest.request.Paging.PageSize = 12;
 
     axios.post(endpoints.search, productsRequest).then((response) => {
       const newResponse = response.data.Entities.map((item) => ({ ...item, secondDist: true }))
@@ -164,6 +171,8 @@ const Products = () => {
 
   const dispatchRequest = (pageRequest) => {
     productsRequest.request.ShortName = distributorRequest;
+    productsRequest.request.Paging.PageNumber = 1;
+    productsRequest.request.Paging.PageSize = 12;
 
     axios.post(endpoints.search, productsRequest).then((response) => {
       if (pageRequest && pageRequest > 1) {
@@ -184,6 +193,45 @@ const Products = () => {
       }
     });
   };
+
+
+  const dispatchMap = () => {
+    productsRequest.request.Paging = {};
+    productsRequest.request.ShortName = distributorQuick;
+
+    axios.post(endpoints.search, productsRequest).then((response) => {
+      setStateMap((stateServices) => [
+        ...stateServices,
+        ...response.data.Entities,
+      ]);
+
+      dispatchMap2();
+    });
+  }
+
+  const dispatchMap2 = () => {
+    productsRequest.request.ShortName = 'shinkibusco_2';
+    productsRequest.request.Paging = {};
+
+    axios.post(endpoints.search, productsRequest).then((response) => {
+      setStateMap((stateServices) => [
+        ...stateServices,
+        ...response.data.Entities,
+      ]);
+    });
+  }
+
+  const dispatchMapOnRequest = () => {
+    productsRequest.request.Paging = {};
+    productsRequest.request.ShortName = distributorRequest;
+
+    axios.post(endpoints.search, productsRequest).then((response) => {
+      setStateMap((stateServices) => [
+        ...stateServices,
+        ...response.data.Entities,
+      ]);
+    });
+  }
 
   const getData = (payload) => {
     setSkeletonShow("block");
@@ -209,6 +257,9 @@ const Products = () => {
       dispatchQuick();
       dispatchRequest();
     }
+
+    dispatchMap();
+    dispatchMapOnRequest();
   };
 
   const filterData = (values) => {
@@ -404,8 +455,8 @@ const Products = () => {
             className="productsMap"
             style={{ display: itemsShow === true ? "none" : "block" }}
           >
-            {geocodes && stateServices.length > 0 && (
-              <Map positions={stateServices} zoom={9} />
+            {geocodes && stateMap.length > 0 && (
+              <Map positions={stateMap} zoom={9} />
             )}
           </div>
         </div>

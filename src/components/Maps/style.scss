@@ -1,7 +1,9 @@
 .infoBox {
   .image {
+    text-align: center;
+
     img {
-      width: 100%;
+      width: 200px;
       height: 145px;
       object-fit: cover;
     }
@@ -9,5 +11,16 @@
 
   .name {
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+  }
+
+  .address {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
   }
 }
