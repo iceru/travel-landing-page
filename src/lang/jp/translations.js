@@ -2,8 +2,9 @@ export const TRANSLATIONS_JP = {
   search: "探す",
   search_page: "横浜の宿泊・体験プラン予約",
   booking: "予約",
-  not_found: "現在商品を登録中です。またのご利用をお待ちしております。 😉",
+  not_found: "現在、商品を登録中です",
   all_categories: "すべてのカテゴリ",
+  all_categories_shop: "キーワード",
   accommodation: "宿泊施設",
   activity: "アクティビティ",
   restaurant: "飲食店",
@@ -94,4 +95,6 @@ export const TRANSLATIONS_JP = {
   price_tax: "価格（税込)",
   shopping: '買い物',
   date_placeholder: "年/月/日",
+  item_added: "カートに追加しました",
+  warning_dist: '先にカートに入っている商品の支払を完了させてください。',
 };

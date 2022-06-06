@@ -33,6 +33,10 @@ function App() {
     setSearchParams(searchParams);
   };
 
+  const goToTop = () => {
+    window.scrollTo(0, 0)
+  }
+
   return (
     <div className="App">
       <Navigation />
@@ -57,7 +61,7 @@ function App() {
       </div>
       <Outlet context={[language]} />
       <Cart language={language} />
-      <div className="top">
+      <div className="top" onClick={() => goToTop()}>
         <img src={buttonTop} />
       </div>
       <ToastContainer />

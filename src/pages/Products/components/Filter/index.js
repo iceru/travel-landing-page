@@ -86,9 +86,9 @@ const Filter = ({ filter, selectedCategory }) => {
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Select type="text">
               <option value="0-">{t("price_range")}</option>
-              <option value="1-9999">{"< ¥9.999"}</option>
-              <option value="10000-14999">{"¥10.000 - ¥14.999"}</option>
-              <option value="15000-19999">{"¥15.000 - ¥19.999"}</option>
+              <option value="1-9999">{"~ 9.999円"}</option>
+              <option value="10000-14999">{"10.000円 ~ 14.999円"}</option>
+              <option value="15000-19999">{"15.000円 ~ 19.999円"}</option>
               <option value="20000-">¥20.000 +</option>
             </Form.Select>
           </Col>
@@ -103,7 +103,7 @@ const Filter = ({ filter, selectedCategory }) => {
           ) : (
             <Col xs={6} className="col-lg mb-3 mb-lg-0">
               <Form.Select type="text">
-                <option value="all-shop">All Categories</option>
+                <option value="all-shop">{t('all_categories_shop')}</option>
               </Form.Select>
             </Col>
           )}

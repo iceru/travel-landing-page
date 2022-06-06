@@ -44,8 +44,8 @@ const ProductItems = ({
 
   const handleClose = () => setShow(false);
 
-  const failed = () => toast.warn("Please finish your purchase before adding items from another distributor");
-  const success = () => toast.success("Item added to cart!");
+  const failed = () => toast.warn(t('waning_dist'));
+  const success = () => toast.success(t('item_added'));
 
   useEffect(() => {
     if (error) {

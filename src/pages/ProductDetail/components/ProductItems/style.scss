@@ -4,6 +4,7 @@
   .items {
     .productItem {
       margin-bottom: 2rem;
+
       .info {
         padding-left: 1rem;
         border-left: 6px solid $secondary;
@@ -26,6 +27,7 @@
             width: fit-content;
           }
         }
+
         .name,
         .price {
           font-weight: bold;

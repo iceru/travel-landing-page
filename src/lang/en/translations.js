@@ -5,6 +5,7 @@ export const TRANSLATIONS_EN = {
   not_found:
     "Sorry, there are no products to display. Please revisit this page again soon. 😉",
   all_categories: "All Categories",
+  all_categories_shop: "All Categories",
   accommodation: "Accommodation",
   activity: "Activity",
   restaurant: "Restaurant",
@@ -95,4 +96,6 @@ export const TRANSLATIONS_EN = {
   price_tax: "Price (tax incl.)",
   date_placeholder: "dd/mm/yy",
   shopping: 'Shopping',
+  item_added: 'Item added to cart',
+  warning_dist: 'Please finish your purchase before adding items from another distributor'
 };
