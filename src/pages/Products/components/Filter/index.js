@@ -89,7 +89,7 @@ const Filter = ({ filter, selectedCategory }) => {
               <option value="1-9999">{"~ 9.999円"}</option>
               <option value="10000-14999">{"10.000円 ~ 14.999円"}</option>
               <option value="15000-19999">{"15.000円 ~ 19.999円"}</option>
-              <option value="20000-">¥20.000 +</option>
+              <option value="20000-">20.000円 ~</option>
             </Form.Select>
           </Col>
           {category !== "3" ? (

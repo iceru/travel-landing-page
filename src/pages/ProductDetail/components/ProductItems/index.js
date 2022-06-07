@@ -44,7 +44,7 @@ const ProductItems = ({
 
   const handleClose = () => setShow(false);
 
-  const failed = () => toast.warn(t('waning_dist'));
+  const failed = () => toast.warn(t('warning_dist'));
   const success = () => toast.success(t('item_added'));
 
   useEffect(() => {
@@ -200,7 +200,7 @@ const ProductItems = ({
                           changeQuantity(e.target.value, booking.id)
                         }
                         type="number"
-                        defaultValue={2}
+                        defaultValue={1}
                       />
                     </div>
                   ) : (

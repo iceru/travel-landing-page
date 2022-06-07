@@ -119,6 +119,10 @@ const ProductDetail = () => {
     }
   }, [service]);
 
+  useEffect(() => {
+    setBookingQuotes(bookingQuotes.sort((a, b) => a.Name - b.Name))
+  }, [bookingQuotes])
+
   const getQuote = (values) => {
     setProductItemShow("none");
 
