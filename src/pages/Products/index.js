@@ -86,7 +86,13 @@ const Products = () => {
 
   useEffect(() => {
     const category = searchParams.get("category");
-
+    productsRequest.request.Sorting = [
+      {
+        By: "Name",
+        Direction: "Ascending",
+        PositionOfNull: "PreferenceBottom",
+      },
+    ];
     if (category && category !== "all") {
       productsRequest.request.Filter.TagCriteria = {
         IndustryCategoryGroups: [category],
