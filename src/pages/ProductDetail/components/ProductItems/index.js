@@ -63,6 +63,7 @@ const ProductItems = ({
       setSelectedBooking(booking);
       setShow(true);
     } else {
+      debugger; //eslint-disable-line
       const checkItems = items.find((item) => item.secondDist === true);
       if (checkItems) {
         if (booking.secondDist === true) {

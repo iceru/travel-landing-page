@@ -97,4 +97,5 @@ export const TRANSLATIONS_JP = {
   date_placeholder: "年/月/日",
   item_added: "カートに追加しました",
   warning_dist: '先にカートに入っている商品の支払を完了させてください。',
+  clear_date: '日付を削除',
 };

@@ -43,6 +43,11 @@
         font-weight: 500;
         letter-spacing: 0.1rem;
         font-family: 'Noto Serif JP', serif;
+        text-align: center;
+
+        @include breakpoint(untilTablet) {
+          width: 100%;
+        }
 
         &:after {
           content: "";
@@ -207,14 +212,14 @@
         height: 45px;
         position: relative;
 
-        &::before {
-          content: '';
-          background: linear-gradient(to bottom, transparent, white);
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          height: 10px;
-        }
+        // &::before {
+        //   content: '';
+        //   background: linear-gradient(to bottom, transparent, white);
+        //   position: absolute;
+        //   bottom: 0;
+        //   width: 100%;
+        //   height: 10px;
+        // }
       }
 
       .buttonWrapper {

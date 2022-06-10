@@ -97,5 +97,6 @@ export const TRANSLATIONS_EN = {
   date_placeholder: "dd/mm/yy",
   shopping: 'Shopping',
   item_added: 'Item added to cart',
-  warning_dist: 'Please finish your purchase before adding items from another distributor'
+  warning_dist: 'Please finish your purchase before adding items from another distributor',
+  clear_date: 'Clear Date',
 };

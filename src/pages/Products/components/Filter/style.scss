@@ -1,5 +1,12 @@
+@import "../../../../assets/styles/variables";
+
 .filterWrapper {
   margin: 2rem 0;
+
+  .clearDate {
+    color: $primary;
+    text-decoration: underline;
+  }
 
   .react-calendar {
     width: 200px;

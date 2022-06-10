@@ -127,7 +127,7 @@ const ProductDetail = () => {
     setProductItemShow("none");
 
     quoteRequest.request.Configurations[0].Pax.Adults =
-      parseInt(values && values.pax) || 2;
+      parseInt(values && values.pax) || 1;
     quoteRequest.request.CommencementDate =
       (values && values.date) || new Date();
     quoteRequest.request.Duration = parseInt(values && values.duration) || 1;
@@ -151,7 +151,7 @@ const ProductDetail = () => {
           .then((response) => {
             const mergeData = { ...service.Children[i], ...response.data };
             mergeData.id = i + 1;
-            mergeData.quantity = 2;
+            mergeData.quantity = 1;
             if (secondDist === "true") mergeData.secondDist = true;
             mergeData.price = response.data.Configurations[0].Quotes
               ? response.data.Configurations[0].Quotes[0].TotalPrice

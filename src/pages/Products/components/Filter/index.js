@@ -17,6 +17,9 @@ const Filter = ({ filter, selectedCategory }) => {
   const { t } = useTranslation();
 
   const [category, setCategory] = useState();
+  const [priceRange, setPriceRange] = useState();
+  const [keyword, setKeyword] = useState();
+  const [typeShop, setTypeShop] = useState();
   const [value, setValue] = useState();
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -34,16 +37,16 @@ const Filter = ({ filter, selectedCategory }) => {
     const data = {
       date: event.target[0].value ? new Date(event.target[0].value) : null,
       category: category,
-      minRange: event.target[2].value.includes("-")
-        ? event.target[2].value.split("-")[0]
+      minRange: priceRange?.includes("-")
+        ? priceRange?.split("-")[0]
         : null,
       maxRange:
-        event.target[2].value.split("-")[1] &&
-          event.target[2].value.includes("-")
-          ? event.target[2].value.split("-")[1]
+      priceRange?.split("-")[1] &&
+      priceRange?.includes("-")
+          ? priceRange?.split("-")[1]
           : null,
-      keyword: category !== "3" ? event.target[3].value : null,
-      typeShop: category === "3" ? event.target[3].value : null,
+      keyword: category !== "3" ? keyword : null,
+      typeShop: category === "3" ? typeShop : null,
     };
     setShowCalendar(false);
     filter(data);
@@ -70,6 +73,9 @@ const Filter = ({ filter, selectedCategory }) => {
               onClick={() => setShowCalendar(!showCalendar)}
             />
             <Calendar minDate={minDate()} onChange={(value) => onChange(value)} value={value} className={!showCalendar ? "hide" : ""} />
+            <small className="clearDate mt-1" onClick={() => setValue('')}>
+              <a href="#">{t('clear_date')}</a>
+            </small>
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Select
@@ -84,7 +90,7 @@ const Filter = ({ filter, selectedCategory }) => {
             </Form.Select>
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
-            <Form.Select type="text">
+            <Form.Select type="text" name="price_range" onChange={((e) => setPriceRange(e.target.value))}>
               <option value="0-">{t("price_range")}</option>
               <option value="1-9999">{"~ 9.999円"}</option>
               <option value="10000-14999">{"10.000円 ~ 14.999円"}</option>
@@ -98,11 +104,12 @@ const Filter = ({ filter, selectedCategory }) => {
                 type="text"
                 name="keyword"
                 placeholder={t("keyword")}
+                onChange={((e) => setKeyword(e.target.value))}
               />
             </Col>
           ) : (
             <Col xs={6} className="col-lg mb-3 mb-lg-0">
-              <Form.Select type="text">
+              <Form.Select type="text" name="category_shop"  onChange={((e) => setTypeShop(e.target.value))}>
                 <option value="all-shop">{t('all_categories_shop')}</option>
               </Form.Select>
             </Col>

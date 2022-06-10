@@ -283,7 +283,6 @@ const Products = () => {
         searchParams.set("max", values.maxRange);
       }
     }
-
     if (values.date) {
       productsRequest.request.Availability.Window.StartDate = values.date;
       searchParams.set("date", values.date);
