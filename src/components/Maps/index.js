@@ -24,7 +24,7 @@ const propTypes = {
   positions: PropTypes.any,
   zoom: PropTypes.number,
 };
-
+/* eslint react/prop-types: 0 */
 const MarkerWithInfo = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -146,9 +146,9 @@ const MapComponent = compose(
     {
       onToggleOpen:
         ({ isOpen }) =>
-        () => ({
-          isOpen: !isOpen,
-        }),
+          () => ({
+            isOpen: !isOpen,
+          }),
     }
   ),
   withScriptjs,
@@ -160,13 +160,13 @@ const MapComponent = compose(
       defaultCenter={
         Array.isArray(props.markers)
           ? {
-              lat: props.markers[props.number]?.Geocodes[0].Geocode.Latitude,
-              lng: props.markers[props.number]?.Geocodes[0].Geocode.Longitude,
-            }
+            lat: props.markers[props.number]?.Geocodes[0].Geocode.Latitude,
+            lng: props.markers[props.number]?.Geocodes[0].Geocode.Longitude,
+          }
           : {
-              lat: props.markers.Geocodes[0].Geocode.Latitude,
-              lng: props.markers.Geocodes[0].Geocode.Longitude,
-            }
+            lat: props.markers.Geocodes[0].Geocode.Latitude,
+            lng: props.markers.Geocodes[0].Geocode.Longitude,
+          }
       }
     >
       {props.isMarkerShown && !Array.isArray(props.markers) ? (
@@ -182,12 +182,12 @@ const MapComponent = compose(
               props.markers.IndustryCategoryGroups[0] === 0
                 ? Accomodation
                 : props.markers.IndustryCategoryGroups[0] === 1
-                ? Activity
-                : props.markers.IndustryCategoryGroups[0] === 2
-                ? Restaurants
-                : props.markers.IndustryCategoryGroups[0] === 3
-                ? Produce
-                : "",
+                  ? Activity
+                  : props.markers.IndustryCategoryGroups[0] === 2
+                    ? Restaurants
+                    : props.markers.IndustryCategoryGroups[0] === 3
+                      ? Produce
+                      : "",
               null /* size is determined at runtime */,
               null /* origin is 0,0 */,
               null /* anchor is bottom center of the scaled image */,

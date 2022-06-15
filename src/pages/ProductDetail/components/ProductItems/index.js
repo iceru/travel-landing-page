@@ -6,6 +6,7 @@ import { useCart } from "react-use-cart";
 import { useTranslation } from "react-i18next";
 import { isEmpty } from "lodash";
 import moment from "moment";
+import { toast } from 'react-toastify';
 
 import DefaultImg from "../../../../assets/images/no_image.png";
 import { formatMoney } from "../../../../helpers/formatters";
@@ -30,7 +31,7 @@ const ProductItems = ({
   quotesInfo,
   error,
 }) => {
-  const { addItem } = useCart();
+  const { addItem, items } = useCart();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [descMore, setDescMore] = useState(false);
@@ -41,6 +42,9 @@ const ProductItems = ({
   const [lang, setLang] = useState("en");
   const [searchParams] = useSearchParams();
   const [available, setAvailable] = useState([]);
+
+  const failed = () => toast.warn("Please finish your purchase before adding items from another distributor");
+  const success = () => toast.success("Item added to cart!");
 
   const handleClose = () => setShow(false);
 
@@ -60,7 +64,22 @@ const ProductItems = ({
       setSelectedBooking(booking);
       setShow(true);
     } else {
-      addItem(booking, parseInt(booking.quantity));
+      const checkItems = items.find((item) => item.secondDist === true);
+      if (checkItems) {
+        if (booking.secondDist === true) {
+          addItem(booking, parseInt(booking.quantity));
+          success();
+        } else {
+          failed();
+        }
+      } else {
+        if (booking.secondDist !== true) {
+          addItem(booking, parseInt(booking.quantity));
+          success();
+        } else {
+          failed();
+        }
+      }
     }
   };
 
@@ -120,7 +139,7 @@ const ProductItems = ({
       SupplierId: service.Id,
       SupplierCode: service.Code,
     };
-    
+
     navigate(`/request-book?id=${selectedBooking.Id}`, {
       state: { booking: selectedBooking, request: request },
     });
@@ -261,17 +280,17 @@ const ProductItems = ({
                   >
                     {onRequest === "true"
                       ? t("request_to_book")
-                      : (service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('book_now_activ') : service.IndustryCategoryGroups[0] === 3 ? t('book_now_goods') : t('book_now') )}
+                      : (service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('book_now_activ') : service.IndustryCategoryGroups[0] === 3 ? t('book_now_goods') : t('book_now'))}
                   </Button>
                 ) : (
-                  <p>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available') }</p>
+                  <p>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available')}</p>
                 )}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <h5 className="text-center">{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available') }</h5>
+        <h5 className="text-center">{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('not_available_activ') : service.IndustryCategoryGroups[0] === 3 ? t('not_available_goods') : t('not_available')}</h5>
       )}
 
       <Modal show={show} onHide={handleClose} centered>

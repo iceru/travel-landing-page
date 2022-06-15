@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -57,7 +57,7 @@ const Items = ({
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      goToDetail(service.Id);
+                      goToDetail(service.Id, service.OnRequestOnly, service.secondDist);
                     }}
                   >
                     <h6 className="title">{service.Name}</h6>
@@ -70,9 +70,9 @@ const Items = ({
                   </div>
                   <div className="price">
                     {service.Availability.Calendar.LowestRate &&
-                      (lang === 'jp' ?  `¥${formatMoney(
+                      (lang === 'jp' ? `¥${formatMoney(
                         service.Availability.Calendar.LowestRate
-                      )} から` :  `From ¥${formatMoney(
+                      )} から` : `From ¥${formatMoney(
                         service.Availability.Calendar.LowestRate
                       )}`)
                     }
@@ -89,7 +89,7 @@ const Items = ({
                     className="w-100"
                     variant="primary"
                     onClick={() =>
-                      goToDetail(service.Id, service.OnRequestOnly)
+                      goToDetail(service.Id, service.OnRequestOnly, service.secondDist)
                     }
                   >
                     {t("view_details")}
@@ -103,7 +103,7 @@ const Items = ({
         <h3 className="text-center">{t("not_found")}</h3>
       )}
 
-      <div className="loadMore">
+      <div className="loadMore mb-3">
         {totalPage > 1 && totalPage > currentPage && state === "quick" && (
           <Button
             variant="secondary"
@@ -114,7 +114,7 @@ const Items = ({
           </Button>
         )}
       </div>
-      <div className="loadMoreRequest">
+      <div className="loadMoreRequest mb-3">
         {totalPageOnRequest > 1 &&
           totalPageOnRequest > currentPageOnRequest &&
           state === "request" && (

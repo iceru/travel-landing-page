@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import {
   bodyRequest,
   distributorQuick,
+  distributorQuick2,
   distributorRequest,
 } from "../../helpers/utils";
 import { endpoints } from "../../helpers/endpoints";
@@ -94,6 +95,7 @@ const Products = () => {
 
   useEffect(() => {
     delete productsRequest.request.Filter.Ids;
+    const category = searchParams.get("category");
 
     productsRequest.request.Sorting = [
       {
@@ -102,7 +104,9 @@ const Products = () => {
         PositionOfNull: "PreferenceBottom",
       },
     ];
-    getData();
+    if (!category || category === 'all') {
+      getData();
+    }
   }, [language]);
 
   const dispatchQuick = (page) => {
@@ -116,6 +120,8 @@ const Products = () => {
           ...stateServices,
           ...response.data.Entities,
         ]);
+        setSkeletonShow("none");
+
       } else {
         setQuickBooking(response.data.Entities);
         setServices(response.data.Entities);
@@ -127,22 +133,30 @@ const Products = () => {
         setProductsShow("block");
         setSkeletonShow("none");
       }
+      if (page == response.data.Paging.NumberOfPages) {
+        dispatchQuick2();
+      }
     });
+
     // dispatchRestaurant();
   };
 
-  // const dispatchRestaurant = () => {
-  //   productsRequest.request.ShortName = "NaratabiB";
+  const dispatchQuick2 = () => {
+    productsRequest.request.ShortName = distributorQuick2;
+    setSkeletonShow("block");
 
-  //   axios.post(endpoints.search, productsRequest).then((response) => {
-  //     setQuickBooking((data) => [...data, ...response.data.Entities]);
-  //     setServices((data) => [...data, ...response.data.Entities]);
-  //     setStateServices((stateServices) => [
-  //       ...stateServices,
-  //       ...response.data.Entities,
-  //     ]);
-  //   });
-  // };
+    axios.post(endpoints.search, productsRequest).then((response) => {
+      const newResponse = response.data.Entities.map((item) => ({ ...item, secondDist: true }))
+      setQuickBooking((quickBooking) => [...quickBooking, ...newResponse]);
+      setServices((data) => [...data, ...newResponse]);
+      setStateServices((stateServices) => [
+        ...stateServices,
+        ...response.data.Entities,
+      ]);
+      setSkeletonShow("none");
+
+    });
+  }
 
   const dispatchRequest = (pageRequest) => {
     productsRequest.request.ShortName = distributorRequest;
@@ -188,7 +202,7 @@ const Products = () => {
     } else {
       setProductsShow("none");
       productsRequest.request.Paging.PageNumber = 1;
-      dispatchQuick();
+      dispatchQuick(page);
       dispatchRequest();
     }
   };
@@ -265,8 +279,8 @@ const Products = () => {
     setStateButton("map");
   };
 
-  const goToDetail = (id, onReq) => {
-    navigate(`/product?id=${id}&on_req=${onReq}`);
+  const goToDetail = (id, onReq, secondDist) => {
+    navigate(`/product?id=${id}&on_req=${onReq}&second_dist=${secondDist}`);
   };
 
   const loadMore = () => {
@@ -323,18 +337,18 @@ const Products = () => {
             </Button>
           </div>
           <div className="d-flex sort">
-              <div className="text">{t('sort_by')}:</div>
-              <Form.Select
-                value={selectedOption}
-                onChange={(e) => onSort(e.target.value)}
-              >
-                {options.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </Form.Select>
-            </div>
+            <div className="text">{t('sort_by')}:</div>
+            <Form.Select
+              value={selectedOption}
+              onChange={(e) => onSort(e.target.value)}
+            >
+              {options.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </Form.Select>
+          </div>
         </div>
         <div>
           <div

@@ -15,4 +15,27 @@
   .btn {
     font-weight: bold;
   }
+
+  .react-calendar {
+    width: 200px;
+    font-size: 10px;
+    position: absolute;
+
+    &.hide {
+      display: none;
+    }
+  }
+
+  .react-calendar__navigation button {
+    min-width: 24px;
+  }
+
+  .react-calendar__tile {
+    line-height: 10px;
+  }
+
+  .form-control[readonly] {
+    background-color: white;
+    cursor: pointer;
+  }
 }

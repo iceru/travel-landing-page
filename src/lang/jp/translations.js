@@ -91,4 +91,5 @@ export const TRANSLATIONS_JP = {
   not_available_activ: "満席",
   not_available_goods: "在庫切れ",
   price_tax: "価格（税込)",
+  date_placeholder: "年/月/日",
 };

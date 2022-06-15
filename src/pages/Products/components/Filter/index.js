@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { disablePastDate } from "../../../../helpers/utils";
+import Calendar from "react-calendar";
+import moment from "moment";
 
+import 'react-calendar/dist/Calendar.css';
 import "./style.scss";
 
 const propTypes = {
@@ -15,6 +17,13 @@ const Filter = ({ filter, selectedCategory }) => {
   const { t } = useTranslation();
 
   const [category, setCategory] = useState();
+  const [value, setValue] = useState();
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const onChange = (value) => {
+    setValue(value);
+    setShowCalendar(false);
+  }
 
   useEffect(() => {
     setCategory(selectedCategory);
@@ -30,14 +39,24 @@ const Filter = ({ filter, selectedCategory }) => {
         : null,
       maxRange:
         event.target[2].value.split("-")[1] &&
-        event.target[2].value.includes("-")
+          event.target[2].value.includes("-")
           ? event.target[2].value.split("-")[1]
           : null,
       keyword: category !== "3" ? event.target[3].value : null,
       typeShop: category === "3" ? event.target[3].value : null,
     };
     filter(data);
+    setShowCalendar(false);
+
   };
+
+  const minDate = () => {
+    var someDate = new Date();
+    var numberOfDaysToAdd = 2;
+    var result = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+    return new Date(result)
+  }
+
 
   return (
     <div className="filterWrapper">
@@ -45,11 +64,14 @@ const Filter = ({ filter, selectedCategory }) => {
         <Row>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Control
-              type="date"
-              min={disablePastDate()}
+              type="input"
               name="date"
-              placeholder="Date"
+              placeholder={t('date_placeholder')}
+              readOnly
+              value={value && moment(value).format('LL')}
+              onClick={() => setShowCalendar(!showCalendar)}
             />
+            <Calendar minDate={minDate()} onChange={(value) => onChange(value)} value={value} className={!showCalendar ? "hide" : ""} />
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Select

@@ -17,6 +17,7 @@ import {
   quoteRequest,
   distributorQuick,
   distributorRequest,
+  distributorQuick2,
 } from "../../helpers/utils";
 import DefaultImg from "../../assets/images/no_image.png";
 import { endpoints } from "../../helpers/endpoints";
@@ -40,6 +41,7 @@ const ProductDetail = () => {
   const [onRequest, setOnRequest] = useState("true");
   const [quotesInfo, setQuotesInfo] = useState({});
   const [errorItems, setErrorItems] = useState(false);
+  const [secondDist, setSecondDist] = useState();
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -93,7 +95,10 @@ const ProductDetail = () => {
     };
 
     const onReq = searchParams.get("on_req");
+    const second_dist = searchParams.get("second_dist");
+    setSecondDist(second_dist);
     if (onReq === "true") detailRequest.request.ShortName = distributorRequest;
+    if (second_dist === "true") detailRequest.request.ShortName = distributorQuick2;
     else detailRequest.request.ShortName = distributorQuick;
 
     axios
@@ -129,6 +134,7 @@ const ProductDetail = () => {
       setBookingQuotes([]);
       const onReq = searchParams.get("on_req");
       if (onReq === "true") quoteRequest.request.ShortName = distributorRequest;
+      if (secondDist === "true") quoteRequest.request.ShortName = distributorQuick2;
       else quoteRequest.request.ShortName = distributorQuick;
       service.Children.map((children, i) => {
         quoteRequest.request.IndustryCategoryGroup =
@@ -143,6 +149,7 @@ const ProductDetail = () => {
             const mergeData = { ...service.Children[i], ...response.data };
             mergeData.id = i + 1;
             mergeData.quantity = 2;
+            if (secondDist === "true") mergeData.secondDist = true;
             mergeData.price = response.data.Configurations[0].Quotes
               ? response.data.Configurations[0].Quotes[0].TotalPrice
               : null;
@@ -167,8 +174,8 @@ const ProductDetail = () => {
     if (service.IndustryCategoryGroups[0] !== 3) {
       values = {
         date: e.target[0] ? e.target[0].value : "",
-        duration: e.target[1] ? e.target[1].value : 1,
-        pax: e.target[2] ? e.target[2].value : 2,
+        duration: service.IndustryCategoryGroups[0] === 0 ? e.target[1].value : null,
+        pax: service.IndustryCategoryGroups[0] === 0 ? e.target[2].value : e.target[1].value,
       };
       setQuotesInfo(values);
     }
@@ -269,7 +276,7 @@ const ProductDetail = () => {
                 style={{ display: productItemShow }}
               >
                 <div className="sectionTitle">
-                <span>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('available_products_activity') : service.IndustryCategoryGroups[0] === 3 ? t('available_products_goods') : t('available_products') }</span>
+                  <span>{service?.IndustryCategoryGroups && service.IndustryCategoryGroups[0] === 1 ? t('available_products_activity') : service.IndustryCategoryGroups[0] === 3 ? t('available_products_goods') : t('available_products')}</span>
                 </div>
                 <ProductItems
                   bookingQuotes={bookingQuotes}
