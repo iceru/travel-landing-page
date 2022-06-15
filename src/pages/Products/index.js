@@ -70,14 +70,14 @@ const Products = () => {
 
   productsRequest.request.Language = `${language}-JP`;
 
-  useEffect(() => {
+  const resetPaging = () => {
     searchParams.delete("pages");
     searchParams.delete("pages_request");
     setSearchParams(searchParams);
 
     setPage(1);
     productsRequest.request.Paging.PageNumber = 1;
-  }, []);
+  }
 
   useEffect(() => {
     const category = searchParams.get("category");
@@ -87,8 +87,7 @@ const Products = () => {
         IndustryCategoryGroups: [category],
       };
       setSelectedCategory(category);
-    }
-    if (category && category !== "all") {
+      resetPaging();
       getData();
     }
   }, []);
@@ -106,6 +105,7 @@ const Products = () => {
     ];
     if (!category || category === 'all') {
       getData();
+      resetPaging();
     }
   }, [language]);
 
@@ -137,8 +137,6 @@ const Products = () => {
         dispatchQuick2();
       }
     });
-
-    // dispatchRestaurant();
   };
 
   const dispatchQuick2 = () => {
@@ -154,7 +152,6 @@ const Products = () => {
         ...response.data.Entities,
       ]);
       setSkeletonShow("none");
-
     });
   }
 
@@ -202,7 +199,7 @@ const Products = () => {
     } else {
       setProductsShow("none");
       productsRequest.request.Paging.PageNumber = 1;
-      dispatchQuick(page);
+      dispatchQuick(1);
       dispatchRequest();
     }
   };
@@ -219,6 +216,7 @@ const Products = () => {
   };
 
   const filterData = (values) => {
+    debugger; //eslint-disable-line
     if (values.minRange) {
       if (values.minRange === "0") {
         productsRequest.request.Filter.Bookability.RateRange = {};
@@ -258,7 +256,7 @@ const Products = () => {
     }
 
     setSearchParams(searchParams);
-
+    resetPaging();
     getData();
   };
 
