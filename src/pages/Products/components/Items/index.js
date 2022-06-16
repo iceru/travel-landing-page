@@ -64,9 +64,11 @@ const Items = ({
                   </a>
 
                   <div className="address">
-                    {service.PhysicalAddress.Line1},{" "}
-                    {service.PhysicalAddress.City},{" "}
                     {service.PhysicalAddress.PostCode}
+                    {service.PhysicalAddress.State ? `, ${service.PhysicalAddress.State}` : ''}
+                    {service.PhysicalAddress.City ? `, ${service.PhysicalAddress.City}` : ''}
+                    {service.PhysicalAddress.Line1 ? `, ${service.PhysicalAddress.Line1}` : ''}
+                    {service.PhysicalAddress.Line2 ? `, ${service.PhysicalAddress.Line2}` : ''}
                   </div>
                   <div className="price">
                     {service.Availability.Calendar.LowestRate &&

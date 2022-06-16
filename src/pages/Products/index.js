@@ -299,7 +299,7 @@ const Products = () => {
     }
 
     if (values.keyword) {
-      productsRequest.request.Filter.Names = [values.keyword];
+      productsRequest.request.Filter.Names = [`%${values.keyword}%`];
       searchParams.set("keyword", values.keyword);
     } else {
       delete productsRequest.request.Filter.Names;

@@ -64,21 +64,26 @@ const ProductItems = ({
       setShow(true);
     } else {
       debugger; //eslint-disable-line
-      const checkItems = items.find((item) => item.secondDist === true);
-      if (checkItems) {
-        if (booking.secondDist === true) {
-          addItem(booking, parseInt(booking.quantity));
-          success();
+      if (items.length > 0) {
+        const checkItems = items.find((item) => item.secondDist === true);
+        if (!checkItems) {
+          if (booking.secondDist !== true) {
+            addItem(booking, parseInt(booking.quantity));
+            success();
+          } else {
+            failed();
+          }
         } else {
-          failed();
+          if (booking.secondDist !== true) {
+            failed();
+          } else {
+            addItem(booking, parseInt(booking.quantity));
+            success();
+          }
         }
       } else {
-        if (booking.secondDist !== true) {
-          addItem(booking, parseInt(booking.quantity));
-          success();
-        } else {
-          failed();
-        }
+        addItem(booking, parseInt(booking.quantity));
+        success();
       }
     }
   };
@@ -177,11 +182,13 @@ const ProductItems = ({
     }
   }, [bookingQuotes])
 
+  console.log(bookingQuotes);
+
   return (
     <>
       {!errorItems && !isEmpty(bookingQuotes) && !isEmpty(available) ? (
         <div className="items">
-          {_.sortBy(bookingQuotes, "Name").map((booking, i) => (
+          {_.orderBy(_.sortBy(bookingQuotes, "Name"), 'Configurations[0].Quotes[0].TotalPrice', 'desc').map((booking, i) => (
             <div key={i} className="productItem row align-items-center">
               <div className=" col-12 col-lg-10">
                 <div className="info">

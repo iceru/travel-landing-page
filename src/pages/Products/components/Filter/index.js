@@ -41,8 +41,8 @@ const Filter = ({ filter, selectedCategory }) => {
         ? priceRange?.split("-")[0]
         : null,
       maxRange:
-      priceRange?.split("-")[1] &&
-      priceRange?.includes("-")
+        priceRange?.split("-")[1] &&
+          priceRange?.includes("-")
           ? priceRange?.split("-")[1]
           : null,
       keyword: category !== "3" ? keyword : null,
@@ -109,7 +109,7 @@ const Filter = ({ filter, selectedCategory }) => {
             </Col>
           ) : (
             <Col xs={6} className="col-lg mb-3 mb-lg-0">
-              <Form.Select type="text" name="category_shop"  onChange={((e) => setTypeShop(e.target.value))}>
+              <Form.Select type="text" name="category_shop" onChange={((e) => setTypeShop(e.target.value))}>
                 <option value="all-shop">{t('all_categories_shop')}</option>
               </Form.Select>
             </Col>
