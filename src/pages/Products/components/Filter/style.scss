@@ -1,5 +1,5 @@
 .filterWrapper {
-  margin: 2rem 0;
+  margin: .5rem 0 2rem;
 
   .react-calendar {
     width: 200px;
@@ -10,9 +10,11 @@
       display: none;
     }
   }
+
   .react-calendar__navigation button {
     min-width: 24px;
   }
+
   .react-calendar__tile {
     line-height: 10px;
   }

@@ -18,7 +18,7 @@ export const TRANSLATIONS_EN = {
   name: "Name",
   address: "Address",
   phone: "Phone",
-  website: "Webiste",
+  website: "Website",
   email: "Email",
   fax: "Fax",
   from: "From",
@@ -93,4 +93,5 @@ export const TRANSLATIONS_EN = {
   not_available_goods: "Not Available",
   price_tax: "Price (tax incl.)",
   date_placeholder: "dd/mm/yy",
+  reset_filter: 'Reset Filter'
 };

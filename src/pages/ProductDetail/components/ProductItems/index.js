@@ -5,6 +5,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useCart } from "react-use-cart";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
+import { toast } from 'react-toastify';
 
 import DefaultImg from "../../../../assets/images/no_image.png";
 import { formatMoney } from "../../../../helpers/formatters";
@@ -42,6 +43,7 @@ const ProductItems = ({
   const [available, setAvailable] = useState([]);
 
   const handleClose = () => setShow(false);
+  const success = () => toast.success("Item added to cart!");
 
   useEffect(() => {
     if (error) {
@@ -60,6 +62,7 @@ const ProductItems = ({
       setShow(true);
     } else {
       addItem(booking, parseInt(booking.quantity));
+      success();
     }
   };
 

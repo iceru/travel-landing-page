@@ -166,8 +166,8 @@ const ProductDetail = () => {
     if (service.IndustryCategoryGroups[0] !== 3) {
       values = {
         date: e.target[0] ? e.target[0].value : "",
-        duration: e.target[1] ? e.target[1].value : 1,
-        pax: e.target[2] ? e.target[2].value : 2,
+        duration: service.IndustryCategoryGroups[0] === 0 ? e.target[1].value : null,
+        pax: service.IndustryCategoryGroups[0] === 0 ? e.target[2].value : e.target[1].value,
       };
       setQuotesInfo(values);
     }

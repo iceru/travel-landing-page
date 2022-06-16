@@ -55,7 +55,6 @@ const Products = () => {
 
   const [skeletonShow, setSkeletonShow] = useState("none");
   const [productsShow, setProductsShow] = useState("block");
-  const [itemsShow, setitemsShow] = useState(true);
   const [stateButton, setStateButton] = useState("quick");
 
   const [page, setPage] = useState(1);
@@ -63,9 +62,13 @@ const Products = () => {
   const [totalPage, setTotalPage] = useState(1);
   const [totalPageOnRequest, setTotalPageOnRequest] = useState(1);
 
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
+  const [category, setCategory] = useState('all');
+  const [date, setDate] = useState(new Date());
+  const [priceRange, setPriceRange] = useState();
+  const [keyword, setKeyword] = useState();
+  const [typeShop, setTypeShop] = useState();
 
   const productsRequest = bodyRequest;
 
@@ -81,18 +84,45 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
+    productsRequest.request.Availability = {
+      MergeMethod: 1,
+      Window: {
+        Size: 42,
+        StartDate: new Date(),
+      },
+    };
+
     const category = searchParams.get("category");
+    const min = searchParams.get("min");
+    const max = searchParams.get("max");
+    const keyword = searchParams.get("keyword");
+    const date = searchParams.get("date");
 
     if (category && category !== "all") {
       productsRequest.request.Filter.TagCriteria = {
         IndustryCategoryGroups: [category],
       };
-      setSelectedCategory(category);
-      getData();
+      setCategory(category);
     }
-  }, []);
 
-  useEffect(() => {
+    if (min || max) {
+      productsRequest.request.Filter.Bookability.RateRange = {
+        Min: min,
+        Max: max,
+      };
+      setPriceRange(`${min}-${max}`)
+    }
+
+    if (date) {
+      productsRequest.request.Availability.Window.StartDate = new Date(date);
+      setDate(new Date(date));
+    }
+
+    if (keyword) {
+      productsRequest.request.Filter.Names = [`%${keyword}%`];
+      setKeyword(keyword)
+    }
+
     delete productsRequest.request.Filter.Ids;
 
     productsRequest.request.Sorting = [
@@ -103,7 +133,7 @@ const Products = () => {
       },
     ];
     getData();
-  }, [language]);
+  }, []);
 
   useEffect(() => {
     stateServices &&
@@ -113,6 +143,10 @@ const Products = () => {
         }
       });
   }, [stateServices]);
+
+  useEffect(() => {
+    stateButton === 'quick' ? setServices(quickBooking) : setServices(onRequest)
+  }, [quickBooking, onRequest])
 
   const dispatchQuick = (page) => {
     productsRequest.request.ShortName = distributorQuick;
@@ -165,14 +199,6 @@ const Products = () => {
   const getData = (payload) => {
     setSkeletonShow("block");
 
-    productsRequest.request.Availability = {
-      MergeMethod: 1,
-      Window: {
-        Size: 42,
-        StartDate: new Date(),
-      },
-    };
-
     if (payload?.page && payload?.page > 1) {
       productsRequest.request.Paging.PageNumber = payload?.page;
       searchParams.get("page", page);
@@ -205,8 +231,8 @@ const Products = () => {
     }
 
     if (values.date) {
-      productsRequest.request.Availability.Window.StartDate = values.date;
-      searchParams.set("date", values.date);
+      productsRequest.request.Availability.Window.StartDate = new Date(values.date);
+      searchParams.set("date", new Date(values.date));
     }
 
     if (values.category === "all") {
@@ -220,7 +246,7 @@ const Products = () => {
     }
 
     if (values.keyword) {
-      productsRequest.request.Filter.Names = [values.keyword];
+      productsRequest.request.Filter.Names = [`%${values.keyword}%`];
       searchParams.set("keyword", values.keyword);
     } else {
       delete productsRequest.request.Filter.Names;
@@ -233,19 +259,16 @@ const Products = () => {
   };
 
   const changeToRequest = () => {
-    setitemsShow(true);
     setServices(onRequest);
     setStateButton("request");
   };
 
   const changeToQuick = () => {
-    setitemsShow(true);
     setServices(quickBooking);
     setStateButton("quick");
   };
 
   const changeToMap = () => {
-    setitemsShow(false);
     setStateButton("map");
   };
 
@@ -284,6 +307,20 @@ const Products = () => {
     }
   };
 
+  const resetFilter = () => {
+    setCategory('all');
+    setDate('');
+    setKeyword('');
+    setPriceRange('0-');
+
+    productsRequest.request.Filter.Bookability.RateRange = {};
+    productsRequest.request.Availability.Window.StartDate = new Date();
+    delete productsRequest.request.Filter.Names;
+    delete productsRequest.request.Filter.TagCriteria;
+
+    getData();
+  }
+
   return (
     <div className="products">
       <div className="floatingText">
@@ -292,10 +329,20 @@ const Products = () => {
       <div className="container">
         <div className="productsWrapper" style={{ display: productsShow }}>
           <div className="titlePage">{t("search")}</div>
+          <div className="reset" onClick={() => resetFilter()}>{t('reset_filter')}</div>
           <Filter
             lang={language}
             filter={filterData}
-            selectedCategory={selectedCategory}
+            date={date}
+            category={category}
+            priceRange={priceRange}
+            keyword={keyword}
+            typeShop={typeShop}
+            setDate={setDate}
+            setCategory={setCategory}
+            setPriceRange={setPriceRange}
+            setTypeShop={setTypeShop}
+            setKeyword={setKeyword}
           />
           <div className="d-flex flex-wrap justify-content-between productsOption mb-4">
             <div className="mb-3 mb-lg-0">
@@ -337,7 +384,7 @@ const Products = () => {
           </div>
           <div
             className="productItems"
-            style={{ display: itemsShow === true ? "block" : "none" }}
+            style={{ display: stateButton !== 'map' ? "block" : "none" }}
           >
             <Items
               services={services}
@@ -352,7 +399,7 @@ const Products = () => {
           </div>
           <div
             className="productsMap"
-            style={{ display: itemsShow === true ? "none" : "block" }}
+            style={{ display: stateButton === 'map' ? "block" : "none" }}
           >
             {geocodes && stateServices.length > 0 && (
               <Map positions={stateServices} zoom={9} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -11,39 +11,43 @@ import moment from "moment";
 const propTypes = {
   filter: PropTypes.func,
   selectedCategory: PropTypes.string,
+  setCategory: PropTypes.func,
+  setDate: PropTypes.func,
+  setTypeShop: PropTypes.func,
+  setKeyword: PropTypes.func,
+  setPriceRange: PropTypes.func,
+  category: PropTypes.string,
+  date: PropTypes.date,
+  typeShop: PropTypes.string,
+  keyword: PropTypes.string,
+  priceRange: PropTypes.string,
 };
 
-const Filter = ({ filter, selectedCategory }) => {
+const Filter = ({ filter, priceRange, setPriceRange, setCategory, category, setDate, date, setKeyword, keyword, setTypeShop, typeShop }) => {
   const { t } = useTranslation();
 
-  const [category, setCategory] = useState();
-  const [value, setValue] = useState();
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const onChange = (value) => {
-    setValue(value);
+  const onChange = (date) => {
+    setDate(date);
     setShowCalendar(false);
   }
-
-  useEffect(() => {
-    setCategory(selectedCategory);
-  }, [selectedCategory]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
       date: event.target[0].value ? new Date(event.target[0].value) : null,
       category: category,
-      minRange: event.target[2].value.includes("-")
-        ? event.target[2].value.split("-")[0]
+      minRange: priceRange?.includes("-")
+        ? priceRange?.split("-")[0]
         : null,
       maxRange:
-        event.target[2].value.split("-")[1] &&
-          event.target[2].value.includes("-")
-          ? event.target[2].value.split("-")[1]
+        priceRange?.split("-")[1] &&
+          priceRange?.includes("-")
+          ? priceRange?.split("-")[1]
           : null,
-      keyword: category !== "3" ? event.target[3].value : null,
-      typeShop: category === "3" ? event.target[3].value : null,
+      keyword: category !== "3" ? keyword : null,
+      typeShop: category === "3" ? typeShop : null,
     };
     setShowCalendar(false);
     filter(data);
@@ -66,14 +70,14 @@ const Filter = ({ filter, selectedCategory }) => {
               name="date"
               placeholder={t('date_placeholder')}
               readOnly
-              value={value && moment(value).format('LL')}
+              value={date && moment(date).format('LL')}
               onClick={() => setShowCalendar(!showCalendar)}
             />
-            <Calendar minDate={minDate()} onChange={(value) => onChange(value)} value={value} className={!showCalendar ? "hide" : ""} />
+            <Calendar minDate={minDate()} onChange={(date) => onChange(date)} value={date} className={!showCalendar ? "hide" : ""} />
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Select
-              onChange={(event) => setCategory(event.target.value)}
+              onChange={(e) => setCategory(e.target.value)}
               value={category}
             >
               <option value="all">{t("all_categories")}</option>
@@ -84,7 +88,7 @@ const Filter = ({ filter, selectedCategory }) => {
             </Form.Select>
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
-            <Form.Select type="text">
+            <Form.Select type="text" name="price_range" onChange={((e) => setPriceRange(e.target.value))} value={priceRange}>
               <option value="0-">{t("price_range")}</option>
               <option value="1-9999">{"< ¥9.999"}</option>
               <option value="10000-14999">{"¥10.000 - ¥14.999"}</option>
@@ -97,12 +101,14 @@ const Filter = ({ filter, selectedCategory }) => {
               <Form.Control
                 type="text"
                 name="keyword"
+                onChange={((e) => setKeyword(e.target.value))}
                 placeholder={t("keyword")}
+                value={keyword}
               />
             </Col>
           ) : (
             <Col xs={6} className="col-lg mb-3 mb-lg-0">
-              <Form.Select type="text">
+              <Form.Select type="text" name="category_shop" onChange={((e) => setTypeShop(e.target.value))} value={typeShop}>
                 <option value="all-shop">All Categories</option>
               </Form.Select>
             </Col>

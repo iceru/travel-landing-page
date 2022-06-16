@@ -3,12 +3,14 @@ import { Outlet, useSearchParams } from "react-router-dom";
 import { i18n } from "./lang/i18n";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer } from 'react-toastify';
 
 import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
+import Cart from "./components/Cart";
 
 import "./App.scss";
-import Cart from "./components/Cart";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -52,6 +54,7 @@ function App() {
       </div>
       <Outlet context={[language]} />
       <Cart language={language} />
+      <ToastContainer />
       <Footer />
     </div>
   );
