@@ -60,7 +60,7 @@ const quoteRequest = {
   request: {
     CurrentCurrency: "JPY",
     AdCampaignCode: "",
-    IncludeCampaigns: false,
+    IncludeCampaigns: true,
     IncludeExtras: true,
     IndustryCategoryGroup: null,
     IndustryCategory: null,

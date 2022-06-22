@@ -130,7 +130,7 @@ const Products = () => {
 
   const dispatchQuick = (page) => {
     productsRequest.request.ShortName = distributorQuick;
-    productsRequest.request.Paging.PageNumber = 1;
+    productsRequest.request.Paging.PageNumber = page || 1;
     productsRequest.request.Paging.PageSize = 12;
 
     axios.post(endpoints.search, productsRequest).then((response) => {

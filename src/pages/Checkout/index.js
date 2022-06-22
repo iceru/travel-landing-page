@@ -81,10 +81,10 @@ const Checkout = () => {
         console.log('submit')
     };
     return products ? (
-        <div className="rbWrapper container">
-            {products.map((product) => (
-                <>
-                    <h4 className="rbTitle mb-3">{product.Name}</h4>
+        <div className="checkout container">
+            {products.map((product, i) => (
+                <div className="mb-3" key={i}>
+                    <h5 className="rbTitle mb-3">{product.Name}</h5>
                     <Table bordered responsive className="mb-3">
                         <thead>
                             <tr>
@@ -134,7 +134,7 @@ const Checkout = () => {
                             </tr>
                         </tbody>
                     </Table>
-                </>
+                </div>
             ))}
 
             <Formik
@@ -180,17 +180,6 @@ const Checkout = () => {
                 }}
             >
                 <Form>
-                    <div className="notes mb-5">
-                        <div className="mb-3">
-                            <TextInput
-                                label={t("special_requests")}
-                                name="specialRequests"
-                                type="text"
-                                placeholder={t("type_keywords")}
-                            />
-                        </div>
-                    </div>
-
                     <div className="customerDetail">
                         <h4 className="text-center mb-4">{t("customer_detail")}</h4>
                         <Row>
