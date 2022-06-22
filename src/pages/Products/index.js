@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import {
   bodyRequest,
   distributorQuick,
-  distributorQuick2,
   distributorRequest,
 } from "../../helpers/utils";
 import { endpoints } from "../../helpers/endpoints";
@@ -49,7 +48,7 @@ const Products = () => {
   ];
 
   const [quickBooking, setQuickBooking] = useState([]);
-  const [onRequest, setOnRequest] = useState([]);
+  // const [onRequest, setOnRequest] = useState([]);
   const [services, setServices] = useState([]);
   const [stateServices, setStateServices] = useState([]);
 
@@ -133,27 +132,27 @@ const Products = () => {
         setProductsShow("block");
         setSkeletonShow("none");
       }
-      if (page == response.data.Paging.NumberOfPages) {
-        dispatchQuick2();
-      }
+      // if (page == response.data.Paging.NumberOfPages) {
+      //   dispatchQuick2();
+      // }
     });
   };
 
-  const dispatchQuick2 = () => {
-    productsRequest.request.ShortName = distributorQuick2;
-    setSkeletonShow("block");
+  // const dispatchQuick2 = () => {
+  //   productsRequest.request.ShortName = distributorQuick2;
+  //   setSkeletonShow("block");
 
-    axios.post(endpoints.search, productsRequest).then((response) => {
-      const newResponse = response.data.Entities.map((item) => ({ ...item, secondDist: true }))
-      setQuickBooking((quickBooking) => [...quickBooking, ...newResponse]);
-      setServices((data) => [...data, ...newResponse]);
-      setStateServices((stateServices) => [
-        ...stateServices,
-        ...response.data.Entities,
-      ]);
-      setSkeletonShow("none");
-    });
-  }
+  //   axios.post(endpoints.search, productsRequest).then((response) => {
+  //     const newResponse = response.data.Entities.map((item) => ({ ...item, secondDist: true }))
+  //     setQuickBooking((quickBooking) => [...quickBooking, ...newResponse]);
+  //     setServices((data) => [...data, ...newResponse]);
+  //     setStateServices((stateServices) => [
+  //       ...stateServices,
+  //       ...response.data.Entities,
+  //     ]);
+  //     setSkeletonShow("none");
+  //   });
+  // }
 
   const dispatchRequest = (pageRequest) => {
     productsRequest.request.ShortName = distributorRequest;
@@ -168,7 +167,7 @@ const Products = () => {
         ]);
         setSkeletonShow("none");
       } else {
-        setOnRequest(response.data.Entities);
+        // setOnRequest(response.data.Entities);
         setStateServices((stateServices) => [
           ...stateServices,
           ...response.data.Entities,
@@ -216,7 +215,6 @@ const Products = () => {
   };
 
   const filterData = (values) => {
-    debugger; //eslint-disable-line
     if (values.minRange) {
       if (values.minRange === "0") {
         productsRequest.request.Filter.Bookability.RateRange = {};
@@ -260,11 +258,11 @@ const Products = () => {
     getData();
   };
 
-  const changeToRequest = () => {
-    setitemsShow(true);
-    setServices(onRequest);
-    setStateButton("request");
-  };
+  // const changeToRequest = () => {
+  //   setitemsShow(true);
+  //   setServices(onRequest);
+  //   setStateButton("request");
+  // };
 
   const changeToQuick = () => {
     setitemsShow(true);
@@ -319,13 +317,13 @@ const Products = () => {
             >
               {t("quick_booking")}
             </Button>
-            <Button
+            {/* <Button
               variant={stateButton === "request" ? "primary" : "secondary"}
               onClick={() => changeToRequest()}
               className="fw-bold me-2 me-lg-3"
             >
               {t("request_book")}
-            </Button>
+            </Button> */}
             <Button
               variant={stateButton === "map" ? "primary" : "secondary"}
               onClick={() => changeToMap()}

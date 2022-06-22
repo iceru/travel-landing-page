@@ -6,9 +6,9 @@ const disablePastDate = () => {
   return yyyy + "-" + mm + "-" + dd;
 };
 
-const distributorQuick = "shinkibusco";
+const distributorQuick = "TestDistributor";
 const distributorQuick2 = "shinkibusco_2"
-const distributorRequest = "shinkibusco_3";
+const distributorRequest = "TestDistributorOA";
 
 const bodyRequest = {
   request: {
