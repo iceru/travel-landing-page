@@ -10,6 +10,7 @@ import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import RequestBook from "./pages/RequestBook";
 import Invoice from "./pages/Invoice";
+import Checkout from "./pages/Checkout";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -21,6 +22,7 @@ ReactDOM.render(
             <Route exact path="product" element={<ProductDetail />} />
             <Route path="request-book" element={<RequestBook />} />
             <Route path="success" element={<Invoice />} />
+            <Route path="checkout" element={<Checkout />} />
           </Route>
         </Routes>
       </BrowserRouter>
