@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "react-use-cart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,86 +10,80 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
 
 import DefaultImg from "../../assets/images/no_image.png";
 
-// import { distributorQuick } from "../../helpers/utils";
-// import { endpoints } from "../../helpers/endpoints";
+import { distributorQuick, distributorQuick2 } from "../../helpers/utils";
+import { endpoints } from "../../helpers/endpoints";
 import { formatMoney } from "../../helpers/formatters";
 
 import "./style.scss";
 
 const Cart = () => {
   const [showCart, setShowCart] = useState("none");
-  const { t } = useTranslation();
-  // const [lang, setLang] = useState('en');
-  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState('en');
 
-  // useEffect(() => {
-  //   setLang(i18n.language);
-  // })
+  useEffect(() => {
+    setLang(i18n.language);
+  })
 
   const { items, removeItem, totalUniqueItems, isEmpty } = useCart();
 
-  // const goToCABS = () => {
-  //   let products = [];
+  const goToCABS = () => {
+    let products = [];
+    let secondDist = false;
 
-  //   items.map((item) => {
-  //     const data = {
-  //       ProductId: item.Configurations[0].ProductId,
-  //       Commence: item.Configurations[0].Quotes[0].Commence,
-  //       Conclude: item.Configurations[0].Quotes[0].Conclude,
-  //       Pax: item.Configurations[0].Pax,
-  //       TotalPrice: item.Configurations[0].Quotes[0].TotalPrice,
-  //     };
-  //     products = [...products, data];
-  //   });
-
-  //   const favourites = {
-  //     Products: products,
-  //   };
-
-  //   const brandingStyle = distributorQuick;
-  //   const formData = [
-  //     { name: "type", value: "BookingInjection" },
-  //     { name: "data", value: JSON.stringify(favourites) },
-  //     { name: "exl_dn", value: distributorQuick },
-  //     { name: "exl_bs", value: brandingStyle },
-  //     { name: "exl_lng", value: lang === 'jp' ? 'ja' : lang + "-JP" },
-  //     { name: "exl_cur", value: "JPY" },
-  //     {
-  //       name: "options",
-  //       value: JSON.stringify({ OpenInNewWindow: true }),
-  //     },
-  //   ];
-
-  //   const form = document.createElement("form");
-  //   form.action = endpoints.injection;
-  //   form.method = "POST";
-
-  //   formData.forEach(function (item) {
-  //     const input = document.createElement("input");
-  //     input.type = "hidden";
-  //     input.name = item.name;
-  //     input.value = item.value;
-
-  //     form.appendChild(input);
-  //   });
-
-  //   document.body.appendChild(form);
-
-  //   form.submit();
-
-  //   document.body.removeChild(form);
-  // };
-
-
-  const checkout = () => {
-    navigate(`/checkout?id=${items[0].Id}`, {
-      state: { products: items },
+    items.map((item) => {
+      const data = {
+        ProductId: item.Configurations[0].ProductId,
+        Commence: item.Configurations[0].Quotes[0].Commence,
+        Conclude: item.Configurations[0].Quotes[0].Conclude,
+        Pax: item.Configurations[0].Pax,
+        TotalPrice: item.Configurations[0].Quotes[0].TotalPrice,
+      };
+      products = [...products, data];
+      secondDist = item.secondDist;
     });
-  }
+
+    const favourites = {
+      Products: products,
+    };
+
+    const brandingStyle = secondDist ? distributorQuick2 : distributorQuick;
+    const formData = [
+      { name: "type", value: "BookingInjection" },
+      { name: "data", value: JSON.stringify(favourites) },
+      { name: "exl_dn", value: secondDist ? distributorQuick2 : distributorQuick },
+      { name: "exl_bs", value: brandingStyle },
+      { name: "exl_lng", value: lang === 'jp' ? 'ja' : lang + "-JP" },
+      { name: "exl_cur", value: "JPY" },
+      {
+        name: "options",
+        value: JSON.stringify({ OpenInNewWindow: true }),
+      },
+    ];
+
+    const form = document.createElement("form");
+    form.action = endpoints.injection;
+    form.method = "POST";
+
+    formData.forEach(function (item) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = item.name;
+      input.value = item.value;
+
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+
+    form.submit();
+
+    document.body.removeChild(form);
+  };
+
   const setCart = () => {
     const show = showCart === "none" ? "block" : "none";
     setShowCart(show);
@@ -159,7 +153,7 @@ const Cart = () => {
           {!isEmpty && (
             <div
               className="btn btn-primary w-100 mb-3 fw-bold"
-              onClick={() => checkout()}
+              onClick={() => goToCABS()}
             >
               <FontAwesomeIcon icon={faCheck} />
               &nbsp;{t("continue_payment")}

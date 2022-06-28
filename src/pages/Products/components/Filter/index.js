@@ -10,27 +10,31 @@ import moment from "moment";
 
 const propTypes = {
   filter: PropTypes.func,
-  selectedCategory: PropTypes.string,
+  setCategory: PropTypes.func,
+  setDate: PropTypes.func,
+  setTypeShop: PropTypes.func,
+  setKeyword: PropTypes.func,
+  setPriceRange: PropTypes.func,
+  category: PropTypes.string,
+  date: PropTypes.date,
+  typeShop: PropTypes.string,
+  keyword: PropTypes.string,
+  priceRange: PropTypes.string,
 };
 
-const Filter = ({ filter, selectedCategory }) => {
+const Filter = ({ filter, priceRange, setPriceRange, setCategory, category, setDate, date, setKeyword, keyword, setTypeShop, typeShop }) => {
   const { t } = useTranslation();
 
-  const [category, setCategory] = useState();
-  const [priceRange, setPriceRange] = useState();
-  const [keyword, setKeyword] = useState();
-  const [typeShop, setTypeShop] = useState();
-  const [value, setValue] = useState();
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const onChange = (value) => {
-    setValue(value);
+  const onChange = (date) => {
+    setDate(date);
     setShowCalendar(false);
   }
 
   useEffect(() => {
-    setCategory(selectedCategory);
-  }, [selectedCategory]);
+    setCategory(category);
+  }, [category]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -69,17 +73,17 @@ const Filter = ({ filter, selectedCategory }) => {
               name="date"
               placeholder={t('date_placeholder')}
               readOnly
-              value={value && moment(value).format('LL')}
+              value={date && moment(date).format('LL')}
               onClick={() => setShowCalendar(!showCalendar)}
             />
-            <Calendar minDate={minDate()} onChange={(value) => onChange(value)} value={value} className={!showCalendar ? "hide" : ""} />
-            <small className="clearDate mt-1" onClick={() => setValue('')}>
+            <Calendar minDate={minDate()} onChange={(date) => onChange(date)} value={date} className={!showCalendar ? "hide" : ""} />
+            <small className="clearDate mt-1" onClick={() => setDate('')}>
               <a href="#">{t('clear_date')}</a>
             </small>
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
             <Form.Select
-              onChange={(event) => setCategory(event.target.value)}
+              onChange={(e) => setCategory(e.target.value)}
               value={category}
             >
               <option value="all">{t("all_categories")}</option>
@@ -90,7 +94,7 @@ const Filter = ({ filter, selectedCategory }) => {
             </Form.Select>
           </Col>
           <Col xs={6} className="col-lg mb-3 mb-lg-0">
-            <Form.Select type="text" name="price_range" onChange={((e) => setPriceRange(e.target.value))}>
+            <Form.Select type="text" name="price_range" onChange={((e) => setPriceRange(e.target.value))} value={priceRange}>
               <option value="0-">{t("price_range")}</option>
               <option value="1-9999">{"~ 9.999円"}</option>
               <option value="10000-14999">{"10.000円 ~ 14.999円"}</option>
@@ -103,13 +107,14 @@ const Filter = ({ filter, selectedCategory }) => {
               <Form.Control
                 type="text"
                 name="keyword"
-                placeholder={t("keyword")}
                 onChange={((e) => setKeyword(e.target.value))}
+                placeholder={t("keyword")}
+                value={keyword}
               />
             </Col>
           ) : (
             <Col xs={6} className="col-lg mb-3 mb-lg-0">
-              <Form.Select type="text" name="category_shop" onChange={((e) => setTypeShop(e.target.value))}>
+              <Form.Select type="text" name="category_shop" onChange={((e) => setTypeShop(e.target.value))} value={typeShop}>
                 <option value="all-shop">{t('all_categories_shop')}</option>
               </Form.Select>
             </Col>

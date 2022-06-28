@@ -63,7 +63,6 @@ const ProductItems = ({
       setSelectedBooking(booking);
       setShow(true);
     } else {
-      debugger; //eslint-disable-line
       if (items.length > 0) {
         const checkItems = items.find((item) => item.secondDist === true);
         if (!checkItems) {
@@ -181,8 +180,6 @@ const ProductItems = ({
       availableItems && setAvailable(availableItems);
     }
   }, [bookingQuotes])
-
-  console.log(bookingQuotes);
 
   return (
     <>

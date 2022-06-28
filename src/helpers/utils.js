@@ -7,6 +7,7 @@ const disablePastDate = () => {
 };
 
 const distributorQuick = "shinkibusco";
+const distributorQuick2 = "shinkibusco_2";
 const distributorRequest = "shinkibusco_3";
 
 const bodyRequest = {
@@ -91,5 +92,6 @@ export {
   quoteRequest,
   disablePastDate,
   distributorQuick,
+  distributorQuick2,
   distributorRequest,
 };

@@ -135,9 +135,9 @@ const ProductDetail = () => {
     if (service && service.Children.length > 0) {
       setBookingQuotes([]);
       const onReq = searchParams.get("on_req");
-      if (onReq === "true") quoteRequest.request.ShortName = distributorRequest;
-      if (secondDist === "true") quoteRequest.request.ShortName = 'shinkibusco_2';
-      else quoteRequest.request.ShortName = distributorQuick;
+      if (onReq === "true") quoteRequest.request.Shortname = distributorRequest;
+      if (secondDist === "true") quoteRequest.request.Shortname = 'shinkibusco_2';
+      else quoteRequest.request.Shortname = distributorQuick;
 
       service.Children.map((children, i) => {
         quoteRequest.request.IndustryCategoryGroup =

@@ -31,14 +31,6 @@ const Products = () => {
 
   const options = [
     {
-      value: "Name-Ascending",
-      label: t('name_ascending'),
-    },
-    {
-      value: "Name-Descending",
-      label: t('name_descending'),
-    },
-    {
       value: "Rate-Ascending",
       label: t('rate_ascending'),
     },
@@ -46,19 +38,24 @@ const Products = () => {
       value: "Rate-Descending",
       label: t('rate_descending'),
     },
+    {
+      value: "Name-Ascending",
+      label: t('name_ascending'),
+    },
+    {
+      value: "Name-Descending",
+      label: t('name_descending'),
+    },
   ];
-  /* eslint-disable */
 
   const [quickBooking, setQuickBooking] = useState([]);
   const [onRequest, setOnRequest] = useState([]);
   const [stateMap, setStateMap] = useState([]);
   const [services, setServices] = useState([]);
-  const [stateServices, setStateServices] = useState([]);
   const [geocodes, setGeocodes] = useState(false);
 
   const [skeletonShow, setSkeletonShow] = useState("none");
   const [productsShow, setProductsShow] = useState("block");
-  const [itemsShow, setitemsShow] = useState(true);
   const [stateButton, setStateButton] = useState("quick");
 
   const [page, setPage] = useState(1);
@@ -66,8 +63,13 @@ const Products = () => {
   const [totalPage, setTotalPage] = useState(1);
   const [totalPageOnRequest, setTotalPageOnRequest] = useState(1);
 
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedOption, setSelectedOption] = useState(options[0].value);
+
+  const [category, setCategory] = useState('all');
+  const [date, setDate] = useState('');
+  const [priceRange, setPriceRange] = useState();
+  const [keyword, setKeyword] = useState();
+  const [typeShop, setTypeShop] = useState();
 
   const [pageName, setPageName] = useState('search_page');
 
@@ -85,39 +87,72 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    const category = searchParams.get("category");
-    productsRequest.request.Sorting = [
-      {
-        By: "Name",
-        Direction: "Ascending",
-        PositionOfNull: "PreferenceBottom",
+    stateButton === 'quick' ? setServices(quickBooking) : setServices(onRequest)
+  }, [quickBooking, onRequest])
+
+  useEffect(() => {
+    productsRequest.request.Availability = {
+      MergeMethod: 1,
+      Window: {
+        Size: 42,
+        StartDate: new Date(),
       },
-    ];
+    };
+
+    const category = searchParams.get("category");
+    const min = searchParams.get("min");
+    const max = searchParams.get("max");
+    const keyword = searchParams.get("keyword");
+    const date = searchParams.get("date");
+    const sort = searchParams.get("sort");
+
     if (category && category !== "all") {
       productsRequest.request.Filter.TagCriteria = {
         IndustryCategoryGroups: [category],
       };
-      setSelectedCategory(category);
-      getData();
-      pageNames();
+      setCategory(category);
     }
-  }, []);
 
-  useEffect(() => {
+    if (min || max) {
+      productsRequest.request.Filter.Bookability.RateRange = {
+        Min: min,
+        Max: max,
+      };
+      setPriceRange(`${min}-${max}`)
+    }
+
+    if (date) {
+      productsRequest.request.Availability.Window.StartDate = new Date(date);
+      setDate(new Date(date));
+    }
+
+    if (keyword) {
+      productsRequest.request.Filter.Names = [`%${keyword}%`];
+      setKeyword(keyword)
+    }
+
+    if (sort) {
+      setSelectedOption(sort);
+      productsRequest.request.Sorting = [
+        {
+          By: `${sort.split("-")[0]}`,
+          Direction: `${sort.split("-")[1]}`,
+        },
+      ];
+    } else {
+      productsRequest.request.Sorting = [
+        {
+          By: "Rate",
+          Direction: "Ascending",
+          PositionOfNull: "PreferenceBottom",
+        },
+      ];
+    }
+
     delete productsRequest.request.Filter.Ids;
-    const category = searchParams.get("category");
 
-    productsRequest.request.Sorting = [
-      {
-        By: "Name",
-        Direction: "Ascending",
-        PositionOfNull: "PreferenceBottom",
-      },
-    ];
-    if (!category || category === 'all') {
-      getData();
-    }
-  }, [language]);
+    getData();
+  }, []);
 
   useEffect(() => {
     stateMap &&
@@ -137,22 +172,12 @@ const Products = () => {
       if (page && page > 1) {
         setServices((data) => [...data, ...response.data.Entities]);
         setQuickBooking((data) => [...data, ...response.data.Entities]);
-        setStateServices((stateServices) => [
-          ...stateServices,
-          ...response.data.Entities,
-        ]);
       } else {
         setQuickBooking(response.data.Entities);
         setServices(response.data.Entities);
-        setStateServices((stateServices) => [
-          ...stateServices,
-          ...response.data.Entities,
-        ]);
         setTotalPage(response.data.Paging.NumberOfPages);
       }
-      if (response.data.Paging.NumberOfPages <= 1) {
-        dispatchQuick2();
-      } else if (page === response.data.Paging.NumberOfPages) {
+      if (response.data.Paging.NumberOfPages <= 1 || page === response.data.Paging.NumberOfPages) {
         dispatchQuick2();
       }
       setProductsShow("block");
@@ -164,14 +189,25 @@ const Products = () => {
     productsRequest.request.Paging.PageNumber = 1;
     productsRequest.request.Paging.PageSize = 12;
 
+    setProductsShow("none");
+    setSkeletonShow("block");
+
+    const category = searchParams.get("category");
+
+    if (!category || category === 'all') {
+      productsRequest.request.Filter.TagCriteria = {
+        IndustryCategoryGroups: [0, 1, 2],
+      }
+    }
+
     axios.post(endpoints.search, productsRequest).then((response) => {
-      const newResponse = response.data.Entities.map((item) => ({ ...item, secondDist: true }))
-      setQuickBooking((quickBooking) => [...quickBooking, ...newResponse]);
+      let newResponse = response.data.Entities.map((item) => ({ ...item, secondDist: true }));
+
+      setQuickBooking((qb) => [...qb, ...newResponse]);
       setServices((data) => [...data, ...newResponse]);
-      setStateServices((stateServices) => [
-        ...stateServices,
-        ...response.data.Entities,
-      ]);
+
+      setProductsShow("block");
+      setSkeletonShow("none");
     });
   }
 
@@ -184,33 +220,26 @@ const Products = () => {
       if (pageRequest && pageRequest > 1) {
         setServices((data) => [...data, ...response.data.Entities]);
         setOnRequest((data) => [...data, ...response.data.Entities]);
-        setStateServices((stateServices) => [
-          ...stateServices,
-          ...response.data.Entities,
-        ]);
         setSkeletonShow("none");
       } else {
         setOnRequest(response.data.Entities);
-        setStateServices((stateServices) => [
-          ...stateServices,
-          ...response.data.Entities,
-        ]);
         setTotalPageOnRequest(response.data.Paging.NumberOfPages);
       }
     });
   };
 
-
+  const updateStateMap = (data) => {
+    setStateMap((ss) => [
+      ...ss,
+      ...data,
+    ]);
+  }
   const dispatchMap = () => {
     productsRequest.request.Paging = {};
     productsRequest.request.ShortName = distributorQuick;
 
     axios.post(endpoints.search, productsRequest).then((response) => {
-      setStateMap((stateServices) => [
-        ...stateServices,
-        ...response.data.Entities,
-      ]);
-
+      updateStateMap(response.data.Entities);
       dispatchMap2();
     });
   }
@@ -220,10 +249,7 @@ const Products = () => {
     productsRequest.request.Paging = {};
 
     axios.post(endpoints.search, productsRequest).then((response) => {
-      setStateMap((stateServices) => [
-        ...stateServices,
-        ...response.data.Entities,
-      ]);
+      updateStateMap(response.data.Entities);
     });
   }
 
@@ -232,23 +258,12 @@ const Products = () => {
     productsRequest.request.ShortName = distributorRequest;
 
     axios.post(endpoints.search, productsRequest).then((response) => {
-      setStateMap((stateServices) => [
-        ...stateServices,
-        ...response.data.Entities,
-      ]);
+      updateStateMap(response.data.Entities);
     });
   }
 
   const getData = (payload) => {
     setSkeletonShow("block");
-
-    productsRequest.request.Availability = {
-      MergeMethod: 1,
-      Window: {
-        Size: 42,
-        StartDate: new Date(),
-      },
-    };
 
     if (payload?.page && payload?.page > 1) {
       productsRequest.request.Paging.PageNumber = payload?.page;
@@ -284,13 +299,15 @@ const Products = () => {
       }
     }
     if (values.date) {
-      productsRequest.request.Availability.Window.StartDate = values.date;
-      searchParams.set("date", values.date);
+      productsRequest.request.Availability.Window.StartDate = new Date(values.date);
+      searchParams.set("date", new Date(values.date));
     }
 
     if (values.category === "all") {
-      delete productsRequest.request.Filter.TagCriteria;
-      searchParams.set("category", "all");
+      productsRequest.request.Filter.TagCriteria = {
+        IndustryCategoryGroups: [0, 1, 2],
+      };
+      searchParams.delete("category");
     } else {
       productsRequest.request.Filter.TagCriteria = {
         IndustryCategoryGroups: [values.category],
@@ -313,19 +330,16 @@ const Products = () => {
   };
 
   const changeToRequest = () => {
-    setitemsShow(true);
     setServices(onRequest);
     setStateButton("request");
   };
 
   const changeToQuick = () => {
-    setitemsShow(true);
     setServices(quickBooking);
     setStateButton("quick");
   };
 
   const changeToMap = () => {
-    setitemsShow(false);
     setStateButton("map");
   };
 
@@ -337,6 +351,8 @@ const Products = () => {
         Direction: `${value.split("-")[1]}`,
       },
     ];
+    searchParams.set("sort", value);
+    setSearchParams(searchParams);
     getData();
   };
 
@@ -365,7 +381,7 @@ const Products = () => {
   };
 
   const pageNames = () => {
-    let name = 'search_page';
+    let name = '';
     const category = searchParams.get('category');
     switch (category) {
       case 'all':
@@ -402,7 +418,16 @@ const Products = () => {
           <Filter
             lang={language}
             filter={filterData}
-            selectedCategory={selectedCategory}
+            date={date}
+            category={category}
+            priceRange={priceRange}
+            keyword={keyword}
+            typeShop={typeShop}
+            setDate={setDate}
+            setCategory={setCategory}
+            setPriceRange={setPriceRange}
+            setTypeShop={setTypeShop}
+            setKeyword={setKeyword}
           />
           <div className="d-flex flex-wrap justify-content-between productsOption mb-4">
             <div className="mb-3 mb-lg-0">
@@ -443,7 +468,7 @@ const Products = () => {
           </div>
           <div
             className="productItems"
-            style={{ display: itemsShow === true ? "block" : "none" }}
+            style={{ display: stateButton !== 'map' ? "block" : "none" }}
           >
             <Items
               services={services}
@@ -458,7 +483,7 @@ const Products = () => {
           </div>
           <div
             className="productsMap"
-            style={{ display: itemsShow === true ? "none" : "block" }}
+            style={{ display: stateButton === 'map' ? "block" : "none" }}
           >
             {geocodes && stateMap.length > 0 && (
               <Map positions={stateMap} zoom={9} />

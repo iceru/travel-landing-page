@@ -34,7 +34,7 @@ const SkeletonProducts = ({ currentPage }) => {
       )}
 
       <div className="row">
-        {[...Array(9)].map((item, i) => (
+        {[...Array(8)].map((i) => (
           <div key={i} className="col-12 col-lg-3 mb-4">
             <Skeleton className="mb-2" height={200} />
             <Skeleton className="mb-2" width="50%" height={20} />
