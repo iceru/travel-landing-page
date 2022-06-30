@@ -414,7 +414,7 @@ const Products = () => {
       </div>
       <div className="container">
         <div className="productsWrapper" style={{ display: productsShow }}>
-          <p id="breadcrumbs"><span><span><a href="https://local-prime.com/">ホーム</a> » <span className="breadcrumb_last" aria-current="page">買い物</span></span></span></p>
+          <p id="breadcrumbs"><span><span><a href="https://local-prime.com/">{t('home')}</a> » <span className="breadcrumb_last" aria-current="page">{t(pageName)}</span></span></span></p>
           <Filter
             lang={language}
             filter={filterData}
