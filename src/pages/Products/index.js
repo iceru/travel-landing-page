@@ -151,7 +151,8 @@ const Products = () => {
     }
 
     delete productsRequest.request.Filter.Ids;
-
+    
+    pageNames();
     getData();
   }, []);
 
