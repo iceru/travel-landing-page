@@ -72,6 +72,7 @@ const Products = () => {
   const [typeShop, setTypeShop] = useState();
 
   const [pageName, setPageName] = useState('search_page');
+  const [breadcrumbName, setBreadcrumbName] = useState('all_breadcrumb');
 
   const productsRequest = bodyRequest;
 
@@ -382,26 +383,37 @@ const Products = () => {
 
   const pageNames = () => {
     let name = '';
+    let breadcrumb = ''
     const category = searchParams.get('category');
     switch (category) {
       case 'all':
         name = 'search_page';
+        breadcrumb = 'all_breadcrumb'
         break;
       case '0':
         name = 'accommodation';
+        breadcrumb = 'accommodation'
         break;
       case '1':
         name = 'activity';
+        breadcrumb = 'activity'
         break;
       case '2':
         name = 'restaurant';
+        breadcrumb = 'restaurant'
         break;
       case '3':
         name = 'shopping';
+        breadcrumb = 'shopping'
+        break;
+      default:
+        name = 'search_page';
+        breadcrumb = 'all_breadcrumb';
         break;
     }
 
     setPageName(name);
+    setBreadcrumbName(breadcrumb);
   }
 
   return (
@@ -414,7 +426,7 @@ const Products = () => {
       </div>
       <div className="container">
         <div className="productsWrapper" style={{ display: productsShow }}>
-          <p id="breadcrumbs"><span><span><a href="https://local-prime.com/">{t('home')}</a> » <span className="breadcrumb_last" aria-current="page">{t(pageName)}</span></span></span></p>
+          <p id="breadcrumbs"><span><span><a href="https://local-prime.com/">{t('home')}</a> » <span className="breadcrumb_last" aria-current="page">{t(breadcrumbName)}</span></span></span></p>
           <Filter
             lang={language}
             filter={filterData}

@@ -1,6 +1,7 @@
 export const TRANSLATIONS_JP = {
   search: "探す",
   search_page: "宿泊・体験プラン予約",
+  all_breadcrumb: '宿泊・体験プラン',
   booking: "予約",
   not_found: "現在、商品を登録中です",
   all_categories: "すべてのカテゴリ",
