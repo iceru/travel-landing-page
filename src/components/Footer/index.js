@@ -13,7 +13,9 @@ const Footer = () => {
         <div className="row">
           <div className="col-12 col-lg-6 leftFooter">
             <div className="logo">
-              <img src={Logo} />
+              <a href="https://local-prime.com">
+                <img src={Logo} />
+              </a>
             </div>
             <div className="sns">
               <div className="item">
@@ -53,8 +55,8 @@ const Footer = () => {
                   <nav>
                     <ul>
                       <li><a href="https://local-prime.com/news">読み物</a></li>
-                      <li><a href="https://local-prime.com/shopping">買い物</a></li>
-                      <li><a href="https://local-prime.com/experience">体験・宿泊</a></li>
+                      <li><a href="https://localprime.reforsindo.com/?category=3">買い物</a></li>
+                      <li><a href="https://localprime.reforsindo.com/">体験・宿泊</a></li>
                     </ul>
                   </nav>
                 </div>
