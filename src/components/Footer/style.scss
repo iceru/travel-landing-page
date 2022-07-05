@@ -91,6 +91,11 @@
       ul {
         li {
           line-height: 180%;
+
+          a:hover {
+            color: white;
+            font-weight: 500;
+          }
         }
       }
     }
