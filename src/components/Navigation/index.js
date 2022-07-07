@@ -70,20 +70,20 @@ const Navigation = () => {
             </a>
           </div>
           <ul className="firstMenu ofMenu">
-            <li><a href="/about">Local Primeについて</a></li>
-            <li><a href="/news">読み物</a></li>
-            <li><a href="/shopping">買い物</a></li>
-            <li><a href="/experience">体験・宿泊</a></li>
+            <li><a href="https://local-prime.com/about">Local Primeについて</a></li>
+            <li><a href="https://local-prime.com/news">読み物</a></li>
+            <li><a href="https://local-prime.com/shopping">買い物</a></li>
+            <li><a href="https://local-prime.com/experience">体験・宿泊</a></li>
           </ul>
           <ul className="ofMenu lastMenu">
-            <li><a href="/sitemap">サイトマップ</a></li>
-            <li><a href="/guide">ご利用ガイド</a></li>
-            <li><a href="/use">利用規約</a></li>
-            <li><a href="/faq">Q&amp;A</a></li>
-            <li><a href="/contact">お問い合わせ</a></li>
-            <li><a href="/booth">掲載希望の事業者様へ</a></li>
-            <li><a href="/company">運営会社</a></li>
-            <li><a href="/privacy">プライバシーポリシー</a></li>
+            <li><a href="https://local-prime.com/sitemap">サイトマップ</a></li>
+            <li><a href="https://local-prime.com/guide">ご利用ガイド</a></li>
+            <li><a href="https://local-prime.com/use">利用規約</a></li>
+            <li><a href="https://local-prime.com/faq">Q&amp;A</a></li>
+            <li><a href="https://local-prime.com/contact">お問い合わせ</a></li>
+            <li><a href="https://local-prime.com/booth">掲載希望の事業者様へ</a></li>
+            <li><a href="https://local-prime.com/company">運営会社</a></li>
+            <li><a href="https://local-prime.com/privacy">プライバシーポリシー</a></li>
           </ul>
         </Offcanvas.Body>
       </Offcanvas>

@@ -18,15 +18,15 @@ const Footer = () => {
               </a>
             </div>
             <div className="sns">
-              <div className="item">
+              <a href="https://twitter.com/localprime_" className="item">
                 <img src={TwitterIcon} />
-              </div>
-              <div className="item">
+              </a>
+              <a href="https://www.instagram.com/localprime_official/" className="item">
                 <img src={InstagramIcon} />
-              </div>
-              <div className="item">
+              </a>
+              <a href="https://www.facebook.com/localprime.offcial" className="item">
                 <img src={FacebookIcon} />
-              </div>
+              </a>
             </div>
           </div>
           <div className="col-12 col-lg-6 d-none d-lg-block">
