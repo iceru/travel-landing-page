@@ -18,13 +18,13 @@ const Footer = () => {
               </a>
             </div>
             <div className="sns">
-              <a href="https://twitter.com/localprime_" className="item">
+              <a href="https://twitter.com/localprime_" target='_blank' rel='noreferrer' className="item">
                 <img src={TwitterIcon} />
               </a>
-              <a href="https://www.instagram.com/localprime_official/" className="item">
+              <a href="https://www.instagram.com/localprime_official/" target='_blank' rel='noreferrer'  className="item">
                 <img src={InstagramIcon} />
               </a>
-              <a href="https://www.facebook.com/localprime.offcial" className="item">
+              <a href="https://www.facebook.com/localprime.offcial" target='_blank' rel='noreferrer'  className="item">
                 <img src={FacebookIcon} />
               </a>
             </div>
