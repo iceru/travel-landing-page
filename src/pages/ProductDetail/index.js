@@ -228,7 +228,7 @@ const ProductDetail = () => {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            navigate("/");
+            navigate(-1);
           }}
           className="back"
         >

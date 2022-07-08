@@ -55,8 +55,8 @@ const Footer = () => {
                   <nav>
                     <ul>
                       <li><a href="https://local-prime.com/news">読み物</a></li>
-                      <li><a href="https://localprime.reforsindo.com/?category=3">買い物</a></li>
-                      <li><a href="https://localprime.reforsindo.com/">体験・宿泊</a></li>
+                      <li><a href="https://localprime.reforsindo.com/?category=3&lang=jp">買い物</a></li>
+                      <li><a href="https://localprime.reforsindo.com/?lang=jp">体験・宿泊</a></li>
                     </ul>
                   </nav>
                 </div>

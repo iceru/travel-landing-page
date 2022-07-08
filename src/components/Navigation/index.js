@@ -43,8 +43,8 @@ const Navigation = () => {
                 <ul>
                   <li><a href="https://local-prime.com/about">Local Primeについて</a></li>
                   <li><a href="https://local-prime.com/news">読み物</a></li>
-                  <li><a href="#">買い物</a></li>
-                  <li><a href="https://local-prime.com/experience">体験・宿泊</a></li>
+                  <li><a href="https://localprime.reforsindo.com/?category=3&lang=jp">買い物</a></li>
+                  <li><a href="https://localprime.reforsindo.com/?lang=jp">体験・宿泊</a></li>
                 </ul>
               </div>
             </div>
