@@ -67,6 +67,9 @@ const quoteRequest = {
     IndustryCategory: null,
     CommencementDate: new Date(),
     Duration: 1,
+    Filter: {
+      Ids: []
+    },
     Configurations: [
       {
         Id: "",

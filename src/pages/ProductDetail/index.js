@@ -41,7 +41,7 @@ const ProductDetail = () => {
   const [quotesInfo, setQuotesInfo] = useState({});
   const [errorItems, setErrorItems] = useState(false);
   const [secondDist, setSecondDist] = useState();
-
+  const [productId, setProductId] = useState();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [language] = useOutletContext();
@@ -94,6 +94,10 @@ const ProductDetail = () => {
     };
     const onReq = searchParams.get("on_req");
     const second_dist = searchParams.get("second_dist");
+    const product_id = searchParams.get("product_id");
+
+    setProductId(product_id);
+
     setSecondDist(second_dist);
     if (onReq === "true") detailRequest.request.ShortName = distributorRequest;
     if (second_dist === "true") detailRequest.request.ShortName = 'shinkibusco_2';
@@ -132,6 +136,7 @@ const ProductDetail = () => {
       (values && values.date) || new Date();
     quoteRequest.request.Duration = parseInt(values && values.duration) || 1;
 
+
     if (service && service.Children.length > 0) {
       setBookingQuotes([]);
       const onReq = searchParams.get("on_req");
@@ -139,37 +144,55 @@ const ProductDetail = () => {
       if (secondDist === "true") quoteRequest.request.Shortname = 'shinkibusco_2';
       else quoteRequest.request.Shortname = distributorQuick;
 
-      service.Children.map((children, i) => {
-        quoteRequest.request.IndustryCategoryGroup =
-          children.IndustryCategoryGroups[0];
-        quoteRequest.request.IndustryCategory = children.IndustryCategory;
-        quoteRequest.request.Configurations[0].ProductId = children.Id;
-        setSkeletonItemShow("block");
+      if(productId) {
+        let indexId = 0;
+        let selectedId = {};
+        service.Children.forEach((children, i) => { 
+          if(children.Id === productId) {
+            indexId = i;
+            selectedId = children;
+          }
+        })
 
-        axios
-          .post(endpoints.bookingQuote, quoteRequest, { headers: headers })
-          .then((response) => {
-            const mergeData = { ...service.Children[i], ...response.data };
-            mergeData.id = i + 1;
-            mergeData.quantity = 1;
-            if (secondDist === "true") mergeData.secondDist = true;
-            mergeData.price = response.data.Configurations[0].Quotes
-              ? response.data.Configurations[0].Quotes[0].TotalPrice
-              : null;
-            setBookingQuotes((data) => [...data, mergeData]);
+        dispatchQuoteBooking(selectedId, indexId);
+      } else {
+        service.Children.map((children, i) => {
+          dispatchQuoteBooking(children, i)
+        });
+      }
 
-            setProductItemShow("block");
-            setSkeletonItemShow("none");
-          })
-          .catch((error) => {
-            console.log(error);
-            setErrorItems(true);
-            setProductItemShow("block");
-            setSkeletonItemShow("none");
-          });
-      });
+      
     }
   };
+
+  const dispatchQuoteBooking = (children, i) => {
+    quoteRequest.request.IndustryCategoryGroup = children.IndustryCategoryGroups[0];
+    quoteRequest.request.IndustryCategory = children.IndustryCategory;
+    quoteRequest.request.Configurations[0].ProductId = children.Id;
+    setSkeletonItemShow("block");
+
+    axios
+      .post(endpoints.bookingQuote, quoteRequest, { headers: headers })
+      .then((response) => {
+        const mergeData = { ...service.Children[i], ...response.data };
+        mergeData.id = i + 1;
+        mergeData.quantity = 1;
+        if (secondDist === "true") mergeData.secondDist = true;
+        mergeData.price = response.data.Configurations[0].Quotes
+          ? response.data.Configurations[0].Quotes[0].TotalPrice
+          : null;
+        setBookingQuotes((data) => [...data, mergeData]);
+
+        setProductItemShow("block");
+        setSkeletonItemShow("none");
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorItems(true);
+        setProductItemShow("block");
+        setSkeletonItemShow("none");
+      });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
