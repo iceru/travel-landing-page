@@ -98,8 +98,6 @@ const Products = () => {
       },
     };
 
-    debugger;
-
     productsRequest.request.Language = `${language}-JP`;
 
     const category = searchParams.get("category");
