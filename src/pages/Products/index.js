@@ -76,8 +76,6 @@ const Products = () => {
 
   const productsRequest = bodyRequest;
 
-  productsRequest.request.Language = `${language}-JP`;
-
   useEffect(() => {
     searchParams.delete("pages");
     searchParams.delete("pages_request");
@@ -99,6 +97,10 @@ const Products = () => {
         StartDate: new Date(),
       },
     };
+
+    debugger;
+
+    productsRequest.request.Language = `${language}-JP`;
 
     const category = searchParams.get("category");
     const min = searchParams.get("min");
@@ -154,7 +156,7 @@ const Products = () => {
     
     pageNames();
     getData();
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     stateMap &&

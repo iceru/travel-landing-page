@@ -16,7 +16,7 @@ import "./App.scss";
 import Cart from "./components/Cart";
 
 function App() {
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState("jp");
   const [searchParams, setSearchParams] = useSearchParams();
   const [langSelected, setLangSelected] = useState();
 
