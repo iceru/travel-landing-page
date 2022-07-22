@@ -148,13 +148,13 @@ const ProductDetail = () => {
         let indexId = 0;
         let selectedId = {};
         service.Children.forEach((children, i) => { 
-          if(children.Id === productId) {
+          if(children.Code === productId) {
             indexId = i;
             selectedId = children;
+
+            dispatchQuoteBooking(selectedId, indexId);
           }
         })
-
-        dispatchQuoteBooking(selectedId, indexId);
       } else {
         service.Children.map((children, i) => {
           dispatchQuoteBooking(children, i)
